@@ -6,11 +6,11 @@
   <title>Interactive SVG Grid</title>
   <style>
     body {
+      margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
       background-color: #222;
     }
 
@@ -18,14 +18,12 @@
       display: grid;
       grid-template-columns: repeat(24, 1fr);
       grid-template-rows: repeat(24, 1fr);
-      width: 1000px;
-      height: 1000px;
+      width: 100vmin; /* کوچکترین بعد صفحه (عرض یا ارتفاع) */
+      height: 100vmin; /* کوچکترین بعد صفحه (عرض یا ارتفاع) */
       background-color: black;
     }
 
     .grid-item {
-      width: 100%;
-      height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -35,8 +33,8 @@
     }
 
     .grid-item svg {
-      width: 41.67px;
-      height: 41.67px;
+      width: 100%;
+      height: 100%;
       transition: transform 0.6s ease, fill 0.3s ease;
     }
 
@@ -97,7 +95,7 @@
       gridItem.classList.add('grid-item');
 
       gridItem.innerHTML = `
-        <svg width="41.67" height="41.67" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="#0052FF"/>
         </svg>
       `;
