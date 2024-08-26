@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Grid</title>
+  <title>Interactive SVG Grid</title>
   <style>
     body {
       display: flex;
@@ -11,7 +11,7 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      background-color: #222; /* رنگ پس‌زمینه کل صفحه */
+      background-color: #222;
     }
 
     .grid-container {
@@ -20,48 +20,148 @@
       grid-template-rows: repeat(24, 1fr);
       width: 1000px;
       height: 1000px;
-      background-color: black; /* پس‌زمینه محدوده 1000x1000 پیکسلی */
+      background-color: black;
     }
 
     .grid-item {
       width: 100%;
       height: 100%;
-      background-color: blue;
-      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       transition: background-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-item svg {
+      width: 41.67px;
+      height: 41.67px;
+      transition: transform 0.6s ease, fill 0.3s ease;
+    }
+
+    .grid-item.red svg path {
+      fill: red;
+    }
+
+    .grid-item.yellow svg path {
+      fill: yellow;
+    }
+
+    .grid-item.green svg path {
+      fill: green;
+    }
+
+    .grid-item.purple svg path {
+      fill: purple;
+    }
+
+    .grid-item.black svg path {
+      fill: black;
+    }
+
+    .grid-item.blue svg path {
+      fill: #0052FF;
+    }
+
+    .grid-item.white svg path {
+      fill: white;
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .rotate {
+      animation: rotate 6s linear infinite;
     }
   </style>
 </head>
 <body>
-  <div class="grid-container">
-    <!-- 24x24 grid items -->
-    <script>
-      const gridContainer = document.querySelector('.grid-container');
-      
-      // آرایه‌ای از رنگ‌ها که قرار است به ترتیب تغییر کنند
-      const colors = ['red', 'yellow', 'green', 'purple', 'black', 'blue'];
-      let currentColorIndex = 0; // ایندکس فعلی در آرایه رنگ‌ها
+  <div class="grid-container"></div>
 
-      // افزودن دایره‌ها به شبکه
-      for (let i = 0; i < 24 * 24; i++) {
-        const gridItem = document.createElement('div');
-        gridItem.classList.add('grid-item');
-        
-        // رویداد mouseenter برای تغییر رنگ
-        gridItem.addEventListener('mouseenter', () => {
-          // همیشه رنگ دایره را به رنگ فعلی تغییر بده
-          gridItem.style.backgroundColor = colors[currentColorIndex]; 
-        });
+  <script>
+    const gridContainer = document.querySelector('.grid-container');
+    const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
+    let currentColorIndex = 0;
+    let capsLockActive = false;
 
-        gridContainer.appendChild(gridItem);
-      }
+    // افزودن دایره‌ها به شبکه
+    for (let i = 0; i < 24 * 24; i++) {
+      const gridItem = document.createElement('div');
+      gridItem.classList.add('grid-item');
 
-      // رویداد کلیک برای تغییر رنگ
-      document.addEventListener('click', () => {
-        // افزایش ایندکس رنگ‌ها
-        currentColorIndex = (currentColorIndex + 1) % colors.length;
+      gridItem.innerHTML = `
+        <svg width="41.67" height="41.67" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="#0052FF"/>
+        </svg>
+      `;
+
+      let isAnimating = false;
+
+      // رویداد mouseenter برای تغییر رنگ و شروع چرخش در حالت عادی
+      gridItem.addEventListener('mouseenter', () => {
+        if (!capsLockActive) {
+          gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
+          gridItem.classList.add(colors[currentColorIndex]);
+
+          const svgElement = gridItem.querySelector('svg');
+
+          if (!isAnimating) {
+            svgElement.classList.add('rotate');
+            isAnimating = true;
+          }
+        }
       });
-    </script>
-  </div>
+
+      // رویداد کلیک برای تغییر رنگ و تنظیمات در حالت دوم
+      gridItem.addEventListener('click', () => {
+        if (capsLockActive) {
+          const currentColor = colors[currentColorIndex];
+          if (gridItem.classList.contains(currentColor)) {
+            currentColorIndex = (currentColorIndex + 1) % colors.length;
+          }
+        }
+
+        gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
+        gridItem.classList.add(colors[currentColorIndex]);
+        
+        const svgElement = gridItem.querySelector('svg');
+        svgElement.classList.remove('rotate');
+        svgElement.offsetHeight;
+        svgElement.style.animation = 'rotate 6s linear infinite';
+      });
+
+      gridContainer.appendChild(gridItem);
+    }
+
+    // رویداد برای تشخیص فشار دادن دکمه CapsLock
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'CapsLock') {
+        capsLockActive = !capsLockActive;
+        console.log('CapsLock Active:', capsLockActive);
+      }
+    });
+
+    // رویداد کلیک برای تغییر رنگ‌ها در حالت عادی
+    document.addEventListener('click', (event) => {
+      if (!capsLockActive) {
+        currentColorIndex = (currentColorIndex + 1) % colors.length;
+
+        // بررسی کنید که آیا ماوس روی یک دایره قرار دارد یا خیر
+        const hoveredElement = document.querySelector('.grid-item:hover');
+        if (hoveredElement) {
+          hoveredElement.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
+          hoveredElement.classList.add(colors[currentColorIndex]);
+          hoveredElement.querySelector('svg').style.animation = 'rotate 6s linear infinite';
+        }
+      }
+    });
+  </script>
 </body>
 </html>
