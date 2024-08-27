@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive SVG Grid</title>
+  <title>Interactive SVG Grid in Frame</title>
   <style>
     body {
       margin: 0;
@@ -14,12 +14,30 @@
       background-color: #222;
     }
 
+    #svg-frame {
+      width: 100vmin;
+      height: 100vmin;
+      position: relative;
+    }
+
+    #backg {
+      fill: black;
+    }
+
+    #work-space {
+      position: absolute;
+      top: 6.39%;
+      left: 6.39%;
+      width: 87.22%;
+      height: 87.22%;
+    }
+
     .grid-container {
       display: grid;
       grid-template-columns: repeat(9, 1fr); /* 9 ستون */
       grid-template-rows: repeat(9, 1fr); /* 9 ردیف */
-      width: 100vmin; /* کوچکترین بعد صفحه (عرض یا ارتفاع) */
-      height: 100vmin; /* کوچکترین بعد صفحه (عرض یا ارتفاع) */
+      width: 100%;
+      height: 100%;
       background-color: black;
     }
 
@@ -42,13 +60,13 @@
       position: absolute;
       width: 100%;
       height: 100%;
-      z-index: 0; /* Obj2 در پس‌زمینه قرار می‌گیرد */
-      opacity: 0.4; /* شفافیت ثابت 40 درصد */
-      transition: opacity 0.3s ease; /* انیمیشن تغییر شفافیت */
+      z-index: 0;
+      opacity: 0.4;
+      transition: opacity 0.3s ease;
     }
 
     .grid-item .obj1 {
-      z-index: 1; /* Obj1 روی Obj2 قرار می‌گیرد و انیمیشن‌ها را انجام می‌دهد */
+      z-index: 1;
     }
 
     .grid-item.red .obj1 path {
@@ -94,14 +112,32 @@
   </style>
 </head>
 <body>
-  <div class="grid-container"></div>
+  <div id="svg-frame">
+    <svg version="1.1" id="Layer_4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+         viewBox="0 0 1080 1080" enable-background="new 0 0 1080 1080" xml:space="preserve">
+      <rect id="backg" x="0" width="1080" height="1080"/>
+      <g id="work-space"></g>
+      <g id="color-indicator">
+        <path fill="#6B0DFF" d="M1001,1049.5H79c-26.7,0-48.5-21.8-48.5-48.5V79c0-26.7,21.8-48.5,48.5-48.5h922
+            c26.7,0,48.5,21.8,48.5,48.5v922C1049.5,1027.7,1027.7,1049.5,1001,1049.5z M79,38.5c-22.3,0-40.5,18.2-40.5,40.5v922
+            c0,22.3,18.2,40.5,40.5,40.5h922c22.3,0,40.5-18.2,40.5-40.5V79c0-22.3-18.2-40.5-40.5-40.5H79z"/>
+      </g>
+    </svg>
+    <div id="work-space" class="grid-container"></div>
+  </div>
 
   <script>
     const gridContainer = document.querySelector('.grid-container');
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let capsLockActive = false;
-    let obj2Visible = true; // وضعیت نمایش obj2
+    let obj2Visible = true;
+
+    // تابع به‌روزرسانی رنگ color-indicator
+    function updateColorIndicator() {
+      const colorIndicator = document.querySelector('#color-indicator path');
+      colorIndicator.setAttribute('fill', colors[currentColorIndex]);
+    }
 
     // افزودن شکل‌ها به شبکه
     for (let i = 0; i < 9 * 9; i++) { // ایجاد شبکه 9 در 9
@@ -109,28 +145,25 @@
       gridItem.classList.add('grid-item');
 
       // اضافه کردن Obj2 به عنوان پس‌زمینه ثابت
-      gridItem.innerHTML = `
-        <svg class="obj2" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
+      gridItem.innerHTML = 
+        `<svg class="obj2" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
           <g>
             <polygon points="105.22 85.74 105.22 105.22 85.74 105.22 85.74 104.24 104.25 104.24 104.25 85.74 105.22 85.74" fill="#fff"/>
             <polygon points="85.74 0 105.22 0 105.22 19.48 104.24 19.48 104.24 0.97 85.74 0.97 85.74 0" fill="#fff"/>
             <polygon points="0 19.48 0 0 19.48 0 19.48 0.98 0.97 0.98 0.97 19.48 0 19.48" fill="#fff"/>
             <polygon points="19.48 105.22 0 105.22 0 85.74 0.98 85.74 0.98 104.25 19.48 104.25 19.48 105.22" fill="#fff"/>
           </g>
-        </svg>
-      `;
+        </svg>`;
 
       // اضافه کردن Obj1 به عنوان شکل اصلی با انیمیشن
-      const obj1Svg = `
-        <svg class="obj1" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+      const obj1Svg = 
+        `<svg class="obj1" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="#0052FF"/>
-        </svg>
-      `;
+        </svg>`;
       gridItem.innerHTML += obj1Svg;
 
       let isAnimating = false;
 
-      // رویداد mouseenter برای تغییر رنگ و شروع چرخش در حالت عادی
       gridItem.addEventListener('mouseenter', () => {
         if (!capsLockActive) {
           gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
@@ -145,22 +178,24 @@
         }
       });
 
-      // رویداد کلیک برای تغییر رنگ و تنظیمات در حالت دوم
       gridItem.addEventListener('click', () => {
         if (capsLockActive) {
           const currentColor = colors[currentColorIndex];
           if (gridItem.classList.contains(currentColor)) {
             currentColorIndex = (currentColorIndex + 1) % colors.length;
+            updateColorIndicator(); // به‌روزرسانی رنگ color-indicator
           }
         }
 
         gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
         gridItem.classList.add(colors[currentColorIndex]);
-        
+
         const svgElement = gridItem.querySelector('.obj1');
         svgElement.classList.remove('rotate');
         svgElement.offsetHeight;
         svgElement.style.animation = 'rotate 6s linear infinite';
+
+        updateColorIndicator(); // به‌روزرسانی رنگ color-indicator
       });
 
       gridContainer.appendChild(gridItem);
@@ -186,6 +221,8 @@
           hoveredElement.classList.add(colors[currentColorIndex]);
           hoveredElement.querySelector('.obj1').style.animation = 'rotate 6s linear infinite';
         }
+
+        updateColorIndicator(); // به‌روزرسانی رنگ color-indicator
       }
     });
 
@@ -199,6 +236,9 @@
         });
       }
     });
+
+    // به‌روزرسانی اولیه رنگ color-indicator
+    updateColorIndicator();
   </script>
 </body>
 </html>
