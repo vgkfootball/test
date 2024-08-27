@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive SVG Grid in Frame</title>
+  <title>Interactive NFT</title>
   <style>
     body {
       margin: 0;
@@ -12,6 +12,7 @@
       align-items: center;
       height: 100vh;
       background-color: #222;
+      cursor: none;/* Hide the default mouse cursor */
     }
 
     #svg-frame {
@@ -109,6 +110,19 @@
     .rotate {
       animation: rotate 6s linear infinite;
     }
+
+    .circle-pointer {
+            position: fixed;
+            width: 1.6vw; /* Width of 1.6% of viewport width */
+            height: 1.6vw; /* Height of 1.6% of viewport width to maintain square shape */
+            border-radius: 50%;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            background-color: rgba(255, 255, 255, 0.8); /* Default color */
+        }
+
   </style>
 </head>
 <body>
@@ -125,6 +139,8 @@
     </svg>
     <div id="work-space" class="grid-container"></div>
   </div>
+
+  <div class="circle-pointer"></div>
 
   <script>
     const gridContainer = document.querySelector('.grid-container');
@@ -236,6 +252,28 @@
         });
       }
     });
+
+
+    document.addEventListener('mousemove', (event) => {
+            const cursor = document.querySelector('.circle-pointer');
+            const x = event.clientX;
+            const y = event.clientY;
+            cursor.style.left = `${x}px`;
+            cursor.style.top = `${y}px`;
+            
+            // Create a canvas to get the pixel color under the cursor
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 1;
+            canvas.height = 1;
+            ctx.drawImage(document.body, -x, -y, 1, 1);
+            const imageData = ctx.getImageData(0, 0, 1, 1);
+            const [r, g, b] = imageData.data;
+
+            // Calculate the inverse color
+            const inverseColor = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
+            cursor.style.backgroundColor = inverseColor;
+        });
 
     // به‌روزرسانی اولیه رنگ color-indicator
     updateColorIndicator();
