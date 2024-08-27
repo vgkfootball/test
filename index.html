@@ -16,8 +16,8 @@
 
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      grid-template-rows: repeat(10, 1fr);
+      grid-template-columns: repeat(9, 1fr); /* 9 ستون */
+      grid-template-rows: repeat(9, 1fr); /* 9 ردیف */
       width: 100vmin; /* کوچکترین بعد صفحه (عرض یا ارتفاع) */
       height: 100vmin; /* کوچکترین بعد صفحه (عرض یا ارتفاع) */
       background-color: black;
@@ -38,31 +38,44 @@
       transition: transform 0.6s ease, fill 0.3s ease;
     }
 
-    .grid-item.red svg path {
+    .obj2 {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0; /* Obj2 در پس‌زمینه قرار می‌گیرد */
+      opacity: 0.4; /* شفافیت ثابت 40 درصد */
+      transition: opacity 0.3s ease; /* انیمیشن تغییر شفافیت */
+    }
+
+    .grid-item .obj1 {
+      z-index: 1; /* Obj1 روی Obj2 قرار می‌گیرد و انیمیشن‌ها را انجام می‌دهد */
+    }
+
+    .grid-item.red .obj1 path {
       fill: red;
     }
 
-    .grid-item.yellow svg path {
+    .grid-item.yellow .obj1 path {
       fill: yellow;
     }
 
-    .grid-item.green svg path {
-      fill: green;
+    .grid-item.green .obj1 path {
+      fill: #00E505;
     }
 
-    .grid-item.purple svg path {
-      fill: purple;
+    .grid-item.purple .obj1 path {
+      fill: #DF0AEA;
     }
 
-    .grid-item.black svg path {
+    .grid-item.black .obj1 path {
       fill: black;
     }
 
-    .grid-item.blue svg path {
+    .grid-item.blue .obj1 path {
       fill: #0052FF;
     }
 
-    .grid-item.white svg path {
+    .grid-item.white .obj1 path {
       fill: white;
     }
 
@@ -78,11 +91,6 @@
     .rotate {
       animation: rotate 6s linear infinite;
     }
-
-    .grid-item svg {
-      width: 100%; /* به اندازه عرض دایره‌ها */
-      height: 100%; /* به اندازه ارتفاع دایره‌ها */
-    }
   </style>
 </head>
 <body>
@@ -93,17 +101,32 @@
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let capsLockActive = false;
+    let obj2Visible = true; // وضعیت نمایش obj2
 
-    // افزودن دایره‌ها به شبکه
-    for (let i = 0; i < 10 * 10; i++) {
+    // افزودن شکل‌ها به شبکه
+    for (let i = 0; i < 9 * 9; i++) { // ایجاد شبکه 9 در 9
       const gridItem = document.createElement('div');
       gridItem.classList.add('grid-item');
 
+      // اضافه کردن Obj2 به عنوان پس‌زمینه ثابت
       gridItem.innerHTML = `
-        <svg viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="obj2" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
+          <g>
+            <polygon points="105.22 85.74 105.22 105.22 85.74 105.22 85.74 104.24 104.25 104.24 104.25 85.74 105.22 85.74" fill="#fff"/>
+            <polygon points="85.74 0 105.22 0 105.22 19.48 104.24 19.48 104.24 0.97 85.74 0.97 85.74 0" fill="#fff"/>
+            <polygon points="0 19.48 0 0 19.48 0 19.48 0.98 0.97 0.98 0.97 19.48 0 19.48" fill="#fff"/>
+            <polygon points="19.48 105.22 0 105.22 0 85.74 0.98 85.74 0.98 104.25 19.48 104.25 19.48 105.22" fill="#fff"/>
+          </g>
+        </svg>
+      `;
+
+      // اضافه کردن Obj1 به عنوان شکل اصلی با انیمیشن
+      const obj1Svg = `
+        <svg class="obj1" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="#0052FF"/>
         </svg>
       `;
+      gridItem.innerHTML += obj1Svg;
 
       let isAnimating = false;
 
@@ -113,7 +136,7 @@
           gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
           gridItem.classList.add(colors[currentColorIndex]);
 
-          const svgElement = gridItem.querySelector('svg');
+          const svgElement = gridItem.querySelector('.obj1');
 
           if (!isAnimating) {
             svgElement.classList.add('rotate');
@@ -134,7 +157,7 @@
         gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
         gridItem.classList.add(colors[currentColorIndex]);
         
-        const svgElement = gridItem.querySelector('svg');
+        const svgElement = gridItem.querySelector('.obj1');
         svgElement.classList.remove('rotate');
         svgElement.offsetHeight;
         svgElement.style.animation = 'rotate 6s linear infinite';
@@ -161,8 +184,19 @@
         if (hoveredElement) {
           hoveredElement.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
           hoveredElement.classList.add(colors[currentColorIndex]);
-          hoveredElement.querySelector('svg').style.animation = 'rotate 6s linear infinite';
+          hoveredElement.querySelector('.obj1').style.animation = 'rotate 6s linear infinite';
         }
+      }
+    });
+
+    // رویداد برای تشخیص فشار دادن دکمه G
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'KeyG') {
+        obj2Visible = !obj2Visible;
+        const obj2Elements = document.querySelectorAll('.obj2');
+        obj2Elements.forEach(el => {
+          el.style.opacity = obj2Visible ? '0.4' : '0'; // تنظیم شفافیت به 40% یا 0%
+        });
       }
     });
   </script>
