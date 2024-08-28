@@ -152,6 +152,7 @@
     let currentColorIndex = 0;
     let frameboxsvgVisible = true;
     let touchStartTime = 0;
+let isLongTouch = false;
 const longTouchDuration = 500; // مدت زمان مورد نیاز برای شناسایی long touch
  
     
@@ -340,19 +341,20 @@ determineDeviceType();
 console.log('DEV-TYPE:', DEV_TYPE);
 
 
-
 if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
   gridContainer.addEventListener('touchstart', (event) => {
     touchStartTime = new Date().getTime();
+    isLongTouch = false; // مقداردهی اولیه
   });
 
-  gridContainer.addEventListener('touchend', (event) => {
+  gridContainer.addEventListener('touchmove', (event) => {
     const touchEndTime = new Date().getTime();
     const touchDuration = touchEndTime - touchStartTime;
 
     if (touchDuration >= longTouchDuration) { // بررسی مدت زمان long touch
-      const touchX = event.changedTouches[0].clientX;
-      const touchY = event.changedTouches[0].clientY;
+      isLongTouch = true;
+      const touchX = event.touches[0].clientX;
+      const touchY = event.touches[0].clientY;
       const elements = document.elementsFromPoint(touchX, touchY);
 
       elements.forEach((element) => {
@@ -370,6 +372,18 @@ if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
           }
         }
       });
+    }
+  });
+
+  gridContainer.addEventListener('touchend', (event) => {
+    if (isLongTouch) {
+      // وقتی که انگشت برداشته شد
+      const touchEndTime = new Date().getTime();
+      const touchDuration = touchEndTime - touchStartTime;
+
+      if (touchDuration >= longTouchDuration) { // بررسی مدت زمان long touch
+        // در اینجا هیچ تغییری در color-indicator یا دیگر عناصر نخواهیم داشت
+      }
     }
   });
 }
