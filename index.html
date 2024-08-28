@@ -35,8 +35,8 @@
 
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(9, 1fr); /* 9 ستون */
-      grid-template-rows: repeat(9, 1fr); /* 9 ردیف */
+      grid-template-columns: repeat(7, 1fr); /* 9 ستون */
+      grid-template-rows: repeat(7, 1fr); /* 9 ردیف */
       width: 100%;
       height: 100%;
       background-color: black;
@@ -158,7 +158,7 @@
     }
 
     // افزودن شکل‌ها به شبکه
-    for (let i = 0; i < 9 * 9; i++) { // ایجاد شبکه 9 در 9
+    for (let i = 0; i < 7 * 7; i++) { // ایجاد شبکه 9 در 9
       const gridItem = document.createElement('div');
       gridItem.classList.add('grid-item');
 
