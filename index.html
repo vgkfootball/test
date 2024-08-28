@@ -3,291 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive NFT</title>
+  <title>Device Detection Test</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #222;
-      cursor: none;/* Hide the default mouse cursor */
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f0f0f0;
+      color: #333;
     }
-
-    #svg-frame {
-      width: 100vmin;
-      height: 100vmin;
-      position: relative;
+    .result {
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #fff;
     }
-
-    #backg {
-      fill: black;
-    }
-
-    #work-space {
-      position: absolute;
-      top: 6.39%;
-      left: 6.39%;
-      width: 87.22%;
-      height: 87.22%;
-    }
-
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr); /* 7 ستون */
-      grid-template-rows: repeat(7, 1fr); /* 7 ردیف */
-      width: 100%;
-      height: 100%;
-      background-color: black;
-    }
-
-    .grid-item {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: background-color 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .grid-item svg {
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s ease, fill 0.3s ease;
-    }
-
-    .frameboxsvg {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      opacity: 0.4;
-      transition: opacity 0.3s ease;
-    }
-
-    .grid-item .basechainlogosvg {
-      z-index: 1;
-    }
-
-    .grid-item.red .basechainlogosvg path {
-      fill: red;
-    }
-
-    .grid-item.yellow .basechainlogosvg path {
-      fill: yellow;
-    }
-
-    .grid-item.green .basechainlogosvg path {
-      fill: #00E505;
-    }
-
-    .grid-item.purple .basechainlogosvg path {
-      fill: #DF0AEA;
-    }
-
-    .grid-item.black .basechainlogosvg path {
-      fill: black;
-    }
-
-    .grid-item.blue .basechainlogosvg path {
-      fill: #0052FF;
-    }
-
-    .grid-item.white .basechainlogosvg path {
-      fill: white;
-    }
-
-    @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .rotate {
-      animation: rotate 6s linear infinite;
-    }
-
-    .circle-pointer {
-            position: fixed;
-            width: 1.6vw; /* Width of 1.6% of viewport width */
-            height: 1.6vw; /* Height of 1.6% of viewport width to maintain square shape */
-            border-radius: 50%;
-            pointer-events: none;
-            mix-blend-mode: difference;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            background-color: rgba(255, 255, 255, 0.8); /* Default color */
-            left: -100vw; /* Start off-screen */
-            top: -100vh; /* Start off-screen */
-        }
-
   </style>
 </head>
 <body>
-  <div id="svg-frame">
-    <svg version="1.1" id="Layer_4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-         viewBox="0 0 1080 1080" enable-background="new 0 0 1080 1080" xml:space="preserve">
-      <rect id="backg" x="0" width="1080" height="1080"/>
-      <g id="work-space"></g>
-      <g id="color-indicator">
-        <path fill="#6B0DFF" d="M1001,1049.5H79c-26.7,0-48.5-21.8-48.5-48.5V79c0-26.7,21.8-48.5,48.5-48.5h922
-            c26.7,0,48.5,21.8,48.5,48.5v922C1049.5,1027.7,1027.7,1049.5,1001,1049.5z M79,38.5c-22.3,0-40.5,18.2-40.5,40.5v922
-            c0,22.3,18.2,40.5,40.5,40.5h922c22.3,0,40.5-18.2,40.5-40.5V79c0-22.3-18.2-40.5-40.5-40.5H79z"/>
-      </g>
-    </svg>
-    <div id="work-space" class="grid-container"></div>
-  </div>
-
-  <div class="circle-pointer"></div>
+  <h1>Device Detection Test</h1>
+  <div class="result" id="css-media-queries-result">CSS Media Queries: </div>
+  <div class="result" id="window-dimensions-result">Window Dimensions: </div>
+  <div class="result" id="user-agent-result">User-Agent: </div>
+  <div class="result" id="touch-device-result">Touch Device Detection: </div>
 
   <script>
-    const gridContainer = document.querySelector('.grid-container');
-    const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
-    let currentColorIndex = 0;
-    let capsLockActive = false;
-    let frameboxsvgVisible = true;
-    
-
-    // تابع به‌روزرسانی رنگ color-indicator
-    function updateColorIndicator() {
-      const colorIndicator = document.querySelector('#color-indicator path');
-      colorIndicator.setAttribute('fill', colors[currentColorIndex]);
+    // CSS Media Queries
+    function detectUsingMediaQueries() {
+      const mediaQuery = window.matchMedia("(max-width: 768px)").matches;
+      const cssMediaQueriesResult = document.getElementById('css-media-queries-result');
+      cssMediaQueriesResult.textContent = 'CSS Media Queries: ' + (mediaQuery ? 'Mobile' : 'Desktop');
     }
 
-    // افزودن شکل‌ها به شبکه
-    for (let i = 0; i < 7 * 7; i++) { // ایجاد شبکه7 در 7
-      const gridItem = document.createElement('div');
-      gridItem.classList.add('grid-item');
-
-      // اضافه کردن frameboxsvg به عنوان پس‌زمینه ثابت
-      gridItem.innerHTML = 
-        `<svg class="frameboxsvg" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
-          <g>
-            <polygon points="105.22 85.74 105.22 105.22 85.74 105.22 85.74 104.24 104.25 104.24 104.25 85.74 105.22 85.74" fill="#fff"/>
-            <polygon points="85.74 0 105.22 0 105.22 19.48 104.24 19.48 104.24 0.97 85.74 0.97 85.74 0" fill="#fff"/>
-            <polygon points="0 19.48 0 0 19.48 0 19.48 0.98 0.97 0.98 0.97 19.48 0 19.48" fill="#fff"/>
-            <polygon points="19.48 105.22 0 105.22 0 85.74 0.98 85.74 0.98 104.25 19.48 104.25 19.48 105.22" fill="#fff"/>
-          </g>
-        </svg>`;
-
-      // اضافه کردن basechainlogosvg به عنوان شکل اصلی با انیمیشن
-      const basechainlogosvgSvg = 
-        `<svg class="basechainlogosvg" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="#0052FF"/>
-        </svg>`;
-      gridItem.innerHTML += basechainlogosvgSvg;
-
-      let isAnimating = false;
-
-      gridItem.addEventListener('mouseenter', () => {
-        if (!capsLockActive) {
-          gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
-          gridItem.classList.add(colors[currentColorIndex]);
-
-          const svgElement = gridItem.querySelector('.basechainlogosvg');
-
-          if (!isAnimating) {
-            svgElement.classList.add('rotate');
-            isAnimating = true;
-          }
-        }
-      });
-
-      gridItem.addEventListener('click', () => {
-        if (capsLockActive) {
-          const currentColor = colors[currentColorIndex];
-          if (gridItem.classList.contains(currentColor)) {
-            currentColorIndex = (currentColorIndex + 1) % colors.length;
-            updateColorIndicator(); // به‌روزرسانی رنگ color-indicator
-          }
-        }
-
-        gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
-        gridItem.classList.add(colors[currentColorIndex]);
-
-        const svgElement = gridItem.querySelector('.basechainlogosvg');
-        svgElement.classList.remove('rotate');
-        svgElement.offsetHeight;
-        svgElement.style.animation = 'rotate 6s linear infinite';
-
-        updateColorIndicator(); // به‌روزرسانی رنگ color-indicator
-      });
-
-      gridContainer.appendChild(gridItem);
+    // Window Dimensions
+    function detectUsingWindowDimensions() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const windowDimensionsResult = document.getElementById('window-dimensions-result');
+      windowDimensionsResult.textContent = `Window Dimensions: Width=${width}px, Height=${height}px. ` + (width <= 768 ? 'Mobile' : 'Desktop');
     }
 
-    // رویداد برای تشخیص فشار دادن دکمه CapsLock
-    document.addEventListener('keydown', (e) => {
-      if (e.code === 'CapsLock') {
-        capsLockActive = !capsLockActive;
-        console.log('CapsLock Active:', capsLockActive);
-      }
-    });
+    // User-Agent
+    function detectUsingUserAgent() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isMobile = /android|iPad|iPhone|iPod/i.test(userAgent);
+      const userAgentResult = document.getElementById('user-agent-result');
+      userAgentResult.textContent = 'User-Agent: ' + (isMobile ? 'Mobile' : 'Desktop');
+    }
 
-    // رویداد کلیک برای تغییر رنگ‌ها در حالت عادی
-    document.addEventListener('click', (event) => {
-      if (!capsLockActive) {
-        currentColorIndex = (currentColorIndex + 1) % colors.length;
+    // Touch Device
+    function detectUsingTouchDevice() {
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const touchDeviceResult = document.getElementById('touch-device-result');
+      touchDeviceResult.textContent = 'Touch Device Detection: ' + (isTouchDevice ? 'Mobile or Tablet' : 'Desktop');
+    }
 
-        // بررسی کنید که آیا ماوس روی یک دایره قرار دارد یا خیر
-        const hoveredElement = document.querySelector('.grid-item:hover');
-        if (hoveredElement) {
-          hoveredElement.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
-          hoveredElement.classList.add(colors[currentColorIndex]);
-          hoveredElement.querySelector('.basechainlogosvg').style.animation = 'rotate 6s linear infinite';
-        }
-
-        updateColorIndicator(); // به‌روزرسانی رنگ color-indicator
-      }
-    });
-
-    // رویداد برای تشخیص فشار دادن دکمه G
-    document.addEventListener('keydown', (e) => {
-      if (e.code === 'KeyG') {
-        frameboxsvgVisible = !frameboxsvgVisible;
-        const frameboxsvgElements = document.querySelectorAll('.frameboxsvg');
-        frameboxsvgElements.forEach(el => {
-          el.style.opacity = frameboxsvgVisible ? '0.4' : '0'; // تنظیم شفافیت به 40% یا 0%
-        });
-      }
-    });
-
-
-    document.addEventListener('mousemove', (event) => {
-            const cursor = document.querySelector('.circle-pointer');
-            const x = event.clientX;
-            const y = event.clientY;
-            cursor.style.left = `${x}px`;
-            cursor.style.top = `${y}px`;
-            
-            // Create a canvas to get the pixel color under the cursor
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 1;
-            canvas.height = 1;
-            ctx.drawImage(document.body, -x, -y, 1, 1);
-            const imageData = ctx.getImageData(0, 0, 1, 1);
-            const [r, g, b] = imageData.data;
-
-            // Calculate the inverse color
-            const inverseColor = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
-            cursor.style.backgroundColor = inverseColor;
-        });
-
-        
-        document.addEventListener('contextmenu', (event) => {
-      event.preventDefault(); // جلوگیری از نمایش منوی کلیک راست پیش‌فرض
-      console.log('Right-click disabled'); // برای بررسی
-    });
-
-    // به‌روزرسانی اولیه رنگ color-indicator
-    updateColorIndicator();
+    // Run all detection functions
+    detectUsingMediaQueries();
+    detectUsingWindowDimensions();
+    detectUsingUserAgent();
+    detectUsingTouchDevice();
   </script>
 </body>
 </html>
