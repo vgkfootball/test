@@ -151,6 +151,9 @@
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let frameboxsvgVisible = true;
+    let touchStartTime = 0;
+const longTouchDuration = 500; // مدت زمان مورد نیاز برای شناسایی long touch
+ 
     
 
     // تابع به‌روزرسانی رنگ color-indicator
@@ -335,6 +338,41 @@ determineDeviceType();
 
 // For testing purposes (you can remove or comment out this line)
 console.log('DEV-TYPE:', DEV_TYPE);
+
+
+
+if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
+  gridContainer.addEventListener('touchstart', (event) => {
+    touchStartTime = new Date().getTime();
+  });
+
+  gridContainer.addEventListener('touchend', (event) => {
+    const touchEndTime = new Date().getTime();
+    const touchDuration = touchEndTime - touchStartTime;
+
+    if (touchDuration >= longTouchDuration) { // بررسی مدت زمان long touch
+      const touchX = event.changedTouches[0].clientX;
+      const touchY = event.changedTouches[0].clientY;
+      const elements = document.elementsFromPoint(touchX, touchY);
+
+      elements.forEach((element) => {
+        if (element.classList.contains('basechainlogosvg')) {
+          const gridItem = element.closest('.grid-item');
+          if (gridItem) {
+            // تغییر رنگ بر اساس currentColorIndex
+            gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
+            gridItem.classList.add(colors[currentColorIndex]);
+
+            // آغاز چرخش
+            const svgElement = element;
+            svgElement.classList.add('rotate');
+            svgElement.style.animation = 'rotate 6s linear infinite';
+          }
+        }
+      });
+    }
+  });
+}
 
 
 
