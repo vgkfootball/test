@@ -151,9 +151,7 @@
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let frameboxsvgVisible = true;
-    let touchStartTime = 0;
-let isLongTouch = false;
-const longTouchDuration = 500; // مدت زمان مورد نیاز برای شناسایی long touch
+
  
     
 
@@ -351,43 +349,40 @@ if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
     const touchEndTime = new Date().getTime();
     const touchDuration = touchEndTime - touchStartTime;
 
-    if (touchDuration >= longTouchDuration) { // بررسی مدت زمان long touch
-      isLongTouch = true;
-      const touchX = event.touches[0].clientX;
-      const touchY = event.touches[0].clientY;
-      const elements = document.elementsFromPoint(touchX, touchY);
+    if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
+  gridContainer.addEventListener('touchstart', (event) => {
+    // در هنگام شروع لمسی، هیچ تغییر خاصی لازم نیست
+  });
 
-      elements.forEach((element) => {
-        if (element.classList.contains('basechainlogosvg')) {
-          const gridItem = element.closest('.grid-item');
-          if (gridItem) {
-            // تغییر رنگ بر اساس currentColorIndex
-            gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
-            gridItem.classList.add(colors[currentColorIndex]);
+  gridContainer.addEventListener('touchmove', (event) => {
+    // موقعیت انگشت را بر اساس touchmove پیگیری کنید
+    const touchX = event.touches[0].clientX;
+    const touchY = event.touches[0].clientY;
+    const elements = document.elementsFromPoint(touchX, touchY);
 
-            // آغاز چرخش
-            const svgElement = element;
+    elements.forEach((element) => {
+      if (element.classList.contains('basechainlogosvg')) {
+        const gridItem = element.closest('.grid-item');
+        if (gridItem) {
+          // تغییر رنگ بر اساس currentColorIndex
+          gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
+          gridItem.classList.add(colors[currentColorIndex]);
+
+          // آغاز چرخش اگر هنوز شروع نشده باشد
+          const svgElement = element;
+          if (!svgElement.classList.contains('rotate')) {
             svgElement.classList.add('rotate');
             svgElement.style.animation = 'rotate 6s linear infinite';
           }
         }
-      });
-    }
+      }
+    });
   });
 
   gridContainer.addEventListener('touchend', (event) => {
-    if (isLongTouch) {
-      // وقتی که انگشت برداشته شد
-      const touchEndTime = new Date().getTime();
-      const touchDuration = touchEndTime - touchStartTime;
-
-      if (touchDuration >= longTouchDuration) { // بررسی مدت زمان long touch
-        // در اینجا هیچ تغییری در color-indicator یا دیگر عناصر نخواهیم داشت
-      }
-    }
+    // وقتی انگشت از روی صفحه برداشته شد، هیچ تغییر خاصی لازم نیست
   });
 }
-
 
 
     // به‌روزرسانی اولیه رنگ color-indicator
