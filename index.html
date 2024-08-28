@@ -7,16 +7,8 @@
   <style>
     body {
       margin: 0;
-
-
-
-
       padding: 0;
       overflow: hidden;
-
-
-
-      
       display: flex;
       justify-content: center;
       align-items: center;
@@ -45,8 +37,8 @@
 
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(9, 1fr); /* 9 ستون */
-      grid-template-rows: repeat(9, 1fr); /* 9 ردیف */
+      grid-template-columns: repeat(7, 1fr); /* 7 ستون */
+      grid-template-rows: repeat(7, 1fr); /* 7 ردیف */
       width: 100%;
       height: 100%;
       background-color: black;
@@ -67,7 +59,7 @@
       transition: transform 0.6s ease, fill 0.3s ease;
     }
 
-    .obj2 {
+    .frameboxsvg {
       position: absolute;
       width: 100%;
       height: 100%;
@@ -76,35 +68,35 @@
       transition: opacity 0.3s ease;
     }
 
-    .grid-item .obj1 {
+    .grid-item .basechainlogosvg {
       z-index: 1;
     }
 
-    .grid-item.red .obj1 path {
+    .grid-item.red .basechainlogosvg path {
       fill: red;
     }
 
-    .grid-item.yellow .obj1 path {
+    .grid-item.yellow .basechainlogosvg path {
       fill: yellow;
     }
 
-    .grid-item.green .obj1 path {
+    .grid-item.green .basechainlogosvg path {
       fill: #00E505;
     }
 
-    .grid-item.purple .obj1 path {
+    .grid-item.purple .basechainlogosvg path {
       fill: #DF0AEA;
     }
 
-    .grid-item.black .obj1 path {
+    .grid-item.black .basechainlogosvg path {
       fill: black;
     }
 
-    .grid-item.blue .obj1 path {
+    .grid-item.blue .basechainlogosvg path {
       fill: #0052FF;
     }
 
-    .grid-item.white .obj1 path {
+    .grid-item.white .basechainlogosvg path {
       fill: white;
     }
 
@@ -159,7 +151,8 @@
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let capsLockActive = false;
-    let obj2Visible = true;
+    let frameboxsvgVisible = true;
+    
 
     // تابع به‌روزرسانی رنگ color-indicator
     function updateColorIndicator() {
@@ -168,13 +161,13 @@
     }
 
     // افزودن شکل‌ها به شبکه
-    for (let i = 0; i < 9 * 9; i++) { // ایجاد شبکه 9 در 9
+    for (let i = 0; i < 7 * 7; i++) { // ایجاد شبکه7 در 7
       const gridItem = document.createElement('div');
       gridItem.classList.add('grid-item');
 
-      // اضافه کردن Obj2 به عنوان پس‌زمینه ثابت
+      // اضافه کردن frameboxsvg به عنوان پس‌زمینه ثابت
       gridItem.innerHTML = 
-        `<svg class="obj2" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
+        `<svg class="frameboxsvg" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
           <g>
             <polygon points="105.22 85.74 105.22 105.22 85.74 105.22 85.74 104.24 104.25 104.24 104.25 85.74 105.22 85.74" fill="#fff"/>
             <polygon points="85.74 0 105.22 0 105.22 19.48 104.24 19.48 104.24 0.97 85.74 0.97 85.74 0" fill="#fff"/>
@@ -183,12 +176,12 @@
           </g>
         </svg>`;
 
-      // اضافه کردن Obj1 به عنوان شکل اصلی با انیمیشن
-      const obj1Svg = 
-        `<svg class="obj1" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+      // اضافه کردن basechainlogosvg به عنوان شکل اصلی با انیمیشن
+      const basechainlogosvgSvg = 
+        `<svg class="basechainlogosvg" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="#0052FF"/>
         </svg>`;
-      gridItem.innerHTML += obj1Svg;
+      gridItem.innerHTML += basechainlogosvgSvg;
 
       let isAnimating = false;
 
@@ -197,7 +190,7 @@
           gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
           gridItem.classList.add(colors[currentColorIndex]);
 
-          const svgElement = gridItem.querySelector('.obj1');
+          const svgElement = gridItem.querySelector('.basechainlogosvg');
 
           if (!isAnimating) {
             svgElement.classList.add('rotate');
@@ -218,7 +211,7 @@
         gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
         gridItem.classList.add(colors[currentColorIndex]);
 
-        const svgElement = gridItem.querySelector('.obj1');
+        const svgElement = gridItem.querySelector('.basechainlogosvg');
         svgElement.classList.remove('rotate');
         svgElement.offsetHeight;
         svgElement.style.animation = 'rotate 6s linear infinite';
@@ -247,7 +240,7 @@
         if (hoveredElement) {
           hoveredElement.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
           hoveredElement.classList.add(colors[currentColorIndex]);
-          hoveredElement.querySelector('.obj1').style.animation = 'rotate 6s linear infinite';
+          hoveredElement.querySelector('.basechainlogosvg').style.animation = 'rotate 6s linear infinite';
         }
 
         updateColorIndicator(); // به‌روزرسانی رنگ color-indicator
@@ -257,10 +250,10 @@
     // رویداد برای تشخیص فشار دادن دکمه G
     document.addEventListener('keydown', (e) => {
       if (e.code === 'KeyG') {
-        obj2Visible = !obj2Visible;
-        const obj2Elements = document.querySelectorAll('.obj2');
-        obj2Elements.forEach(el => {
-          el.style.opacity = obj2Visible ? '0.4' : '0'; // تنظیم شفافیت به 40% یا 0%
+        frameboxsvgVisible = !frameboxsvgVisible;
+        const frameboxsvgElements = document.querySelectorAll('.frameboxsvg');
+        frameboxsvgElements.forEach(el => {
+          el.style.opacity = frameboxsvgVisible ? '0.4' : '0'; // تنظیم شفافیت به 40% یا 0%
         });
       }
     });
@@ -286,6 +279,12 @@
             const inverseColor = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
             cursor.style.backgroundColor = inverseColor;
         });
+
+        
+        document.addEventListener('contextmenu', (event) => {
+      event.preventDefault(); // جلوگیری از نمایش منوی کلیک راست پیش‌فرض
+      console.log('Right-click disabled'); // برای بررسی
+    });
 
     // به‌روزرسانی اولیه رنگ color-indicator
     updateColorIndicator();
