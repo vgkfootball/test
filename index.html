@@ -341,21 +341,10 @@ console.log('DEV-TYPE:', DEV_TYPE);
 
 if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
   gridContainer.addEventListener('touchstart', (event) => {
-    touchStartTime = new Date().getTime();
-    isLongTouch = false; // مقداردهی اولیه
+    // هیچ عملیاتی لازم نیست هنگام شروع لمسی
   });
 
   gridContainer.addEventListener('touchmove', (event) => {
-    const touchEndTime = new Date().getTime();
-    const touchDuration = touchEndTime - touchStartTime;
-
-    if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
-  gridContainer.addEventListener('touchstart', (event) => {
-    // در هنگام شروع لمسی، هیچ تغییر خاصی لازم نیست
-  });
-
-  gridContainer.addEventListener('touchmove', (event) => {
-    // موقعیت انگشت را بر اساس touchmove پیگیری کنید
     const touchX = event.touches[0].clientX;
     const touchY = event.touches[0].clientY;
     const elements = document.elementsFromPoint(touchX, touchY);
@@ -380,7 +369,7 @@ if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
   });
 
   gridContainer.addEventListener('touchend', (event) => {
-    // وقتی انگشت از روی صفحه برداشته شد، هیچ تغییر خاصی لازم نیست
+    // هیچ عملیاتی لازم نیست هنگام پایان لمسی
   });
 }
 
