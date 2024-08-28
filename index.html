@@ -3,66 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Device Detection Test</title>
+  <title>Touch Interaction Test</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
       background-color: #f0f0f0;
       color: #333;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-    .result {
-      margin-bottom: 20px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: #fff;
+    .touch-area {
+      width: 300px;
+      height: 300px;
+      background-color: #ddd;
+      border: 2px solid #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <h1>Device Detection Test</h1>
-  <div class="result" id="css-media-queries-result">CSS Media Queries: </div>
-  <div class="result" id="window-dimensions-result">Window Dimensions: </div>
-  <div class="result" id="user-agent-result">User-Agent: </div>
-  <div class="result" id="touch-device-result">Touch Device Detection: </div>
+  <div class="touch-area" id="touchArea">
+    <p id="interactionResult">Interact with this area</p>
+  </div>
 
   <script>
-    // CSS Media Queries
-    function detectUsingMediaQueries() {
-      const mediaQuery = window.matchMedia("(max-width: 768px)").matches;
-      const cssMediaQueriesResult = document.getElementById('css-media-queries-result');
-      cssMediaQueriesResult.textContent = 'CSS Media Queries: ' + (mediaQuery ? 'Mobile' : 'Desktop');
-    }
+    const touchArea = document.getElementById('touchArea');
+    const interactionResult = document.getElementById('interactionResult');
+    let startX, startY, startTime;
 
-    // Window Dimensions
-    function detectUsingWindowDimensions() {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      const windowDimensionsResult = document.getElementById('window-dimensions-result');
-      windowDimensionsResult.textContent = `Window Dimensions: Width=${width}px, Height=${height}px. ` + (width <= 768 ? 'Mobile' : 'Desktop');
-    }
+    // Single Tap
+    touchArea.addEventListener('click', () => {
+      interactionResult.textContent = 'Single Tap Detected';
+    });
 
-    // User-Agent
-    function detectUsingUserAgent() {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const isMobile = /android|iPad|iPhone|iPod/i.test(userAgent);
-      const userAgentResult = document.getElementById('user-agent-result');
-      userAgentResult.textContent = 'User-Agent: ' + (isMobile ? 'Mobile' : 'Desktop');
-    }
+    // Double Tap
+    let lastTap = 0;
+    touchArea.addEventListener('touchend', function (event) {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTap;
+      if (tapLength < 500 && tapLength > 0) {
+        interactionResult.textContent = 'Double Tap Detected';
+      }
+      lastTap = currentTime;
+    });
 
-    // Touch Device
-    function detectUsingTouchDevice() {
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      const touchDeviceResult = document.getElementById('touch-device-result');
-      touchDeviceResult.textContent = 'Touch Device Detection: ' + (isTouchDevice ? 'Mobile or Tablet' : 'Desktop');
-    }
+    // Long Tap
+    let touchTimer = null;
+    touchArea.addEventListener('touchstart', function (event) {
+      startX = event.touches[0].clientX;
+      startY = event.touches[0].clientY;
+      startTime = new Date().getTime();
+      touchTimer = setTimeout(function () {
+        interactionResult.textContent = 'Long Tap Detected';
+      }, 500); // 500 milliseconds for long tap
+    });
 
-    // Run all detection functions
-    detectUsingMediaQueries();
-    detectUsingWindowDimensions();
-    detectUsingUserAgent();
-    detectUsingTouchDevice();
+    touchArea.addEventListener('touchend', function (event) {
+      clearTimeout(touchTimer);
+    });
+
+    // Pinch
+    touchArea.addEventListener('touchmove', function (event) {
+      if (event.touches.length === 2) {
+        const x1 = event.touches[0].clientX;
+        const y1 = event.touches[0].clientY;
+        const x2 = event.touches[1].clientX;
+        const y2 = event.touches[1].clientY;
+        const currentDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+
+        if (startX && startY) {
+          const initialDistance = Math.sqrt(Math.pow(x2 - startX, 2) + Math.pow(y2 - startY, 2));
+          const scale = currentDistance / initialDistance;
+          if (scale < 1) {
+            interactionResult.textContent = 'Pinch In Detected';
+          } else if (scale > 1) {
+            interactionResult.textContent = 'Pinch Out Detected';
+          }
+        }
+      }
+    });
+
+    // Swipe
+    touchArea.addEventListener('touchend', function (event) {
+      const endX = event.changedTouches[0].clientX;
+      const endY = event.changedTouches[0].clientY;
+      const deltaX = endX - startX;
+      const deltaY = endY - startY;
+
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX > 0) {
+          interactionResult.textContent = 'Swipe Right Detected';
+        } else {
+          interactionResult.textContent = 'Swipe Left Detected';
+        }
+      } else {
+        if (deltaY > 0) {
+          interactionResult.textContent = 'Swipe Down Detected';
+        } else {
+          interactionResult.textContent = 'Swipe Up Detected';
+        }
+      }
+    });
   </script>
 </body>
 </html>
