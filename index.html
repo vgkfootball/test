@@ -23,9 +23,6 @@
       position: relative;
     }
 
-    #backg {
-      fill: black;
-    }
 
     #work-space {
       position: absolute;
@@ -373,6 +370,38 @@ if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
   });
 }
 
+//این قسمت برای تغیر تم شب و روز هست
+
+  // نگهداری وضعیت فعلی رنگ
+  let isWhite = false;
+
+  // تابع برای تغییر رنگ
+  function toggleColor() {
+    const backg = document.getElementById('backg');
+    const gridContainer = document.querySelector('.grid-container');
+
+    if (isWhite) {
+      // تغییر رنگ به مشکی
+      backg.setAttribute('fill', 'black');
+      gridContainer.style.backgroundColor = 'black';
+    } else {
+      // تغییر رنگ به سفید
+      backg.setAttribute('fill', 'white');
+      gridContainer.style.backgroundColor = 'white';
+    }
+
+    // به‌روزرسانی وضعیت رنگ
+    isWhite = !isWhite;
+  }
+
+  // رویداد برای تشخیص فشار دادن کلید
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'KeyF') { // تغییر کلید به دلخواه خود
+      toggleColor();
+    }
+  });
+
+//این قسمت برای تغیر تم شب و روز هست
 
     // به‌روزرسانی اولیه رنگ color-indicator
     updateColorIndicator();
