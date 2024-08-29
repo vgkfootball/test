@@ -150,45 +150,30 @@
     let frameboxsvgVisible = true;
  
    //تابع ایجاد کلاس رنگی مناسب برای جهارجوب های مربعی 
-    function updateGridItemColor(gridItem, colorIndex) {
+   function updateGridItemColor(gridItem, colorIndex) {
   const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
+  const currentColor = colors[colorIndex];
   gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
-  gridItem.classList.add(colors[colorIndex]);
+  gridItem.classList.add(currentColor);
 }
+
 
 
     // تابع به‌روزرسانی رنگ color-indicator
-function updateColorIndicator() {
+    function setColorIndicator(color) {
   const colorIndicator = document.querySelector('#color-indicator path');
-  const currentColor = colors[currentColorIndex];
-
-  // تنظیم رنگ بر اساس currentColorIndex
-  switch (currentColor) {
-    case 'red':
-      colorIndicator.setAttribute('fill', '#FF0000'); // قرمز
-      break;
-    case 'yellow':
-      colorIndicator.setAttribute('fill', '#FFE600'); // زرد
-      break;
-    case 'green':
-      colorIndicator.setAttribute('fill', '#00E505'); // سبز
-      break;
-    case 'purple':
-      colorIndicator.setAttribute('fill', '#FF00E1'); // بنفش
-      break;
-    case 'black':
-      colorIndicator.setAttribute('fill', '#000000'); // مشکی
-      break;
-    case 'blue':
-      colorIndicator.setAttribute('fill', '#0052FF'); // آبی
-      break;
-    case 'white':
-      colorIndicator.setAttribute('fill', '#FFFFFF'); // سفید
-      break;
-    default:
-      colorIndicator.setAttribute('fill', '#FFFFFF'); // رنگ پیش‌فرض سفید
-  }
+  const colorsMap = {
+    red: '#FF0000',
+    yellow: '#FFE600',
+    green: '#00E505',
+    purple: '#FF00E1',
+    black: '#000000',
+    blue: '#0052FF',
+    white: '#FFFFFF'
+  };
+  colorIndicator.setAttribute('fill', colorsMap[color] || '#FFFFFF');
 }
+
 
     // افزودن شکل‌ها به شبکه
     for (let i = 0; i < 7 * 7; i++) { // ایجاد شبکه7 در 7
@@ -233,7 +218,7 @@ function updateColorIndicator() {
           const currentColor = colors[currentColorIndex];
           if (gridItem.classList.contains(currentColor)) {
             currentColorIndex = (currentColorIndex + 1) % colors.length;
-            updateColorIndicator(); // به‌روزرسانی رنگ color-indicator
+            setColorIndicator(colors[currentColorIndex]);
           }
         }
 
@@ -244,7 +229,7 @@ function updateColorIndicator() {
         svgElement.offsetHeight;
         svgElement.style.animation = 'rotate 6s linear infinite';
 
-        updateColorIndicator(); // به‌روزرسانی رنگ color-indicator
+        setColorIndicator(colors[currentColorIndex]);
       });
 
       gridContainer.appendChild(gridItem);
@@ -271,7 +256,7 @@ function updateColorIndicator() {
           hoveredElement.querySelector('.basechainlogosvg').style.animation = 'rotate 6s linear infinite';
         }
 
-        updateColorIndicator(); // به‌روزرسانی رنگ color-indicator
+        setColorIndicator(colors[currentColorIndex]);
       }
     });
 
@@ -286,7 +271,7 @@ function updateColorIndicator() {
       }
     });
 
-
+//مربوط به حرکت نشانگر جدید دایره ای موس
     document.addEventListener('mousemove', (event) => {
             const cursor = document.querySelector('.circle-pointer');
             const x = event.clientX;
@@ -324,46 +309,50 @@ function updateColorIndicator() {
 
 
 
-// Initialize the DEV-TYPE variable
-let DEV_TYPE = null;
 
-// Function to check device type using CSS Media Queries
-function checkUsingMediaQueries() {
-  return window.matchMedia("(max-width: 768px)").matches;
-}
 
-// Function to check device type using Window Dimensions
-function checkUsingWindowDimensions() {
-  const width = window.innerWidth;
-  return width <= 768;
-}
 
-// Determine device type
+
+
+
+
+// Function to determine device type
 function determineDeviceType() {
-  const mediaQueryResult = checkUsingMediaQueries();
-  const windowDimensionResult = checkUsingWindowDimensions();
+  // Check device type using CSS Media Queries
+  const mediaQueryResult = window.matchMedia("(max-width: 768px)").matches;
+  
+  // Check device type using Window Dimensions
+  const windowDimensionResult = window.innerWidth <= 768;
 
-  // Check if both methods agree
+  // Determine device type based on both checks
   const isMobile = mediaQueryResult && windowDimensionResult;
   const isDesktop = !mediaQueryResult && !windowDimensionResult;
 
-  if (isMobile) {
-    DEV_TYPE = 1; // Mobile
-    capsLockActive = true;
-  } else if (isDesktop) {
-    DEV_TYPE = 0; // Desktop
-    capsLockActive = false;
-  } else {
-    DEV_TYPE = 0; // Default to Desktop if there's a mismatch
-    capsLockActive = false;
-  }
+  // Set DEV_TYPE and capsLockActive based on device type
+  DEV_TYPE = isMobile ? 1 : 0;
+  capsLockActive = DEV_TYPE === 1;
 }
+
+// Initialize the DEV-TYPE variable
+let DEV_TYPE = null;
+let capsLockActive = false;
 
 // Run the function to determine device type
 determineDeviceType();
 
 // For testing purposes (you can remove or comment out this line)
 console.log('DEV-TYPE:', DEV_TYPE);
+
+
+
+
+
+
+
+
+
+
+
 
 
 if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
@@ -433,7 +422,7 @@ if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
 //این قسمت برای تغیر تم شب و روز هست
 
     // به‌روزرسانی اولیه رنگ color-indicator
-    updateColorIndicator();
+    setColorIndicator(colors[currentColorIndex]);
   </script>
 </body>
 </html>
