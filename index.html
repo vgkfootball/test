@@ -307,16 +307,9 @@
       }
     });
 
-
-
-
-
-
-
-
-
-
+//--------------------------------------------------------------
 // Function to determine device type
+
 function determineDeviceType() {
   // Check device type using CSS Media Queries
   const mediaQueryResult = window.matchMedia("(max-width: 768px)").matches;
@@ -343,85 +336,57 @@ determineDeviceType();
 // For testing purposes (you can remove or comment out this line)
 console.log('DEV-TYPE:', DEV_TYPE);
 
+//---------------------------------------------------------------------
+//touch-drag auto color
 
-
-
-
-
-
-
-
-
-
-
-
-if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
-  gridContainer.addEventListener('touchstart', (event) => {
-    // هیچ عملیاتی لازم نیست هنگام شروع لمسی
-  });
-
-  gridContainer.addEventListener('touchmove', (event) => {
-    const touchX = event.touches[0].clientX;
-    const touchY = event.touches[0].clientY;
-    const elements = document.elementsFromPoint(touchX, touchY);
-
-    elements.forEach((element) => {
-      if (element.classList.contains('basechainlogosvg')) {
-        const gridItem = element.closest('.grid-item');
-        if (gridItem) {
-          // تغییر رنگ بر اساس currentColorIndex
-          updateGridItemColor(gridItem, currentColorIndex);
-
-          // آغاز چرخش اگر هنوز شروع نشده باشد
-          const svgElement = element;
-          if (!svgElement.classList.contains('rotate')) {
-            svgElement.classList.add('rotate');
-            svgElement.style.animation = 'rotate 6s linear infinite';
-          }
+function handleTouchMove(event) {
+  const touchX = event.touches[0].clientX;
+  const touchY = event.touches[0].clientY;
+  const elements = document.elementsFromPoint(touchX, touchY);
+  elements.forEach((element) => {
+    if (element.classList.contains('basechainlogosvg')) {
+      const gridItem = element.closest('.grid-item');
+      if (gridItem) {
+        updateGridItemColor(gridItem, currentColorIndex);
+        const svgElement = element;
+        if (!svgElement.classList.contains('rotate')) {
+          svgElement.classList.add('rotate');
+          svgElement.style.animation = 'rotate 6s linear infinite';
         }
       }
-    });
-  });
-
-  gridContainer.addEventListener('touchend', (event) => {
-    // هیچ عملیاتی لازم نیست هنگام پایان لمسی
+    }
   });
 }
 
-//این قسمت برای تغیر تم شب و روز هست
+if (DEV_TYPE === 1) {
+  gridContainer.addEventListener('touchmove', handleTouchMove);
+}
 
-  // نگهداری وضعیت فعلی رنگ
+//---------------------------------------------------------------------
+//Day & night Switch
+
   let isWhite = false;
-
-  // تابع برای تغییر رنگ
   function toggleColor() {
     const backg = document.getElementById('backg');
     const gridContainer = document.querySelector('.grid-container');
 
     if (isWhite) {
-      // تغییر رنگ به مشکی
       backg.setAttribute('fill', 'black');
       gridContainer.style.backgroundColor = 'black';
     } else {
-      // تغییر رنگ به سفید
       backg.setAttribute('fill', 'white');
       gridContainer.style.backgroundColor = 'white';
     }
-
-    // به‌روزرسانی وضعیت رنگ
     isWhite = !isWhite;
   }
-
-  // رویداد برای تشخیص فشار دادن کلید
   document.addEventListener('keydown', (e) => {
-    if (e.code === 'KeyF') { // تغییر کلید به دلخواه خود
+    if (e.code === 'KeyF') { 
       toggleColor();
     }
   });
 
-//این قسمت برای تغیر تم شب و روز هست
-
-    // به‌روزرسانی اولیه رنگ color-indicator
+//---------------------------------------------------------------------
+    //update color-indicator
     setColorIndicator(colors[currentColorIndex]);
   </script>
 </body>
