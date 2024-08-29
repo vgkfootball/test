@@ -61,7 +61,7 @@
       width: 100%;
       height: 100%;
       z-index: 0;
-      opacity: 0.4;
+      opacity: 0.6;
       transition: opacity 0.3s ease;
     }
 
@@ -74,7 +74,7 @@
     }
 
     .grid-item.yellow .basechainlogosvg path {
-      fill: yellow;
+      fill: #FFE600;
     }
 
     .grid-item.green .basechainlogosvg path {
@@ -82,7 +82,7 @@
     }
 
     .grid-item.purple .basechainlogosvg path {
-      fill: #DF0AEA;
+      fill: #FF00E1;
     }
 
     .grid-item.black .basechainlogosvg path {
@@ -148,15 +148,47 @@
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let frameboxsvgVisible = true;
-
  
-    
+   //تابع ایجاد کلاس رنگی مناسب برای جهارجوب های مربعی 
+    function updateGridItemColor(gridItem, colorIndex) {
+  const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
+  gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
+  gridItem.classList.add(colors[colorIndex]);
+}
+
 
     // تابع به‌روزرسانی رنگ color-indicator
-    function updateColorIndicator() {
-      const colorIndicator = document.querySelector('#color-indicator path');
-      colorIndicator.setAttribute('fill', colors[currentColorIndex]);
-    }
+function updateColorIndicator() {
+  const colorIndicator = document.querySelector('#color-indicator path');
+  const currentColor = colors[currentColorIndex];
+
+  // تنظیم رنگ بر اساس currentColorIndex
+  switch (currentColor) {
+    case 'red':
+      colorIndicator.setAttribute('fill', '#FF0000'); // قرمز
+      break;
+    case 'yellow':
+      colorIndicator.setAttribute('fill', '#FFE600'); // زرد
+      break;
+    case 'green':
+      colorIndicator.setAttribute('fill', '#00E505'); // سبز
+      break;
+    case 'purple':
+      colorIndicator.setAttribute('fill', '#FF00E1'); // بنفش
+      break;
+    case 'black':
+      colorIndicator.setAttribute('fill', '#000000'); // مشکی
+      break;
+    case 'blue':
+      colorIndicator.setAttribute('fill', '#0052FF'); // آبی
+      break;
+    case 'white':
+      colorIndicator.setAttribute('fill', '#FFFFFF'); // سفید
+      break;
+    default:
+      colorIndicator.setAttribute('fill', '#FFFFFF'); // رنگ پیش‌فرض سفید
+  }
+}
 
     // افزودن شکل‌ها به شبکه
     for (let i = 0; i < 7 * 7; i++) { // ایجاد شبکه7 در 7
@@ -167,10 +199,10 @@
       gridItem.innerHTML = 
         `<svg class="frameboxsvg" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
           <g>
-            <polygon points="105.22 85.74 105.22 105.22 85.74 105.22 85.74 104.24 104.25 104.24 104.25 85.74 105.22 85.74" fill="#fff"/>
-            <polygon points="85.74 0 105.22 0 105.22 19.48 104.24 19.48 104.24 0.97 85.74 0.97 85.74 0" fill="#fff"/>
-            <polygon points="0 19.48 0 0 19.48 0 19.48 0.98 0.97 0.98 0.97 19.48 0 19.48" fill="#fff"/>
-            <polygon points="19.48 105.22 0 105.22 0 85.74 0.98 85.74 0.98 104.25 19.48 104.25 19.48 105.22" fill="#fff"/>
+            <polygon points="105.22 85.74 105.22 105.22 85.74 105.22 85.74 104.24 104.25 104.24 104.25 85.74 105.22 85.74" fill="#7F7F7F"/>
+            <polygon points="85.74 0 105.22 0 105.22 19.48 104.24 19.48 104.24 0.97 85.74 0.97 85.74 0" fill="#7F7F7F"/>
+            <polygon points="0 19.48 0 0 19.48 0 19.48 0.98 0.97 0.98 0.97 19.48 0 19.48" fill="#7F7F7F"/>
+            <polygon points="19.48 105.22 0 105.22 0 85.74 0.98 85.74 0.98 104.25 19.48 104.25 19.48 105.22" fill="#7F7F7F"/>
           </g>
         </svg>`;
 
@@ -185,8 +217,7 @@
 
       gridItem.addEventListener('mouseenter', () => {
         if (!capsLockActive) {
-          gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
-          gridItem.classList.add(colors[currentColorIndex]);
+          updateGridItemColor(gridItem, currentColorIndex);
 
           const svgElement = gridItem.querySelector('.basechainlogosvg');
 
@@ -206,8 +237,7 @@
           }
         }
 
-        gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
-        gridItem.classList.add(colors[currentColorIndex]);
+        updateGridItemColor(gridItem, currentColorIndex);
 
         const svgElement = gridItem.querySelector('.basechainlogosvg');
         svgElement.classList.remove('rotate');
@@ -351,8 +381,7 @@ if (DEV_TYPE === 1) { // فقط در دستگاه‌های موبایل
         const gridItem = element.closest('.grid-item');
         if (gridItem) {
           // تغییر رنگ بر اساس currentColorIndex
-          gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
-          gridItem.classList.add(colors[currentColorIndex]);
+          updateGridItemColor(gridItem, currentColorIndex);
 
           // آغاز چرخش اگر هنوز شروع نشده باشد
           const svgElement = element;
