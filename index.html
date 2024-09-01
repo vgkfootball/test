@@ -40,8 +40,6 @@
       width: 100%;
       height: 100%;
       background-color: black;
-      transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
-      transform-origin: center;
     }
 
     .grid-item {
@@ -111,19 +109,18 @@
       animation: rotate 6s linear infinite;
     }
 
-    .option-class {
+       #options-button {
         fill: #7f7f7f;
         opacity: .5;
-    }
+        transform-box: fill-box;
+        transform-origin: center;
+        }
 
-    /* حالت اولیه و بعد از کلیک */
-   #option-content {
+ /* حالت اولیه و بعد از کلیک */
+ #option-content {
    transition: opacity 0.3s ease;
    opacity: 0;
-   cursor: pointer;
-   pointer-events: all; 
    }
- 
 
    /* انیمیشن چرخش */
    @keyframes rotateClockwise {
@@ -144,8 +141,7 @@
    }
    }
 
-
-    #svg-frame.active #option-content {
+   #svg-frame.active #option-content {
    opacity: 1;
    }
 
@@ -156,12 +152,12 @@
    position: absolute;
    }
 
-
-
     .hidden-content{fill:none;}
     .solid-white{fill:#FFFFFF;}
+    .solid-gray{fill:#7F7F7F;}
     .inv-white{fill:#FFFFFF;mix-blend-mode:difference;}
     .inv-white-border{stroke:#FFFFFF;mix-blend-mode:difference;stroke-width:4;fill:none}
+
 
     .circle-pointer {
             position: fixed;
@@ -189,8 +185,13 @@
       <g id="color-indicator">
         <path fill="#6B0DFF" d="m1004.91,26c27.11,0,49.09,21.98,49.09,49.09v929.82c0,27.11-21.98,49.09-49.09,49.09H75.09c-27.11,0-49.09-21.98-49.09-49.09V75.09c0-27.11,21.98-49.09,49.09-49.09h929.82m0-8H75.09c-31.48,0-57.09,25.61-57.09,57.09v929.82c0,31.48,25.61,57.09,57.09,57.09h929.82c31.48,0,57.09-25.61,57.09-57.09V75.09c0-31.48-25.61-57.09-57.09-57.09h0Z"/>
       </g>
-      <polygon id="options-button" class="option-class" points="506.33 1040.68 498.11 1032.45 540.62 989.94 581.89 1031.21 573.67 1039.43 540.62 1006.39 506.33 1040.68 506.33 1040.68"/>
-      <g id="option-content" class="opt-cont">
+      <g id="options-group">
+
+        <polygon id="options-button" class="option-class" points="506.33 1040.68 498.11 1032.45 540.62 989.94 581.89 1031.21 573.67 1039.43 540.62 1006.39 506.33 1040.68 506.33 1040.68"/>
+        <rect id="click-box" class="clickable-area" x="440" y="975" width="200" height="98" fill="red" opacity="0" />
+
+      </g>
+      <g id="option-content" class="opt-cont" opacity="0">
         <g id="dynamic-content">
           <g id="box-numxnum">
             <g id="rec-1x1">
@@ -222,13 +223,13 @@
             </g>
           </g>
           <g id="sliderT">
-            <path id="sliderT-area" class="st4" d="M925,889.8h-55.4c-13.9,0-25.2-11.3-25.2-25.2v0c0-13.9,11.3-25.2,25.2-25.2H925
+            <path id="sliderT-area" class="solid-gray" d="M925,889.8h-55.4c-13.9,0-25.2-11.3-25.2-25.2v0c0-13.9,11.3-25.2,25.2-25.2H925
               c13.9,0,25.2,11.3,25.2,25.2v0C950.1,878.5,938.9,889.8,925,889.8z"/>
             <circle id="sliderT-circle-p1" class="solid-white" cx="870.6" cy="864.6" r="20.8"/>
             <circle id="sliderT-circle-p2" class="hidden-content" cx="923.5" cy="864.6" r="20.8"/>
           </g>
           <g id="sliderG">
-            <path id="sliderG-area" class="st4" d="M390.4,889.8h-55.4c-13.9,0-25.2-11.3-25.2-25.2v0c0-13.9,11.3-25.2,25.2-25.2h55.4
+            <path id="sliderG-area" class="solid-gray" d="M390.4,889.8h-55.4c-13.9,0-25.2-11.3-25.2-25.2v0c0-13.9,11.3-25.2,25.2-25.2h55.4
               c13.9,0,25.2,11.3,25.2,25.2v0C415.5,878.5,404.3,889.8,390.4,889.8z"/>
             <circle id="sliderG-circle-p1" class="solid-white" cx="336" cy="864.6" r="20.8"/>
             <circle id="sliderG-circle-p2" class="hidden-content" cx="391" cy="864.6" r="20.8"/>
@@ -511,14 +512,12 @@
 
   <div class="circle-pointer"></div>
 
-
   <script>
     const gridContainer = document.querySelector('.grid-container');
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let frameboxsvgVisible = true;
-   
-
+ 
    //تابع ایجاد کلاس رنگی مناسب برای جهارجوب های مربعی 
    function updateGridItemColor(gridItem, colorIndex) {
   const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
@@ -756,9 +755,10 @@ if (DEV_TYPE === 1) {
   });
 
 //---------------------------------------------------------------------
+    //---------------------------------------------------------------------
  //دکمه تنظیمات ان اف تی در اینجا ست میشه 
  
-   document.getElementById('options-button').addEventListener('click', function() {
+   document.getElementById('click-box').addEventListener('click', function() {
     const svgFrame = document.getElementById('svg-frame');
     const optionButton = document.getElementById('options-button');
   
@@ -766,7 +766,7 @@ if (DEV_TYPE === 1) {
     if (!svgFrame.classList.contains('active')) {
       // چرخش ساعتگرد
       optionButton.style.transition = "transform 0.3s ease";
-      optionButton.style.transform = "rotate(360deg)";
+      optionButton.style.transform = "rotate(180deg)";
       
       // فعال‌سازی تغییرات
       svgFrame.classList.add('active');
@@ -781,14 +781,15 @@ if (DEV_TYPE === 1) {
      }
      });
 
-
-
-
-
-
-
  //دکمه تنظیمات ان اف تی در اینجا ست میش
-    //update color-indicator
+
+
+
+
+
+
+
+//update color-indicator
     setColorIndicator(colors[currentColorIndex]);
   </script>
 </body>
