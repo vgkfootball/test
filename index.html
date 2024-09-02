@@ -559,10 +559,14 @@
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let frameboxsvgVisible = true;
-    gridsize(12);
+    gridsize(7);
 //--------------------------------------------------------
 //function; Grid Size
 function gridsize(size) {
+
+  while (gridContainer.firstChild) {
+    gridContainer.removeChild(gridContainer.firstChild);
+  }
 
   if (gridContainer) { 
     gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
@@ -590,44 +594,8 @@ function gridsize(size) {
         </svg>`;
       gridItem.innerHTML += basechainlogosvgSvg;
       gridContainer.appendChild(gridItem);
-
-      let isAnimating = false;
-
-gridItem.addEventListener('mouseenter', () => {
-  if (!capsLockActive) {
-    updateGridItemColor(gridItem, currentColorIndex);
-
-    const svgElement = gridItem.querySelector('.basechainlogosvg');
-
-    if (!isAnimating) {
-      svgElement.classList.add('rotate');
-      isAnimating = true;
+      }
     }
-  }
-});
-
-gridItem.addEventListener('click', () => {
-  if (capsLockActive) {
-    const currentColor = colors[currentColorIndex];
-    if (gridItem.classList.contains(currentColor)) {
-      currentColorIndex = (currentColorIndex + 1) % colors.length;
-      setColorIndicator(colors[currentColorIndex]);
-    }
-  }
-
-  updateGridItemColor(gridItem, currentColorIndex);
-
-  const svgElement = gridItem.querySelector('.basechainlogosvg');
-  svgElement.classList.remove('rotate');
-  svgElement.offsetHeight;
-  svgElement.style.animation = 'rotate 6s linear infinite';
-
-  setColorIndicator(colors[currentColorIndex]);
-
-});
-
-  }
-}
 //------------------------------------------------------------------
 //---------------------------------------------------------
 //function; Grid item color updater
@@ -657,14 +625,41 @@ gridItem.addEventListener('click', () => {
 //-----------------------------------------------------------------
 //-----------------------------------------------
 //algorithm; coloring and rotating
+gridContainer.addEventListener('mouseenter', (event) => {
+    const gridItem = event.target.closest('.grid-item');
+    if (gridItem && !capsLockActive) {
+      updateGridItemColor(gridItem, currentColorIndex);
+
+      const svgElement = gridItem.querySelector('.basechainlogosvg');
+      svgElement.classList.add('rotate');
+    }
+  }, true);
+
+  gridContainer.addEventListener('click', (event) => {
+    const gridItem = event.target.closest('.grid-item');
+    if (gridItem) {
+      if (capsLockActive) {
+        const currentColor = colors[currentColorIndex];
+        if (gridItem.classList.contains(currentColor)) {
+          currentColorIndex = (currentColorIndex + 1) % colors.length;
+          setColorIndicator(colors[currentColorIndex]);
+        }
+      }
+
+      updateGridItemColor(gridItem, currentColorIndex);
+
+      const svgElement = gridItem.querySelector('.basechainlogosvg');
+      svgElement.classList.remove('rotate');
+      svgElement.offsetHeight; // Trigger a reflow
+      svgElement.style.animation = 'rotate 6s linear infinite';
+
+      setColorIndicator(colors[currentColorIndex]);
+    }
+  });
+//------------------------------------------------------------------
 
 
-
-
-    
-
-
-
+  
     // رویداد برای تشخیص فشار دادن دکمه CapsLock
     document.addEventListener('keydown', (e) => {
       if (e.code === 'CapsLock') {
@@ -901,21 +896,6 @@ if (DEV_TYPE === 1) {
         isMovedc2 = !isMovedc2;
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //-------------------------------------------------
 
     // متغیری برای نگه‌داری id آخرین ناحیه کلیک شده
@@ -926,12 +906,12 @@ if (DEV_TYPE === 1) {
 
     // برای هر ناحیه، رویدادها را تنظیم می‌کنیم
     const zones = [
-        { clickId: "click1", recId: "rec11" },
-        { clickId: "click3", recId: "rec33" },
-        { clickId: "click5", recId: "rec55" },
-        { clickId: "click7", recId: "rec77" }, // rec77
-        { clickId: "click9", recId: "rec99" },
-        { clickId: "click24", recId: "rec2424" }
+    { clickId: "click1", recId: "rec11", size: 1 },
+    { clickId: "click3", recId: "rec33", size: 3 },
+    { clickId: "click5", recId: "rec55", size: 5 },
+    { clickId: "click7", recId: "rec77", size: 7 }, // rec77
+    { clickId: "click9", recId: "rec99", size: 9 },
+    { clickId: "click24", recId: "rec2424", size: 24 }
     ];
 
     zones.forEach(zone => {
@@ -960,15 +940,9 @@ if (DEV_TYPE === 1) {
 
             recElement.style.fill = "white";
             lastClicked = recElement;
+            gridsize(zone.size);
         });
     });
-
-
-
-
-
-
-
 
 
 //update color-indicator
