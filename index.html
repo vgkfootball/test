@@ -111,7 +111,7 @@
 
        #options-button {
         fill: #7f7f7f;
-        opacity: .5;
+        opacity: 1;
         transform-box: fill-box;
         transform-origin: center;
         }
@@ -146,7 +146,7 @@
    }
 
    #svg-frame.active .grid-container {
-   width: 40vmin; /* تنظیم ابعاد به اندازه work-space2 */
+    width: 40vmin; /* تنظیم ابعاد به اندازه work-space2 */
    height: 40vmin;
    top: 26vmin; /* موقعیت‌دهی به مکان work-space2 */
    position: absolute;
@@ -172,6 +172,16 @@
             left: -100vw; /* Start off-screen */
             top: -100vh; /* Start off-screen */
         }
+
+        /* استایل‌های پایه */
+        #sliderG-circle-p1 {
+            transition: cx 0.5s ease; /* انتقال روان برای حرکت دایره */
+        }
+        #sliderT-circle-p1 {
+            transition: cx 0.5s ease; /* انتقال روان برای حرکت دایره */
+        }
+
+
 
   </style>
 </head>
@@ -227,12 +237,14 @@
               c13.9,0,25.2,11.3,25.2,25.2v0C950.1,878.5,938.9,889.8,925,889.8z"/>
             <circle id="sliderT-circle-p1" class="solid-white" cx="870.6" cy="864.6" r="20.8"/>
             <circle id="sliderT-circle-p2" class="hidden-content" cx="923.5" cy="864.6" r="20.8"/>
+            <rect id="area-t" class="clickable-area2" x="800" y="818" width="200" height="100" fill="red" opacity="0" />
           </g>
           <g id="sliderG">
             <path id="sliderG-area" class="solid-gray" d="M390.4,889.8h-55.4c-13.9,0-25.2-11.3-25.2-25.2v0c0-13.9,11.3-25.2,25.2-25.2h55.4
               c13.9,0,25.2,11.3,25.2,25.2v0C415.5,878.5,404.3,889.8,390.4,889.8z"/>
             <circle id="sliderG-circle-p1" class="solid-white" cx="336" cy="864.6" r="20.8"/>
             <circle id="sliderG-circle-p2" class="hidden-content" cx="391" cy="864.6" r="20.8"/>
+            <rect id="area-g" class="clickable-area1" x="265" y="818" width="200" height="100" fill="red" opacity="0" />
           </g>
         </g>
         <g id="static-content">
@@ -516,7 +528,6 @@
     const gridContainer = document.querySelector('.grid-container');
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
-    let frameboxsvgVisible = true;
  
    //تابع ایجاد کلاس رنگی مناسب برای جهارجوب های مربعی 
    function updateGridItemColor(gridItem, colorIndex) {
@@ -628,17 +639,26 @@
         setColorIndicator(colors[currentColorIndex]);
       }
     });
+//------------------------------------------------
+//تابع فعالسازی و غیرفعالسازی خطوط راهنما
+    let frameboxsvgVisible = true;
 
-    // رویداد برای تشخیص فشار دادن دکمه G
-    document.addEventListener('keydown', (e) => {
-      if (e.code === 'KeyG') {
-        frameboxsvgVisible = !frameboxsvgVisible;
-        const frameboxsvgElements = document.querySelectorAll('.frameboxsvg');
-        frameboxsvgElements.forEach(el => {
-          el.style.opacity = frameboxsvgVisible ? '0.4' : '0'; // تنظیم شفافیت به 40% یا 0%
-        });
-      }
-    });
+    function Toggleguid() {
+  frameboxsvgVisible = !frameboxsvgVisible;
+  const frameboxsvgElements = document.querySelectorAll('.frameboxsvg');
+  frameboxsvgElements.forEach(el => {
+    el.style.opacity = frameboxsvgVisible ? '0.4' : '0'; // تنظیم شفافیت به 40% یا 0%
+  });
+}
+
+// رویداد برای تشخیص فشار دادن دکمه G
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'KeyG') {
+    Toggleguid(); // فراخوانی تابع Toggleguid هنگام فشار دادن دکمه G
+  }
+});
+
+//----------------------------------------------------------------------------
 
 //مربوط به حرکت نشانگر جدید دایره ای موس
     document.addEventListener('mousemove', (event) => {
@@ -782,6 +802,61 @@ if (DEV_TYPE === 1) {
      });
 
  //دکمه تنظیمات ان اف تی در اینجا ست میش
+//-------------------------------------------------
+//دکمه تنظیم حالت خطوط راهنما
+    // پیدا کردن عناصر HTML
+    const circle1 = document.getElementById("sliderG-circle-p1");
+    const area1 = document.getElementById("area-g");
+
+    // موقعیت‌های اولیه و نهایی
+    let isMovedc1 = false;
+
+    // رویداد کلیک برای جابجایی دایره
+    area1.addEventListener("click", function() {
+        if (isMovedc1) {
+            // برگشت به موقعیت اولیه
+            circle1.setAttribute("cx", 336);
+            Toggleguid();
+        } else {
+            // حرکت به موقعیت جدید
+            circle1.setAttribute("cx", 391);
+            Toggleguid();
+        }
+        // تغییر وضعیت برای کلیک بعدی
+        isMovedc1 = !isMovedc1;
+    });
+//-------------------------------------------------
+//دکمه تنظیم حالت شب و روز
+
+    // پیدا کردن عناصر HTML
+    const circle2 = document.getElementById("sliderT-circle-p1");
+    const area2 = document.getElementById("area-t");
+
+    // موقعیت‌های اولیه و نهایی
+    let isMovedc2 = false;
+
+    // رویداد کلیک برای جابجایی دایره
+    area2.addEventListener("click", function() {
+        if (isMovedc2) {
+            // برگشت به موقعیت اولیه
+            circle2.setAttribute("cx", 870.6);
+            toggleColor();
+        } else {
+            // حرکت به موقعیت جدید
+            circle2.setAttribute("cx", 923.5);
+            toggleColor();
+        }
+        // تغییر وضعیت برای کلیک بعدی
+        isMovedc2 = !isMovedc2;
+    });
+
+
+//-------------------------------------------------
+
+
+
+
+
 
 
 
