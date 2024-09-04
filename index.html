@@ -182,6 +182,50 @@
 
 
 
+        @keyframes scaleUp {
+  0% {
+    transform: scale(0);  /* حالت شروع: لوگو خیلی کوچک */
+    opacity: 0;  /* حالت شروع: شفاف */
+  }
+  50% {
+    transform: scale(0.9);  /* کمی بزرگتر برای ایجاد افکت bounce */
+    opacity: 1;  /* کامل نمایان */
+  }
+  100% {
+    transform: scale(1);  /* اندازه نهایی */
+    opacity: 1;
+  }
+}
+
+.grid-item .basechainlogosvg {
+  transform: scale(0);  /* پیش‌فرض برای شروع */
+}
+
+.grid-item.animate .basechainlogosvg {
+  animation: scaleUp 0.8s ease-out forwards;  /* اجرای انیمیشن با طول 0.8 ثانیه */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </style>
 </head>
 <body>
@@ -559,7 +603,7 @@
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let frameboxsvgVisible = true;
-    gridsize(3);
+    gridsize(9);
 //--------------------------------------------------------
 //function; Grid Size
 function gridsize(size) {
@@ -606,6 +650,28 @@ function gridsize(size) {
   gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
   gridItem.classList.add(currentColor);
 }
+//------------------------------------------------------
+//تست
+document.addEventListener("DOMContentLoaded", function() {
+  const colors = ['blue', 'red', 'green', 'yellow', 'purple'];
+  const gridItems = document.querySelectorAll('.grid-item');
+
+  // تخصیص رنگ تصادفی و افزودن انیمیشن
+  gridItems.forEach(function(item, index) {
+    // تخصیص رنگ تصادفی
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    item.classList.add(randomColor);
+
+    // افزودن کلاس برای اجرای انیمیشن با کمی تاخیر (برای همگام‌سازی انیمیشن‌ها)
+    setTimeout(function() {
+      item.classList.add('animate');
+    }, index * 15);  // با تاخیر 100 میلی‌ثانیه برای هر آیتم
+  });
+});
+
+
+
+//--------------------------------------------------------
 
 //---------------------------------------------------------
 //function; Color Indicator
