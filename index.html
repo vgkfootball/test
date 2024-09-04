@@ -180,9 +180,7 @@
             transition: cx 0.5s ease; /* انتقال روان برای حرکت دایره */
         }
 
-
-
-        
+  
 
   </style>
 </head>
@@ -556,12 +554,18 @@
 
   <div class="circle-pointer"></div>
 
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
+
   <script>
     const gridContainer = document.querySelector('.grid-container');
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let frameboxsvgVisible = true;
-    gridsize(7);
+    gridsize(5);
 //--------------------------------------------------------
 //function; Grid Size
 function gridsize(size) {
@@ -941,7 +945,7 @@ if (DEV_TYPE === 1) {
 //-------------------------------------------------
 
     // متغیری برای نگه‌داری id آخرین ناحیه کلیک شده
-    let lastClicked = document.getElementById("rec77"); // به صورت پیش فرض rec77 سفید است
+    let lastClicked = document.getElementById("rec55"); // به صورت پیش فرض rec77 سفید است
 
     // تنظیم رنگ پیش‌فرض rec77 به سفید
     lastClicked.style.fill = "white";
@@ -985,6 +989,103 @@ if (DEV_TYPE === 1) {
             gridsize(zone.size);
         });
     });
+
+
+    //-------------------------------------------------
+    //ثبت اطلاعات داده رنگ ها 
+// رویداد کلید "e"
+
+document.addEventListener("keydown", function(event) {
+    console.log("کلید فشرده شد: " + event.code);  // پیام 1: بررسی فشرده شدن کلید
+    if (event.code === "KeyE") {
+        console.log("کلید e شناسایی شد");  // پیام 2: کلید e شناسایی شد
+
+        // گرفتن همه مربع‌ها
+        let gridItems = document.querySelectorAll('.grid-item');
+        console.log("تعداد آیتم‌های شبکه: " + gridItems.length);  // پیام 3: تعداد آیتم‌های شبکه
+
+        let colorData = [];
+
+        // دریافت اطلاعات رنگ هر مربع
+        gridItems.forEach(item => {
+            let colorClass = Array.from(item.classList).find(c => 
+                c.startsWith('red') || c.startsWith('yellow') || 
+                c.startsWith('green') || c.startsWith('blue') || 
+                c.startsWith('black') || c.startsWith('white') || 
+                c.startsWith('purple'));
+            
+            let color = getColorFromClass(colorClass);
+            colorData.push(color);
+        });
+
+        // بررسی رنگ‌های جمع‌آوری شده
+
+        // ایجاد فایل متنی
+        let text = "Grid-colors:\n['" + colorData.join("','") + "']";
+let blob = new Blob([text], { type: "text/plain" });
+let link = document.createElement("a");
+link.href = URL.createObjectURL(blob);
+link.download = "color_data.txt";
+link.click();
+    }
+});
+
+// تابع برای تبدیل کلاس به کد رنگ
+function getColorFromClass(colorClass) {
+    switch (colorClass) {
+        case 'red':
+            return '#FF0000';
+        case 'yellow':
+            return '#FFE600';
+        case 'green':
+            return '#00E505';
+        case 'blue':
+            return '#0052FF';
+        case 'black':
+            return '#000000';
+        case 'white':
+            return '#FFFFFF';
+        case 'purple':
+            return '#FF00E1';
+        default:
+            return '#000000';
+    }
+}
+//--------------------------------------------------
+//اسکرین شات از کل صفحه با کلید R
+document.addEventListener("keydown", function(event) {
+    if (event.code === "KeyR") {
+        console.log("کلید r شناسایی شد");  // پیام 2: کلید r شناسایی شد
+
+        // توقف انیمیشن چرخش
+        let rotatingElements = document.querySelectorAll('.rotate');
+        rotatingElements.forEach(el => {
+            el.style.animationPlayState = 'paused';
+        });
+
+        // گرفتن اسکرین‌شات از المان
+        let gridElement = document.getElementById('svg-frame');
+        html2canvas(gridElement).then(function(canvas) {
+
+            // تبدیل اسکرین‌شات به فایل PNG
+            let link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'grid_screenshot.png';
+            link.click();
+
+
+            // شروع دوباره انیمیشن چرخش
+            rotatingElements.forEach(el => {
+                el.style.animationPlayState = 'running';
+            });
+        });
+    }
+});
+
+
+//----------------------------------------------------
+
+
 
 
 //update color-indicator
