@@ -182,49 +182,7 @@
 
 
 
-        @keyframes scaleUp {
-  0% {
-    transform: scale(0);  /* حالت شروع: لوگو خیلی کوچک */
-    opacity: 0;  /* حالت شروع: شفاف */
-  }
-  50% {
-    transform: scale(0.9);  /* کمی بزرگتر برای ایجاد افکت bounce */
-    opacity: 1;  /* کامل نمایان */
-  }
-  100% {
-    transform: scale(1);  /* اندازه نهایی */
-    opacity: 1;
-  }
-}
-
-.grid-item .basechainlogosvg {
-  transform: scale(0);  /* پیش‌فرض برای شروع */
-}
-
-.grid-item.animate .basechainlogosvg {
-  animation: scaleUp 0.8s ease-out forwards;  /* اجرای انیمیشن با طول 0.8 ثانیه */
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
   </style>
 </head>
@@ -603,43 +561,83 @@
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let frameboxsvgVisible = true;
-    gridsize(9);
+    gridsize(7);
 //--------------------------------------------------------
 //function; Grid Size
 function gridsize(size) {
 
-  while (gridContainer.firstChild) {
-    gridContainer.removeChild(gridContainer.firstChild);
-  }
+while (gridContainer.firstChild) {
+  gridContainer.removeChild(gridContainer.firstChild);
+}
 
-  if (gridContainer) { 
-    gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
-    gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
-  }
+if (gridContainer) { 
+  gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+}
 
-  for (let i = 0; i < size * size; i++) { // ایجاد شبکه7 در 7
-      const gridItem = document.createElement('div');
-      gridItem.classList.add('grid-item');
-      // اضافه کردن frameboxsvg به عنوان پس‌زمینه ثابت
-      gridItem.innerHTML = 
-        `<svg class="frameboxsvg" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
-          <g>
-            <polygon points="105.22 85.74 105.22 105.22 85.74 105.22 85.74 104.24 104.25 104.24 104.25 85.74 105.22 85.74" fill="#7F7F7F"/>
-            <polygon points="85.74 0 105.22 0 105.22 19.48 104.24 19.48 104.24 0.97 85.74 0.97 85.74 0" fill="#7F7F7F"/>
-            <polygon points="0 19.48 0 0 19.48 0 19.48 0.98 0.97 0.98 0.97 19.48 0 19.48" fill="#7F7F7F"/>
-            <polygon points="19.48 105.22 0 105.22 0 85.74 0.98 85.74 0.98 104.25 19.48 104.25 19.48 105.22" fill="#7F7F7F"/>
-          </g>
-        </svg>`;
+const colors = ['#0052FF', '#FF0000', '#00E505', '#FFE600', '#FF00E1'];
 
-      // اضافه کردن basechainlogosvg به عنوان شکل اصلی با انیمیشن
-      const basechainlogosvgSvg = 
-        `<svg class="basechainlogosvg" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="#0052FF"/>
-        </svg>`;
-      gridItem.innerHTML += basechainlogosvgSvg;
-      gridContainer.appendChild(gridItem);
+
+for (let i = 0; i < size * size; i++) {
+  const gridItem = document.createElement('div');
+  gridItem.classList.add('grid-item');
+  
+  // اضافه کردن frameboxsvg به عنوان پس‌زمینه ثابت
+  gridItem.innerHTML = `
+    <svg class="frameboxsvg" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
+      <g>
+        <polygon points="105.22 85.74 105.22 105.22 85.74 105.22 85.74 104.24 104.25 104.24 104.25 85.74 105.22 85.74" fill="#7F7F7F"/>
+        <polygon points="85.74 0 105.22 0 105.22 19.48 104.24 19.48 104.24 0.97 85.74 0.97 85.74 0" fill="#7F7F7F"/>
+        <polygon points="0 19.48 0 0 19.48 0 19.48 0.98 0.97 0.98 0.97 19.48 0 19.48" fill="#7F7F7F"/>
+        <polygon points="19.48 105.22 0 105.22 0 85.74 0.98 85.74 0.98 104.25 19.48 104.25 19.48 105.22" fill="#7F7F7F"/>
+      </g>
+    </svg>`;
+
+  // انتخاب رنگ تصادفی و اضافه کردن basechainlogosvg
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  const basechainlogosvgSvg = `
+    <svg class="basechainlogosvg" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="${randomColor}"/>
+    </svg>`;
+
+  gridItem.innerHTML += basechainlogosvgSvg;
+
+  const svgElement = gridItem.querySelector('.basechainlogosvg');
+
+  // تعریف انیمیشن در جاوااسکریپت
+  svgElement.style.animation = 'scaleUp 2s ease forwards';
+  svgElement.style.transform = 'scale(0)';
+  svgElement.style.opacity = '0';
+
+  const keyframes = `
+    @keyframes scaleUp {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
       }
     }
+  `;
+
+  // اضافه کردن انیمیشن به سند
+  const styleSheet = document.createElement("style");
+  styleSheet.type = "text/css";
+  styleSheet.innerText = keyframes;
+  document.head.appendChild(styleSheet);
+
+  gridContainer.appendChild(gridItem);
+
+  // حذف استایل‌های انیمیشن بعد از اتمام
+  setTimeout(() => {
+    svgElement.style.animation = '';  // فقط استایل انیمیشن حذف می‌شود
+    svgElement.style.transform = 'scale(1)';  // اطمینان از باقی ماندن سایز نهایی
+    svgElement.style.opacity = '1';  // اطمینان از باقی ماندن در حالت نمایان
+  }, 2000);
+}
+}
 //------------------------------------------------------------------
 //---------------------------------------------------------
 //function; Grid item color updater
@@ -650,28 +648,6 @@ function gridsize(size) {
   gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
   gridItem.classList.add(currentColor);
 }
-//------------------------------------------------------
-//تست
-document.addEventListener("DOMContentLoaded", function() {
-  const colors = ['blue', 'red', 'green', 'yellow', 'purple'];
-  const gridItems = document.querySelectorAll('.grid-item');
-
-  // تخصیص رنگ تصادفی و افزودن انیمیشن
-  gridItems.forEach(function(item, index) {
-    // تخصیص رنگ تصادفی
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    item.classList.add(randomColor);
-
-    // افزودن کلاس برای اجرای انیمیشن با کمی تاخیر (برای همگام‌سازی انیمیشن‌ها)
-    setTimeout(function() {
-      item.classList.add('animate');
-    }, index * 15);  // با تاخیر 100 میلی‌ثانیه برای هر آیتم
-  });
-});
-
-
-
-//--------------------------------------------------------
 
 //---------------------------------------------------------
 //function; Color Indicator
@@ -965,7 +941,7 @@ if (DEV_TYPE === 1) {
 //-------------------------------------------------
 
     // متغیری برای نگه‌داری id آخرین ناحیه کلیک شده
-    let lastClicked = document.getElementById("rec33"); // به صورت پیش فرض rec77 سفید است
+    let lastClicked = document.getElementById("rec77"); // به صورت پیش فرض rec77 سفید است
 
     // تنظیم رنگ پیش‌فرض rec77 به سفید
     lastClicked.style.fill = "white";
