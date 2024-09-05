@@ -35,8 +35,6 @@
 
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(7, 1fr); /* 7 ستون */
-      grid-template-rows: repeat(7, 1fr); /* 7 ردیف */
       width: 100%;
       height: 100%;
       background-color: black;
@@ -68,77 +66,42 @@
       z-index: 1;
     }
 
-    .grid-item.red .basechainlogosvg path {
-      fill: red;
-    }
-
-    .grid-item.yellow .basechainlogosvg path {
-      fill: #FFE600;
-    }
-
-    .grid-item.green .basechainlogosvg path {
-      fill: #00E505;
-    }
-
-    .grid-item.purple .basechainlogosvg path {
-      fill: #FF00E1;
-    }
-
-    .grid-item.black .basechainlogosvg path {
-      fill: black;
-    }
-
-    .grid-item.blue .basechainlogosvg path {
-      fill: #0052FF;
-    }
-
-    .grid-item.white .basechainlogosvg path {
-      fill: white;
-    }
+    .grid-item.red .basechainlogosvg path {fill: red;}
+    .grid-item.yellow .basechainlogosvg path {fill: #FFE600;}
+    .grid-item.green .basechainlogosvg path {fill: #00E505;}
+    .grid-item.purple .basechainlogosvg path {fill: #FF00E1;}
+    .grid-item.black .basechainlogosvg path {fill: black;}
+    .grid-item.blue .basechainlogosvg path {fill: #0052FF;}
+    .grid-item.white .basechainlogosvg path {fill: white;}
 
     @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
+      from {transform: rotate(0deg);}
+      to {transform: rotate(360deg);}
     }
 
-    .rotate {
-      animation: rotate 6s linear infinite;
-    }
+    .rotate {animation: rotate 6s linear infinite;}
 
        #options-button {
         fill: #7f7f7f;
-        opacity: .5;
+        opacity: 1;
         transform-box: fill-box;
         transform-origin: center;
         }
 
- /* حالت اولیه و بعد از کلیک */
  #option-content {
-   transition: opacity 0.3s ease;
+   transition: none;
    opacity: 0;
    }
 
-   /* انیمیشن چرخش */
+   /*option Button Rotation*/
    @keyframes rotateClockwise {
-   from {
-    transform: rotate(0deg);
-   }
-   to {
-    transform: rotate(360deg);
-   }
+   from {transform: rotate(0deg);}
+   to {transform: rotate(360deg);}
    }
 
    @keyframes rotateCounterClockwise {
-   from {
-    transform: rotate(360deg);
-   }
-   to {
-    transform: rotate(0deg);
-   }
+   from {transform: rotate(360deg);}
+   to {transform: rotate(0deg);}
    }
 
    #svg-frame.active #option-content {
@@ -146,16 +109,17 @@
    }
 
    #svg-frame.active .grid-container {
-   width: 40vmin; /* تنظیم ابعاد به اندازه work-space2 */
+    width: 40vmin; 
    height: 40vmin;
-   top: 26vmin; /* موقعیت‌دهی به مکان work-space2 */
+   top: 26vmin;
    position: absolute;
    }
-
+    .click-zone{fill:red;opacity: 0;}
     .hidden-content{fill:none;}
     .solid-white{fill:#FFFFFF;}
     .solid-gray{fill:#7F7F7F;}
     .inv-white{fill:#FFFFFF;mix-blend-mode:difference;}
+    .inv-black{fill:#000000;mix-blend-mode:difference;}
     .inv-white-border{stroke:#FFFFFF;mix-blend-mode:difference;stroke-width:4;fill:none}
 
 
@@ -171,6 +135,14 @@
             background-color: rgba(255, 255, 255, 0.8); /* Default color */
             left: -100vw; /* Start off-screen */
             top: -100vh; /* Start off-screen */
+        }
+
+        /*Theme and Guid Slider Transition*/
+        #sliderG-circle-p1 {
+            transition: cx 0.5s ease; 
+        }
+        #sliderT-circle-p1 {
+            transition: cx 0.5s ease;
         }
 
   </style>
@@ -195,28 +167,50 @@
         <g id="dynamic-content">
           <g id="box-numxnum">
             <g id="rec-1x1">
+
+              <path id="rec11" class="inv-black" d="M356,619c-9.1,0-16.5-7.4-16.5-16.5v-47.7c0-9.1,7.4-16.5,16.5-16.5h154.5c9.1,0,16.5,7.4,16.5,16.5v47.7
+              c0,9.1-7.4,16.5-16.5,16.5H356z"/>
+
               <path class="inv-white-border" stroke-alignment="inside" d="M510.5,540.3c8,0,14.5,6.5,14.5,14.5v47.7c0,8-6.5,14.5-14.5,14.5H356c-8,0-14.5-6.5-14.5-14.5v-47.7
                 c0-8,6.5-14.5,14.5-14.5H510.5 M510.5,536.3H356c-10.2,0-18.5,8.3-18.5,18.5v47.7c0,10.2,8.3,18.5,18.5,18.5h154.5
                 c10.2,0,18.5-8.3,18.5-18.5v-47.7C529,544.6,520.7,536.3,510.5,536.3L510.5,536.3z"/>
+                
             </g>
             <g id="rec-3x3">
+              <path id="rec33" class="inv-black" d="M597.2,619c-9.1,0-16.5-7.4-16.5-16.5v-47.7c0-9.1,7.4-16.5,16.5-16.5h154.5c9.1,0,16.5,7.4,16.5,16.5
+              v47.7c0,9.1-7.4,16.5-16.5,16.5H597.2z"/>
+
               <path class="inv-white-border" stroke-alignment="inside" d="M751.6,540.3c8,0,14.5,6.5,14.5,14.5v47.7c0,8-6.5,14.5-14.5,14.5H597.2c-8,0-14.5-6.5-14.5-14.5v-47.7
                 c0-8,6.5-14.5,14.5-14.5H751.6 M751.6,536.3H597.2c-10.2,0-18.5,8.3-18.5,18.5v47.7c0,10.2,8.3,18.5,18.5,18.5h154.5
                 c10.2,0,18.5-8.3,18.5-18.5v-47.7C770.1,544.6,761.8,536.3,751.6,536.3L751.6,536.3z"/>
             </g>
             <g id="rec-5x5">
+              <path id="rec55" class="inv-black" d="M842.4,619c-9.1,0-16.5-7.4-16.5-16.5v-47.7c0-9.1,7.4-16.5,16.5-16.5h154.5c9.1,0,16.5,7.4,16.5,16.5
+              v47.7c0,9.1-7.4,16.5-16.5,16.5H842.4z"/>
+
               <path class="inv-white-border" stroke-alignment="inside" d="M996.8,540.3c8,0,14.5,6.5,14.5,14.5v47.7c0,8-6.5,14.5-14.5,14.5H842.4c-8,0-14.5-6.5-14.5-14.5v-47.7
                 c0-8,6.5-14.5,14.5-14.5H996.8 M996.8,536.3H842.4c-10.2,0-18.5,8.3-18.5,18.5v47.7c0,10.2,8.3,18.5,18.5,18.5h154.5
                 c10.2,0,18.5-8.3,18.5-18.5v-47.7C1015.3,544.6,1007.1,536.3,996.8,536.3L996.8,536.3z"/>
             </g>
-            <path id="rec-7x7" class="inv-white-border" stroke-alignment="inside" d="M510.5,754.9H356c-10.2,0-18.5-8.3-18.5-18.5v-47.7c0-10.2,8.3-18.5,18.5-18.5h154.5
-              c10.2,0,18.5,8.3,18.5,18.5v47.7C529,746.7,520.7,754.9,510.5,754.9z"/>
+            <g id="rec-7x7">
+              <path id="rec77" class="inv-black" d="M356,752.9c-9.1,0-16.5-7.4-16.5-16.5v-47.7c0-9.1,7.4-16.5,16.5-16.5h154.5c9.1,0,16.5,7.4,16.5,16.5
+                v47.7c0,9.1-7.4,16.5-16.5,16.5H356z"/>
+
+              <path class="inv-white-border" stroke-alignment="inside" d="M510.5,674.3c8,0,14.5,6.5,14.5,14.5v47.7c0,8-6.5,14.5-14.5,14.5H356c-8,0-14.5-6.5-14.5-14.5v-47.7
+                c0-8,6.5-14.5,14.5-14.5H510.5 M510.5,670.3H356c-10.2,0-18.5,8.3-18.5,18.5v47.7c0,10.2,8.3,18.5,18.5,18.5h154.5
+                c10.2,0,18.5-8.3,18.5-18.5v-47.7C529,678.6,520.7,670.3,510.5,670.3L510.5,670.3z"/>
+
             <g id="rec-9x9">
+              <path id="rec99" class="inv-black" d="M597.2,752.9c-9.1,0-16.5-7.4-16.5-16.5v-47.7c0-9.1,7.4-16.5,16.5-16.5h154.5c9.1,0,16.5,7.4,16.5,16.5
+              v47.7c0,9.1-7.4,16.5-16.5,16.5H597.2z"/>
               <path class="inv-white-border" stroke-alignment="inside" d="M751.6,674.3c8,0,14.5,6.5,14.5,14.5v47.7c0,8-6.5,14.5-14.5,14.5H597.2c-8,0-14.5-6.5-14.5-14.5v-47.7
                 c0-8,6.5-14.5,14.5-14.5H751.6 M751.6,670.3H597.2c-10.2,0-18.5,8.3-18.5,18.5v47.7c0,10.2,8.3,18.5,18.5,18.5h154.5
                 c10.2,0,18.5-8.3,18.5-18.5v-47.7C770.1,678.6,761.8,670.3,751.6,670.3L751.6,670.3z"/>
             </g>
             <g id="rec-24x24">
+              <path id="rec2424" class="inv-black" d="M842.4,752.9c-9.1,0-16.5-7.4-16.5-16.5v-47.7c0-9.1,7.4-16.5,16.5-16.5h154.5c9.1,0,16.5,7.4,16.5,16.5
+              v47.7c0,9.1-7.4,16.5-16.5,16.5H842.4z"/>
+
               <path class="inv-white-border" stroke-alignment="inside" d="M996.8,674.3c8,0,14.5,6.5,14.5,14.5v47.7c0,8-6.5,14.5-14.5,14.5H842.4c-8,0-14.5-6.5-14.5-14.5v-47.7
                 c0-8,6.5-14.5,14.5-14.5H996.8 M996.8,670.3H842.4c-10.2,0-18.5,8.3-18.5,18.5v47.7c0,10.2,8.3,18.5,18.5,18.5h154.5
                 c10.2,0,18.5-8.3,18.5-18.5v-47.7C1015.3,678.6,1007.1,670.3,996.8,670.3L996.8,670.3z"/>
@@ -227,12 +221,14 @@
               c13.9,0,25.2,11.3,25.2,25.2v0C950.1,878.5,938.9,889.8,925,889.8z"/>
             <circle id="sliderT-circle-p1" class="solid-white" cx="870.6" cy="864.6" r="20.8"/>
             <circle id="sliderT-circle-p2" class="hidden-content" cx="923.5" cy="864.6" r="20.8"/>
+            <rect id="area-t" class="clickable-area2" x="800" y="818" width="200" height="100" fill="red" opacity="0" />
           </g>
           <g id="sliderG">
             <path id="sliderG-area" class="solid-gray" d="M390.4,889.8h-55.4c-13.9,0-25.2-11.3-25.2-25.2v0c0-13.9,11.3-25.2,25.2-25.2h55.4
               c13.9,0,25.2,11.3,25.2,25.2v0C415.5,878.5,404.3,889.8,390.4,889.8z"/>
             <circle id="sliderG-circle-p1" class="solid-white" cx="336" cy="864.6" r="20.8"/>
             <circle id="sliderG-circle-p2" class="hidden-content" cx="391" cy="864.6" r="20.8"/>
+            <rect id="area-g" class="clickable-area1" x="265" y="818" width="200" height="100" fill="red" opacity="0" />
           </g>
         </g>
         <g id="static-content">
@@ -506,30 +502,151 @@
         </g>
       </g>
 
+      <g id="click-rec-above">
+        <rect id="click1" class="click-zone" x="334.6" y="533"  width="197.3" height="91.3"/>
+        <rect id="click3" class="click-zone" x="575.7" y="533" width="197.3" height="91.3"/>
+        <rect id="click5" class="click-zone" x="820.3" y="533" width="197.3" height="91.3"/>
+        <rect id="click7" class="click-zone" x="334.6" y="666.6" width="197.3" height="91.3"/>
+        <rect id="click9" class="click-zone" x="575.7" y="666.6" width="197.3" height="91.3"/>
+        <rect id="click24" class="click-zone" x="820.3" y="666.6" class="st5" width="197.3" height="91.3"/>
+
+     </g>
     </svg>
     <div id="work-space" class="grid-container"></div>
   </div>
 
   <div class="circle-pointer"></div>
 
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
+
   <script>
     const gridContainer = document.querySelector('.grid-container');
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let frameboxsvgVisible = true;
- 
-   //تابع ایجاد کلاس رنگی مناسب برای جهارجوب های مربعی 
-   function updateGridItemColor(gridItem, colorIndex) {
+    let DEV_TYPE = null;
+    let capsLockActive = false;
+    gridsize(5);
+
+//--------------------------------------------------------
+//function; Grid Size
+function gridsize(size) {
+
+while (gridContainer.firstChild) {
+  gridContainer.removeChild(gridContainer.firstChild);
+}
+
+if (gridContainer) { 
+  gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+}
+
+const colors = ['red', 'yellow', 'green', 'blue', 'purple']; 
+
+
+for (let i = 0; i < size * size; i++) {
+  const gridItem = document.createElement('div');
+  gridItem.classList.add('grid-item');
+  
+  gridItem.innerHTML = `
+    <svg class="frameboxsvg" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
+      <g>
+        <polygon points="105.22 85.74 105.22 105.22 85.74 105.22 85.74 104.24 104.25 104.24 104.25 85.74 105.22 85.74" fill="#7F7F7F"/>
+        <polygon points="85.74 0 105.22 0 105.22 19.48 104.24 19.48 104.24 0.97 85.74 0.97 85.74 0" fill="#7F7F7F"/>
+        <polygon points="0 19.48 0 0 19.48 0 19.48 0.98 0.97 0.98 0.97 19.48 0 19.48" fill="#7F7F7F"/>
+        <polygon points="19.48 105.22 0 105.22 0 85.74 0.98 85.74 0.98 104.25 19.48 104.25 19.48 105.22" fill="#7F7F7F"/>
+      </g>
+    </svg>`;
+
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        gridItem.classList.add(randomColor);  
+
+        const basechainlogosvgSvg = `
+          <svg class="basechainlogosvg" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="${getColorFromClass(randomColor)}"/>
+          </svg>`;
+
+  gridItem.innerHTML += basechainlogosvgSvg;
+
+  const svgElement = gridItem.querySelector('.basechainlogosvg');
+
+  svgElement.style.animation = 'scaleUp 2s ease forwards';
+  svgElement.style.transform = 'scale(0)';
+  svgElement.style.opacity = '0';
+
+  const keyframes = `
+    @keyframes scaleUp {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  `;
+
+  const styleSheet = document.createElement("style");
+  styleSheet.type = "text/css";
+  styleSheet.innerText = keyframes;
+  document.head.appendChild(styleSheet);
+
+  gridContainer.appendChild(gridItem);
+
+  //Remove animation class  
+  setTimeout(() => {
+    svgElement.style.animation = '';
+    svgElement.style.transform = 'scale(1)';
+    svgElement.style.opacity = '1';
+  }, 2000);
+}
+}
+//------------------------------------------------------------------
+//function; determineDeviceType
+function determineDeviceType() {
+   // Check device type using CSS Media Queries
+   const mediaQueryResult = window.matchMedia("(max-width: 768px)").matches;
+  
+   // Check device type using Window Dimensions
+   const windowDimensionResult = window.innerWidth <= 768;
+
+   // Determine device type based on both checks
+   const isMobile = mediaQueryResult && windowDimensionResult;
+   const isDesktop = !mediaQueryResult && !windowDimensionResult;
+
+   // Set DEV_TYPE and capsLockActive based on device type
+   DEV_TYPE = isMobile ? 1 : 0;
+   capsLockActive = DEV_TYPE === 1;
+}
+// Run the function to determine device type
+determineDeviceType();
+
+// For testing purposes (you can remove or comment out this line)
+console.log('DEV-TYPE:', DEV_TYPE);
+//---------------------------------------------------------
+//Capslock Listener
+document.addEventListener('keydown', (e) => {
+      if (e.code === 'CapsLock') {
+        capsLockActive = !capsLockActive;
+        console.log('CapsLock Active:', capsLockActive);
+      }
+    });
+//-----------------------------------------------------
+//function; update Grid Item Color
+function updateGridItemColor(gridItem, colorIndex) {
   const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
   const currentColor = colors[colorIndex];
   gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
   gridItem.classList.add(currentColor);
 }
-
-
-
-    // تابع به‌روزرسانی رنگ color-indicator
-    function setColorIndicator(color) {
+//---------------------------------------------------------
+//function; Color Indicator
+  function setColorIndicator(color) {
   const colorIndicator = document.querySelector('#color-indicator path');
   const colorsMap = {
     red: '#FF0000',
@@ -542,172 +659,62 @@
   };
   colorIndicator.setAttribute('fill', colorsMap[color] || '#FFFFFF');
 }
+//-----------------------------------------------------------------
+//algorithm; coloring and rotating
 
+//PC Mode1(default)
 
-    // افزودن شکل‌ها به شبکه
-    for (let i = 0; i < 7 * 7; i++) { // ایجاد شبکه7 در 7
-      const gridItem = document.createElement('div');
-      gridItem.classList.add('grid-item');
+gridContainer.addEventListener('mouseenter', (event) => {
+    const gridItem = event.target.closest('.grid-item');
+    if (gridItem && !capsLockActive) {
+      updateGridItemColor(gridItem, currentColorIndex);
 
-      // اضافه کردن frameboxsvg به عنوان پس‌زمینه ثابت
-      gridItem.innerHTML = 
-        `<svg class="frameboxsvg" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
-          <g>
-            <polygon points="105.22 85.74 105.22 105.22 85.74 105.22 85.74 104.24 104.25 104.24 104.25 85.74 105.22 85.74" fill="#7F7F7F"/>
-            <polygon points="85.74 0 105.22 0 105.22 19.48 104.24 19.48 104.24 0.97 85.74 0.97 85.74 0" fill="#7F7F7F"/>
-            <polygon points="0 19.48 0 0 19.48 0 19.48 0.98 0.97 0.98 0.97 19.48 0 19.48" fill="#7F7F7F"/>
-            <polygon points="19.48 105.22 0 105.22 0 85.74 0.98 85.74 0.98 104.25 19.48 104.25 19.48 105.22" fill="#7F7F7F"/>
-          </g>
-        </svg>`;
-
-      // اضافه کردن basechainlogosvg به عنوان شکل اصلی با انیمیشن
-      const basechainlogosvgSvg = 
-        `<svg class="basechainlogosvg" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="#0052FF"/>
-        </svg>`;
-      gridItem.innerHTML += basechainlogosvgSvg;
-
-      let isAnimating = false;
-
-      gridItem.addEventListener('mouseenter', () => {
-        if (!capsLockActive) {
-          updateGridItemColor(gridItem, currentColorIndex);
-
-          const svgElement = gridItem.querySelector('.basechainlogosvg');
-
-          if (!isAnimating) {
-            svgElement.classList.add('rotate');
-            isAnimating = true;
-          }
-        }
-      });
-
-      gridItem.addEventListener('click', () => {
-        if (capsLockActive) {
-          const currentColor = colors[currentColorIndex];
-          if (gridItem.classList.contains(currentColor)) {
-            currentColorIndex = (currentColorIndex + 1) % colors.length;
-            setColorIndicator(colors[currentColorIndex]);
-          }
-        }
-
-        updateGridItemColor(gridItem, currentColorIndex);
-
-        const svgElement = gridItem.querySelector('.basechainlogosvg');
-        svgElement.classList.remove('rotate');
-        svgElement.offsetHeight;
-        svgElement.style.animation = 'rotate 6s linear infinite';
-
-        setColorIndicator(colors[currentColorIndex]);
-      });
-
-      gridContainer.appendChild(gridItem);
+      const svgElement = gridItem.querySelector('.basechainlogosvg');
+      svgElement.classList.add('rotate');
     }
+  }, true);
 
-    // رویداد برای تشخیص فشار دادن دکمه CapsLock
-    document.addEventListener('keydown', (e) => {
-      if (e.code === 'CapsLock') {
-        capsLockActive = !capsLockActive;
-        console.log('CapsLock Active:', capsLockActive);
+
+  gridContainer.addEventListener('click', (event) => {
+    const gridItem = event.target.closest('.grid-item');
+    if (gridItem) {
+      if (capsLockActive) {
+        const currentColor = colors[currentColorIndex];
+        if (gridItem.classList.contains(currentColor)) {
+          currentColorIndex = (currentColorIndex + 1) % colors.length;
+          setColorIndicator(colors[currentColorIndex]);
+        }
       }
-    });
 
-    // رویداد کلیک برای تغییر رنگ‌ها در حالت عادی
+      updateGridItemColor(gridItem, currentColorIndex);
+
+      const svgElement = gridItem.querySelector('.basechainlogosvg');
+      svgElement.classList.add('rotate');
+
+      setColorIndicator(colors[currentColorIndex]);
+    }
+  });
+
+  //----------------------------------------------------
+  //PC Mode2 (mobile Default)
+
+
     document.addEventListener('click', (event) => {
       if (!capsLockActive) {
         currentColorIndex = (currentColorIndex + 1) % colors.length;
 
-        // بررسی کنید که آیا ماوس روی یک دایره قرار دارد یا خیر
         const hoveredElement = document.querySelector('.grid-item:hover');
         if (hoveredElement) {
           hoveredElement.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
           hoveredElement.classList.add(colors[currentColorIndex]);
-          hoveredElement.querySelector('.basechainlogosvg').style.animation = 'rotate 6s linear infinite';
         }
 
         setColorIndicator(colors[currentColorIndex]);
       }
     });
 
-    // رویداد برای تشخیص فشار دادن دکمه G
-    document.addEventListener('keydown', (e) => {
-      if (e.code === 'KeyG') {
-        frameboxsvgVisible = !frameboxsvgVisible;
-        const frameboxsvgElements = document.querySelectorAll('.frameboxsvg');
-        frameboxsvgElements.forEach(el => {
-          el.style.opacity = frameboxsvgVisible ? '0.4' : '0'; // تنظیم شفافیت به 40% یا 0%
-        });
-      }
-    });
-
-//مربوط به حرکت نشانگر جدید دایره ای موس
-    document.addEventListener('mousemove', (event) => {
-            const cursor = document.querySelector('.circle-pointer');
-            const x = event.clientX;
-            const y = event.clientY;
-            cursor.style.left = `${x}px`;
-            cursor.style.top = `${y}px`;
-            
-            // Create a canvas to get the pixel color under the cursor
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 1;
-            canvas.height = 1;
-            ctx.drawImage(document.body, -x, -y, 1, 1);
-            const imageData = ctx.getImageData(0, 0, 1, 1);
-            const [r, g, b] = imageData.data;
-
-            // Calculate the inverse color
-            const inverseColor = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
-            cursor.style.backgroundColor = inverseColor;
-        });
-
-        
-        document.addEventListener('contextmenu', (event) => {
-      event.preventDefault(); // جلوگیری از نمایش منوی کلیک راست پیش‌فرض
-      console.log('Right-click disabled'); // برای بررسی
-    });
-
-    // جلوگیری از عمل کلیک میدل موس (اسکرول موس)
-    document.addEventListener('mousedown', (event) => {
-      if (event.button === 1) { // دکمه میدل موس
-        event.preventDefault(); // جلوگیری از عمل پیش‌فرض
-        console.log('Middle mouse click disabled'); // برای بررسی
-      }
-    });
-
-//--------------------------------------------------------------
-// Function to determine device type
-
-function determineDeviceType() {
-  // Check device type using CSS Media Queries
-  const mediaQueryResult = window.matchMedia("(max-width: 768px)").matches;
-  
-  // Check device type using Window Dimensions
-  const windowDimensionResult = window.innerWidth <= 768;
-
-  // Determine device type based on both checks
-  const isMobile = mediaQueryResult && windowDimensionResult;
-  const isDesktop = !mediaQueryResult && !windowDimensionResult;
-
-  // Set DEV_TYPE and capsLockActive based on device type
-  DEV_TYPE = isMobile ? 1 : 0;
-  capsLockActive = DEV_TYPE === 1;
-}
-
-// Initialize the DEV-TYPE variable
-let DEV_TYPE = null;
-let capsLockActive = false;
-
-// Run the function to determine device type
-determineDeviceType();
-
-// For testing purposes (you can remove or comment out this line)
-console.log('DEV-TYPE:', DEV_TYPE);
-
-//---------------------------------------------------------------------
-//touch-drag auto color
-
+//--------------------------------------------
+//Mobile touch-drag (auto color)
 function handleTouchMove(event) {
   const touchX = event.touches[0].clientX;
   const touchY = event.touches[0].clientY;
@@ -731,8 +738,76 @@ if (DEV_TYPE === 1) {
   gridContainer.addEventListener('touchmove', handleTouchMove);
 }
 
+//------------------------------------------------
+//function; Toggle Guid
+function Toggleguid() {
+  frameboxsvgVisible = !frameboxsvgVisible;
+  const frameboxsvgElements = document.querySelectorAll('.frameboxsvg');
+  frameboxsvgElements.forEach(el => {
+    el.style.opacity = frameboxsvgVisible ? '0.4' : '0'; 
+  });
+}
+//-----------------------------------------------------
+// KEY G (ToggleGuid) Listener
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'KeyG') {
+    Toggleguid(); 
+  }
+});
+//----------------------------------------------------------------------------
+//Toggle Guid Button
+    const circle1 = document.getElementById("sliderG-circle-p1");
+    const area1 = document.getElementById("area-g");
+    let isMovedc1 = false;     
+    area1.addEventListener("click", function() {
+        if (isMovedc1) {
+            circle1.setAttribute("cx", 336);
+            Toggleguid();
+        } else {
+            circle1.setAttribute("cx", 391);
+            Toggleguid();
+        }
+        isMovedc1 = !isMovedc1;
+    });
+//-------------------------------------------------
+//New Mouse Pointer(circle)
+    document.addEventListener('mousemove', (event) => {
+            const cursor = document.querySelector('.circle-pointer');
+            const x = event.clientX;
+            const y = event.clientY;
+            cursor.style.left = `${x}px`;
+            cursor.style.top = `${y}px`;
+            
+            // Create a canvas to get the pixel color under the cursor
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 1;
+            canvas.height = 1;
+            ctx.drawImage(document.body, -x, -y, 1, 1);
+            const imageData = ctx.getImageData(0, 0, 1, 1);
+            const [r, g, b] = imageData.data;
+
+            // Calculate the inverse color
+            const inverseColor = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
+            cursor.style.backgroundColor = inverseColor;
+        });
+
+        
+        document.addEventListener('contextmenu', (event) => {
+      event.preventDefault(); //desable rightclick
+      console.log('Right-click disabled'); 
+    });
+
+    //disable middle mouse
+    document.addEventListener('mousedown', (event) => {
+      if (event.button === 1) { 
+        event.preventDefault(); 
+        console.log('Middle mouse click disabled'); 
+      }
+    });
+
 //---------------------------------------------------------------------
-//Day & night Switch
+//function; Toggle Theme
 
   let isWhite = false;
   function toggleColor() {
@@ -753,42 +828,185 @@ if (DEV_TYPE === 1) {
       toggleColor();
     }
   });
+  //---------------------------------------------------------------------------
+  //Theme Button
+
+  const circle2 = document.getElementById("sliderT-circle-p1");
+    const area2 = document.getElementById("area-t");
+    let isMovedc2 = false;
+
+
+    area2.addEventListener("click", function() {
+        if (isMovedc2) {
+            circle2.setAttribute("cx", 870.6);
+            toggleColor();
+        } else {
+            circle2.setAttribute("cx", 923.5);
+            toggleColor();
+        }
+        isMovedc2 = !isMovedc2;
+    });
 
 //---------------------------------------------------------------------
-    //---------------------------------------------------------------------
- //دکمه تنظیمات ان اف تی در اینجا ست میشه 
+ //Option Button
  
    document.getElementById('click-box').addEventListener('click', function() {
     const svgFrame = document.getElementById('svg-frame');
     const optionButton = document.getElementById('options-button');
   
     
-    if (!svgFrame.classList.contains('active')) {
-      // چرخش ساعتگرد
+    if (!svgFrame.classList.contains('active')) {  
       optionButton.style.transition = "transform 0.3s ease";
       optionButton.style.transform = "rotate(180deg)";
-      
-      // فعال‌سازی تغییرات
       svgFrame.classList.add('active');
      } 
      else {
-      // چرخش پادساعتگرد
       optionButton.style.transition = "transform 0.3s ease";
       optionButton.style.transform = "rotate(0deg)";
-      
-      // بازگشت تغییرات
       svgFrame.classList.remove('active');
      }
      });
+//--------------------------------------------------------------------------
+//Grid indicator Buttons
+//Default Grid indicator   
+    let lastClicked = document.getElementById("rec55");
+    lastClicked.style.fill = "white";
 
- //دکمه تنظیمات ان اف تی در اینجا ست میش
+    const zones = [
+    { clickId: "click1", recId: "rec11", size: 1 },
+    { clickId: "click3", recId: "rec33", size: 3 },
+    { clickId: "click5", recId: "rec55", size: 5 }, //default Grid
+    { clickId: "click7", recId: "rec77", size: 7 }, 
+    { clickId: "click9", recId: "rec99", size: 9 },
+    { clickId: "click24", recId: "rec2424", size: 24 }
+    ];
 
+    zones.forEach(zone => {
+        const clickElement = document.getElementById(zone.clickId);
+        const recElement = document.getElementById(zone.recId);
 
+//mouse in and out color change
+        clickElement.addEventListener("mouseover", () => {
+            if (lastClicked !== recElement) {
+                recElement.style.fill = "red";
+            }
+        });
 
+        clickElement.addEventListener("mouseout", () => {
+            if (lastClicked !== recElement) {
+                recElement.style.fill = "black";
+            }
+        });
+//click to set grid indicator
+        clickElement.addEventListener("click", () => {
+            if (lastClicked) {
+                lastClicked.style.fill = "black";
+            }
 
+            recElement.style.fill = "white";
+            lastClicked = recElement;
+            gridsize(zone.size);
+        });
+    });
+//-------------------------------------------------
+//Export Data 
+let gridColors = [];
 
+//Function; Convert to HEX code
+function getColorFromClass(colorClass) {
+    switch (colorClass) {
+        case 'red':
+            return '#FF0000';
+        case 'yellow':
+            return '#FFE600';
+        case 'green':
+            return '#00E505';
+        case 'blue':
+            return '#0052FF';
+        case 'black':
+            return '#000000';
+        case 'white':
+            return '#FFFFFF';
+        case 'purple':
+            return '#FF00E1';
+        default:
+            return '#000000';
+    }
+}
 
+//function; Export Data
+function Exportdata() {
 
+    gridColors = [];
+
+    let gridItems = document.querySelectorAll('.grid-item');
+
+    gridItems.forEach(item => {
+        let colorClass = Array.from(item.classList).find(c => 
+            c.startsWith('red') || c.startsWith('yellow') || 
+            c.startsWith('green') || c.startsWith('blue') || 
+            c.startsWith('black') || c.startsWith('white') || 
+            c.startsWith('purple'));
+        
+        let color = getColorFromClass(colorClass);
+        gridColors.push(color);
+    });
+//Export as TXT file
+    let text = "Grid-colors:\n['" + gridColors.join("','") + "']";
+    let blob = new Blob([text], { type: "text/plain" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "color_data.txt";
+    link.click();
+
+    console.log("gridColors:", gridColors); 
+}
+
+//KEY E listner
+document.addEventListener("keydown", function(event) {
+    if (event.code === "KeyE") {
+        Exportdata();
+    }
+});
+//--------------------------------------------------
+//Function; Screenshot
+function screenshot() {
+
+    //Temporary Stop .rotate Style
+    let rotatingElements = document.querySelectorAll('.rotate');
+    rotatingElements.forEach(el => {
+        const computedStyle = window.getComputedStyle(el);
+        if (computedStyle.animationPlayState !== 'paused') {
+            el.style.animationPlayState = 'paused';
+        }
+    });
+    
+    setTimeout(() => {
+        let gridElement = document.getElementById('svg-frame');
+        //screenshot 
+        html2canvas(gridElement).then(function(canvas) {
+
+            //Screenshot to PNG
+            let link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'grid_screenshot.png';
+            link.click();
+
+            //Start Rotation Again
+            rotatingElements.forEach(el => {
+                el.style.animationPlayState = 'running';
+            });
+        });
+    }, 50); //Time Pause 50m Seconds
+}
+
+//KEY R Listener 
+document.addEventListener("keydown", function(event) {
+    if (event.code === "KeyR") {
+        screenshot();
+    }
+});
+//----------------------------------------------------
 //update color-indicator
     setColorIndicator(colors[currentColorIndex]);
   </script>
