@@ -66,46 +66,20 @@
       z-index: 1;
     }
 
-    .grid-item.red .basechainlogosvg path {
-      fill: red;
-    }
-
-    .grid-item.yellow .basechainlogosvg path {
-      fill: #FFE600;
-    }
-
-    .grid-item.green .basechainlogosvg path {
-      fill: #00E505;
-    }
-
-    .grid-item.purple .basechainlogosvg path {
-      fill: #FF00E1;
-    }
-
-    .grid-item.black .basechainlogosvg path {
-      fill: black;
-    }
-
-    .grid-item.blue .basechainlogosvg path {
-      fill: #0052FF;
-    }
-
-    .grid-item.white .basechainlogosvg path {
-      fill: white;
-    }
+    .grid-item.red .basechainlogosvg path {fill: red;}
+    .grid-item.yellow .basechainlogosvg path {fill: #FFE600;}
+    .grid-item.green .basechainlogosvg path {fill: #00E505;}
+    .grid-item.purple .basechainlogosvg path {fill: #FF00E1;}
+    .grid-item.black .basechainlogosvg path {fill: black;}
+    .grid-item.blue .basechainlogosvg path {fill: #0052FF;}
+    .grid-item.white .basechainlogosvg path {fill: white;}
 
     @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
+      from {transform: rotate(0deg);}
+      to {transform: rotate(360deg);}
     }
 
-    .rotate {
-      animation: rotate 6s linear infinite;
-    }
+    .rotate {animation: rotate 4s linear infinite;}
 
        #options-button {
         fill: #7f7f7f;
@@ -114,29 +88,20 @@
         transform-origin: center;
         }
 
- /* حالت اولیه و بعد از کلیک */
  #option-content {
    transition: none;
    opacity: 0;
    }
 
-   /* انیمیشن چرخش */
+   /*option Button Rotation*/
    @keyframes rotateClockwise {
-   from {
-    transform: rotate(0deg);
-   }
-   to {
-    transform: rotate(360deg);
-   }
+   from {transform: rotate(0deg);}
+   to {transform: rotate(360deg);}
    }
 
    @keyframes rotateCounterClockwise {
-   from {
-    transform: rotate(360deg);
-   }
-   to {
-    transform: rotate(0deg);
-   }
+   from {transform: rotate(360deg);}
+   to {transform: rotate(0deg);}
    }
 
    #svg-frame.active #option-content {
@@ -144,9 +109,9 @@
    }
 
    #svg-frame.active .grid-container {
-    width: 40vmin; /* تنظیم ابعاد به اندازه work-space2 */
+    width: 40vmin; 
    height: 40vmin;
-   top: 26vmin; /* موقعیت‌دهی به مکان work-space2 */
+   top: 26vmin;
    position: absolute;
    }
     .click-zone{fill:red;opacity: 0;}
@@ -172,15 +137,13 @@
             top: -100vh; /* Start off-screen */
         }
 
-        /* استایل‌های پایه */
+        /*Theme and Guid Slider Transition*/
         #sliderG-circle-p1 {
-            transition: cx 0.5s ease; /* انتقال روان برای حرکت دایره */
+            transition: cx 0.5s ease; 
         }
         #sliderT-circle-p1 {
-            transition: cx 0.5s ease; /* انتقال روان برای حرکت دایره */
+            transition: cx 0.5s ease;
         }
-
-  
 
   </style>
 </head>
@@ -565,7 +528,10 @@
     const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let frameboxsvgVisible = true;
+    let DEV_TYPE = null;
+    let capsLockActive = false;
     gridsize(5);
+
 //--------------------------------------------------------
 //function; Grid Size
 function gridsize(size) {
@@ -579,14 +545,13 @@ if (gridContainer) {
   gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 }
 
-const colors = ['#0052FF', '#FF0000', '#00E505', '#FFE600', '#FF00E1'];
+const colors = ['red', 'yellow', 'green', 'blue', 'purple']; 
 
 
 for (let i = 0; i < size * size; i++) {
   const gridItem = document.createElement('div');
   gridItem.classList.add('grid-item');
   
-  // اضافه کردن frameboxsvg به عنوان پس‌زمینه ثابت
   gridItem.innerHTML = `
     <svg class="frameboxsvg" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
       <g>
@@ -597,18 +562,18 @@ for (let i = 0; i < size * size; i++) {
       </g>
     </svg>`;
 
-  // انتخاب رنگ تصادفی و اضافه کردن basechainlogosvg
-  const randomColor = colors[Math.floor(Math.random() * colors.length)];
-  const basechainlogosvgSvg = `
-    <svg class="basechainlogosvg" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="${randomColor}"/>
-    </svg>`;
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        gridItem.classList.add(randomColor);  
+
+        const basechainlogosvgSvg = `
+          <svg class="basechainlogosvg" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="${getColorFromClass(randomColor)}"/>
+          </svg>`;
 
   gridItem.innerHTML += basechainlogosvgSvg;
 
   const svgElement = gridItem.querySelector('.basechainlogosvg');
 
-  // تعریف انیمیشن در جاوااسکریپت
   svgElement.style.animation = 'scaleUp 2s ease forwards';
   svgElement.style.transform = 'scale(0)';
   svgElement.style.opacity = '0';
@@ -626,7 +591,6 @@ for (let i = 0; i < size * size; i++) {
     }
   `;
 
-  // اضافه کردن انیمیشن به سند
   const styleSheet = document.createElement("style");
   styleSheet.type = "text/css";
   styleSheet.innerText = keyframes;
@@ -634,25 +598,52 @@ for (let i = 0; i < size * size; i++) {
 
   gridContainer.appendChild(gridItem);
 
-  // حذف استایل‌های انیمیشن بعد از اتمام
+  //Remove animation class  
   setTimeout(() => {
-    svgElement.style.animation = '';  // فقط استایل انیمیشن حذف می‌شود
-    svgElement.style.transform = 'scale(1)';  // اطمینان از باقی ماندن سایز نهایی
-    svgElement.style.opacity = '1';  // اطمینان از باقی ماندن در حالت نمایان
+    svgElement.style.animation = '';
+    svgElement.style.transform = 'scale(1)';
+    svgElement.style.opacity = '1';
   }, 2000);
 }
 }
 //------------------------------------------------------------------
-//---------------------------------------------------------
-//function; Grid item color updater
+//function; determineDeviceType
+function determineDeviceType() {
+   // Check device type using CSS Media Queries
+   const mediaQueryResult = window.matchMedia("(max-width: 768px)").matches;
+  
+   // Check device type using Window Dimensions
+   const windowDimensionResult = window.innerWidth <= 768;
 
-   function updateGridItemColor(gridItem, colorIndex) {
+   // Determine device type based on both checks
+   const isMobile = mediaQueryResult && windowDimensionResult;
+   const isDesktop = !mediaQueryResult && !windowDimensionResult;
+
+   // Set DEV_TYPE and capsLockActive based on device type
+   DEV_TYPE = isMobile ? 1 : 0;
+   capsLockActive = DEV_TYPE === 1;
+}
+// Run the function to determine device type
+determineDeviceType();
+
+// For testing purposes (you can remove or comment out this line)
+console.log('DEV-TYPE:', DEV_TYPE);
+//---------------------------------------------------------
+//Capslock Listener
+document.addEventListener('keydown', (e) => {
+      if (e.code === 'CapsLock') {
+        capsLockActive = !capsLockActive;
+        console.log('CapsLock Active:', capsLockActive);
+      }
+    });
+//-----------------------------------------------------
+//function; update Grid Item Color
+function updateGridItemColor(gridItem, colorIndex) {
   const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
   const currentColor = colors[colorIndex];
   gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
   gridItem.classList.add(currentColor);
 }
-
 //---------------------------------------------------------
 //function; Color Indicator
   function setColorIndicator(color) {
@@ -669,8 +660,10 @@ for (let i = 0; i < size * size; i++) {
   colorIndicator.setAttribute('fill', colorsMap[color] || '#FFFFFF');
 }
 //-----------------------------------------------------------------
-//-----------------------------------------------
 //algorithm; coloring and rotating
+
+//PC Mode1(default)
+
 gridContainer.addEventListener('mouseenter', (event) => {
     const gridItem = event.target.closest('.grid-item');
     if (gridItem && !capsLockActive) {
@@ -680,6 +673,7 @@ gridContainer.addEventListener('mouseenter', (event) => {
       svgElement.classList.add('rotate');
     }
   }, true);
+
 
   gridContainer.addEventListener('click', (event) => {
     const gridItem = event.target.closest('.grid-item');
@@ -695,131 +689,32 @@ gridContainer.addEventListener('mouseenter', (event) => {
       updateGridItemColor(gridItem, currentColorIndex);
 
       const svgElement = gridItem.querySelector('.basechainlogosvg');
-      svgElement.classList.remove('rotate');
-      svgElement.offsetHeight; // Trigger a reflow
-      svgElement.style.animation = 'rotate 6s linear infinite';
+      svgElement.classList.add('rotate');
 
       setColorIndicator(colors[currentColorIndex]);
     }
   });
-//------------------------------------------------------------------
+
+  //----------------------------------------------------
+  //PC Mode2 (mobile Default)
 
 
-  
-    // رویداد برای تشخیص فشار دادن دکمه CapsLock
-    document.addEventListener('keydown', (e) => {
-      if (e.code === 'CapsLock') {
-        capsLockActive = !capsLockActive;
-        console.log('CapsLock Active:', capsLockActive);
-      }
-    });
-
-    // رویداد کلیک برای تغییر رنگ‌ها در حالت عادی
     document.addEventListener('click', (event) => {
       if (!capsLockActive) {
         currentColorIndex = (currentColorIndex + 1) % colors.length;
 
-        // بررسی کنید که آیا ماوس روی یک دایره قرار دارد یا خیر
         const hoveredElement = document.querySelector('.grid-item:hover');
         if (hoveredElement) {
           hoveredElement.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
           hoveredElement.classList.add(colors[currentColorIndex]);
-          hoveredElement.querySelector('.basechainlogosvg').style.animation = 'rotate 6s linear infinite';
         }
 
         setColorIndicator(colors[currentColorIndex]);
       }
     });
-//------------------------------------------------
 
-//------------------------------------------------
-//function; guid 0n off
-    function Toggleguid() {
-  frameboxsvgVisible = !frameboxsvgVisible;
-  const frameboxsvgElements = document.querySelectorAll('.frameboxsvg');
-  frameboxsvgElements.forEach(el => {
-    el.style.opacity = frameboxsvgVisible ? '0.4' : '0'; // تنظیم شفافیت به 40% یا 0%
-  });
-}
-
-//-----------------------------------------------------
-// رویداد برای تشخیص فشار دادن دکمه G
-document.addEventListener('keydown', (e) => {
-  if (e.code === 'KeyG') {
-    Toggleguid(); // فراخوانی تابع Toggleguid هنگام فشار دادن دکمه G
-  }
-});
-
-//----------------------------------------------------------------------------
-
-//مربوط به حرکت نشانگر جدید دایره ای موس
-    document.addEventListener('mousemove', (event) => {
-            const cursor = document.querySelector('.circle-pointer');
-            const x = event.clientX;
-            const y = event.clientY;
-            cursor.style.left = `${x}px`;
-            cursor.style.top = `${y}px`;
-            
-            // Create a canvas to get the pixel color under the cursor
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 1;
-            canvas.height = 1;
-            ctx.drawImage(document.body, -x, -y, 1, 1);
-            const imageData = ctx.getImageData(0, 0, 1, 1);
-            const [r, g, b] = imageData.data;
-
-            // Calculate the inverse color
-            const inverseColor = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
-            cursor.style.backgroundColor = inverseColor;
-        });
-
-        
-        document.addEventListener('contextmenu', (event) => {
-      event.preventDefault(); // جلوگیری از نمایش منوی کلیک راست پیش‌فرض
-      console.log('Right-click disabled'); // برای بررسی
-    });
-
-    // جلوگیری از عمل کلیک میدل موس (اسکرول موس)
-    document.addEventListener('mousedown', (event) => {
-      if (event.button === 1) { // دکمه میدل موس
-        event.preventDefault(); // جلوگیری از عمل پیش‌فرض
-        console.log('Middle mouse click disabled'); // برای بررسی
-      }
-    });
-
-//--------------------------------------------------------------
-// Function to determine device type
-
-function determineDeviceType() {
-  // Check device type using CSS Media Queries
-  const mediaQueryResult = window.matchMedia("(max-width: 768px)").matches;
-  
-  // Check device type using Window Dimensions
-  const windowDimensionResult = window.innerWidth <= 768;
-
-  // Determine device type based on both checks
-  const isMobile = mediaQueryResult && windowDimensionResult;
-  const isDesktop = !mediaQueryResult && !windowDimensionResult;
-
-  // Set DEV_TYPE and capsLockActive based on device type
-  DEV_TYPE = isMobile ? 1 : 0;
-  capsLockActive = DEV_TYPE === 1;
-}
-
-// Initialize the DEV-TYPE variable
-let DEV_TYPE = null;
-let capsLockActive = false;
-
-// Run the function to determine device type
-determineDeviceType();
-
-// For testing purposes (you can remove or comment out this line)
-console.log('DEV-TYPE:', DEV_TYPE);
-
-//---------------------------------------------------------------------
-//touch-drag auto color
-
+//--------------------------------------------
+//Mobile touch-drag (auto color)
 function handleTouchMove(event) {
   const touchX = event.touches[0].clientX;
   const touchY = event.touches[0].clientY;
@@ -843,8 +738,76 @@ if (DEV_TYPE === 1) {
   gridContainer.addEventListener('touchmove', handleTouchMove);
 }
 
+//------------------------------------------------
+//function; Toggle Guid
+function Toggleguid() {
+  frameboxsvgVisible = !frameboxsvgVisible;
+  const frameboxsvgElements = document.querySelectorAll('.frameboxsvg');
+  frameboxsvgElements.forEach(el => {
+    el.style.opacity = frameboxsvgVisible ? '0.4' : '0'; 
+  });
+}
+//-----------------------------------------------------
+// KEY G (ToggleGuid) Listener
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'KeyG') {
+    Toggleguid(); 
+  }
+});
+//----------------------------------------------------------------------------
+//Toggle Guid Button
+    const circle1 = document.getElementById("sliderG-circle-p1");
+    const area1 = document.getElementById("area-g");
+    let isMovedc1 = false;     
+    area1.addEventListener("click", function() {
+        if (isMovedc1) {
+            circle1.setAttribute("cx", 336);
+            Toggleguid();
+        } else {
+            circle1.setAttribute("cx", 391);
+            Toggleguid();
+        }
+        isMovedc1 = !isMovedc1;
+    });
+//-------------------------------------------------
+//New Mouse Pointer(circle)
+    document.addEventListener('mousemove', (event) => {
+            const cursor = document.querySelector('.circle-pointer');
+            const x = event.clientX;
+            const y = event.clientY;
+            cursor.style.left = `${x}px`;
+            cursor.style.top = `${y}px`;
+            
+            // Create a canvas to get the pixel color under the cursor
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 1;
+            canvas.height = 1;
+            ctx.drawImage(document.body, -x, -y, 1, 1);
+            const imageData = ctx.getImageData(0, 0, 1, 1);
+            const [r, g, b] = imageData.data;
+
+            // Calculate the inverse color
+            const inverseColor = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
+            cursor.style.backgroundColor = inverseColor;
+        });
+
+        
+        document.addEventListener('contextmenu', (event) => {
+      event.preventDefault(); //desable rightclick
+      console.log('Right-click disabled'); 
+    });
+
+    //disable middle mouse
+    document.addEventListener('mousedown', (event) => {
+      if (event.button === 1) { 
+        event.preventDefault(); 
+        console.log('Middle mouse click disabled'); 
+      }
+    });
+
 //---------------------------------------------------------------------
-//Day & night Switch
+//function; Toggle Theme
 
   let isWhite = false;
   function toggleColor() {
@@ -865,97 +828,55 @@ if (DEV_TYPE === 1) {
       toggleColor();
     }
   });
+  //---------------------------------------------------------------------------
+  //Theme Button
+
+  const circle2 = document.getElementById("sliderT-circle-p1");
+    const area2 = document.getElementById("area-t");
+    let isMovedc2 = false;
+
+
+    area2.addEventListener("click", function() {
+        if (isMovedc2) {
+            circle2.setAttribute("cx", 870.6);
+            toggleColor();
+        } else {
+            circle2.setAttribute("cx", 923.5);
+            toggleColor();
+        }
+        isMovedc2 = !isMovedc2;
+    });
 
 //---------------------------------------------------------------------
-    //---------------------------------------------------------------------
- //دکمه تنظیمات ان اف تی در اینجا ست میشه 
+ //Option Button
  
    document.getElementById('click-box').addEventListener('click', function() {
     const svgFrame = document.getElementById('svg-frame');
     const optionButton = document.getElementById('options-button');
   
     
-    if (!svgFrame.classList.contains('active')) {
-      // چرخش ساعتگرد
+    if (!svgFrame.classList.contains('active')) {  
       optionButton.style.transition = "transform 0.3s ease";
       optionButton.style.transform = "rotate(180deg)";
-      
-      // فعال‌سازی تغییرات
       svgFrame.classList.add('active');
      } 
      else {
-      // چرخش پادساعتگرد
       optionButton.style.transition = "transform 0.3s ease";
       optionButton.style.transform = "rotate(0deg)";
-      
-      // بازگشت تغییرات
       svgFrame.classList.remove('active');
      }
      });
-
- //دکمه تنظیمات ان اف تی در اینجا ست میش
-//-------------------------------------------------
-//دکمه تنظیم حالت خطوط راهنما
-    // پیدا کردن عناصر HTML
-    const circle1 = document.getElementById("sliderG-circle-p1");
-    const area1 = document.getElementById("area-g");
-
-    // موقعیت‌های اولیه و نهایی
-    let isMovedc1 = false;
-
-    // رویداد کلیک برای جابجایی دایره
-    area1.addEventListener("click", function() {
-        if (isMovedc1) {
-            // برگشت به موقعیت اولیه
-            circle1.setAttribute("cx", 336);
-            Toggleguid();
-        } else {
-            // حرکت به موقعیت جدید
-            circle1.setAttribute("cx", 391);
-            Toggleguid();
-        }
-        // تغییر وضعیت برای کلیک بعدی
-        isMovedc1 = !isMovedc1;
-    });
-//-------------------------------------------------
-//دکمه تنظیم حالت شب و روز
-
-    // پیدا کردن عناصر HTML
-    const circle2 = document.getElementById("sliderT-circle-p1");
-    const area2 = document.getElementById("area-t");
-
-    // موقعیت‌های اولیه و نهایی
-    let isMovedc2 = false;
-
-    // رویداد کلیک برای جابجایی دایره
-    area2.addEventListener("click", function() {
-        if (isMovedc2) {
-            // برگشت به موقعیت اولیه
-            circle2.setAttribute("cx", 870.6);
-            toggleColor();
-        } else {
-            // حرکت به موقعیت جدید
-            circle2.setAttribute("cx", 923.5);
-            toggleColor();
-        }
-        // تغییر وضعیت برای کلیک بعدی
-        isMovedc2 = !isMovedc2;
-    });
-
-//-------------------------------------------------
-
-    // متغیری برای نگه‌داری id آخرین ناحیه کلیک شده
-    let lastClicked = document.getElementById("rec55"); // به صورت پیش فرض rec77 سفید است
-
-    // تنظیم رنگ پیش‌فرض rec77 به سفید
+//--------------------------------------------------------------------------
+//Grid indicator Buttons
+//Default Grid indicator   
+    let lastClicked = document.getElementById("rec55");
     lastClicked.style.fill = "white";
 
-    // برای هر ناحیه، رویدادها را تنظیم می‌کنیم
     const zones = [
     { clickId: "click1", recId: "rec11", size: 1 },
     { clickId: "click3", recId: "rec33", size: 3 },
-    { clickId: "click5", recId: "rec55", size: 5 },
-    { clickId: "click7", recId: "rec77", size: 7 }, // rec77
+    { clickId: "click5", recId: "rec55", size: 5 }, //default Grid
+    { clickId: "click7", recId: "rec77", size: 7 }, 
     { clickId: "click9", recId: "rec99", size: 9 },
     { clickId: "click24", recId: "rec2424", size: 24 }
     ];
@@ -964,22 +885,20 @@ if (DEV_TYPE === 1) {
         const clickElement = document.getElementById(zone.clickId);
         const recElement = document.getElementById(zone.recId);
 
+//mouse in and out color change
         clickElement.addEventListener("mouseover", () => {
-            // تغییر رنگ به قرمز هنگام حرکت موس
             if (lastClicked !== recElement) {
                 recElement.style.fill = "red";
             }
         });
 
         clickElement.addEventListener("mouseout", () => {
-            // بازگرداندن رنگ اولیه اگر هنوز کلیک نشده است
             if (lastClicked !== recElement) {
                 recElement.style.fill = "black";
             }
         });
-
+//click to set grid indicator
         clickElement.addEventListener("click", () => {
-            // در صورت کلیک روی ناحیه، رنگ آن سفید شود و قبلی بازگردد
             if (lastClicked) {
                 lastClicked.style.fill = "black";
             }
@@ -989,48 +908,11 @@ if (DEV_TYPE === 1) {
             gridsize(zone.size);
         });
     });
+//-------------------------------------------------
+//Export Data 
+let gridColors = [];
 
-
-    //-------------------------------------------------
-    //ثبت اطلاعات داده رنگ ها 
-// رویداد کلید "e"
-
-document.addEventListener("keydown", function(event) {
-    console.log("کلید فشرده شد: " + event.code);  // پیام 1: بررسی فشرده شدن کلید
-    if (event.code === "KeyE") {
-        console.log("کلید e شناسایی شد");  // پیام 2: کلید e شناسایی شد
-
-        // گرفتن همه مربع‌ها
-        let gridItems = document.querySelectorAll('.grid-item');
-        console.log("تعداد آیتم‌های شبکه: " + gridItems.length);  // پیام 3: تعداد آیتم‌های شبکه
-
-        let colorData = [];
-
-        // دریافت اطلاعات رنگ هر مربع
-        gridItems.forEach(item => {
-            let colorClass = Array.from(item.classList).find(c => 
-                c.startsWith('red') || c.startsWith('yellow') || 
-                c.startsWith('green') || c.startsWith('blue') || 
-                c.startsWith('black') || c.startsWith('white') || 
-                c.startsWith('purple'));
-            
-            let color = getColorFromClass(colorClass);
-            colorData.push(color);
-        });
-
-        // بررسی رنگ‌های جمع‌آوری شده
-
-        // ایجاد فایل متنی
-        let text = "Grid-colors:\n['" + colorData.join("','") + "']";
-let blob = new Blob([text], { type: "text/plain" });
-let link = document.createElement("a");
-link.href = URL.createObjectURL(blob);
-link.download = "color_data.txt";
-link.click();
-    }
-});
-
-// تابع برای تبدیل کلاس به کد رنگ
+//Function; Convert to HEX code
 function getColorFromClass(colorClass) {
     switch (colorClass) {
         case 'red':
@@ -1051,43 +933,80 @@ function getColorFromClass(colorClass) {
             return '#000000';
     }
 }
-//--------------------------------------------------
-//اسکرین شات از کل صفحه با کلید R
+
+//function; Export Data
+function Exportdata() {
+
+    gridColors = [];
+
+    let gridItems = document.querySelectorAll('.grid-item');
+
+    gridItems.forEach(item => {
+        let colorClass = Array.from(item.classList).find(c => 
+            c.startsWith('red') || c.startsWith('yellow') || 
+            c.startsWith('green') || c.startsWith('blue') || 
+            c.startsWith('black') || c.startsWith('white') || 
+            c.startsWith('purple'));
+        
+        let color = getColorFromClass(colorClass);
+        gridColors.push(color);
+    });
+//Export as TXT file
+    let text = "Grid-colors:\n['" + gridColors.join("','") + "']";
+    let blob = new Blob([text], { type: "text/plain" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "color_data.txt";
+    link.click();
+
+    console.log("gridColors:", gridColors); 
+}
+
+//KEY E listner
 document.addEventListener("keydown", function(event) {
-    if (event.code === "KeyR") {
-        console.log("کلید r شناسایی شد");  // پیام 2: کلید r شناسایی شد
+    if (event.code === "KeyE") {
+        Exportdata();
+    }
+});
+//--------------------------------------------------
+//Function; Screenshot
+function screenshot() {
 
-        // توقف انیمیشن چرخش
-        let rotatingElements = document.querySelectorAll('.rotate');
-        rotatingElements.forEach(el => {
+    //Temporary Stop .rotate Style
+    let rotatingElements = document.querySelectorAll('.rotate');
+    rotatingElements.forEach(el => {
+        const computedStyle = window.getComputedStyle(el);
+        if (computedStyle.animationPlayState !== 'paused') {
             el.style.animationPlayState = 'paused';
-        });
-
-        // گرفتن اسکرین‌شات از المان
+        }
+    });
+    
+    setTimeout(() => {
         let gridElement = document.getElementById('svg-frame');
+        //screenshot 
         html2canvas(gridElement).then(function(canvas) {
 
-            // تبدیل اسکرین‌شات به فایل PNG
+            //Screenshot to PNG
             let link = document.createElement('a');
             link.href = canvas.toDataURL('image/png');
             link.download = 'grid_screenshot.png';
             link.click();
 
-
-            // شروع دوباره انیمیشن چرخش
+            //Start Rotation Again
             rotatingElements.forEach(el => {
                 el.style.animationPlayState = 'running';
             });
         });
+    }, 50); //Time Pause 50m Seconds
+}
+
+//KEY R Listener 
+document.addEventListener("keydown", function(event) {
+    if (event.code === "KeyR") {
+        screenshot();
     }
 });
-
-
 //----------------------------------------------------
-
-
-
-
 //update color-indicator
     setColorIndicator(colors[currentColorIndex]);
   </script>
