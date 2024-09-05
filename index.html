@@ -1029,10 +1029,20 @@ document.addEventListener("keydown", function(event) {
 const screenbox = document.getElementById("screen-box");
    
  screenbox.addEventListener("click", function() {
-  
+  const svgFrame = document.getElementById('svg-frame');
+  const optionButton = document.getElementById('options-button');
+  optionButton.style.transition = "none";
+      optionButton.style.transform = "rotate(0deg)";
+      svgFrame.classList.remove('active');
+
+      setTimeout(() => {
           screenshot();
+        }, 50); //Time Pause 50m Seconds
+
     });
-    
+
+
+
 //----------------------------------------------------
 //update color-indicator
     setColorIndicator(colors[currentColorIndex]);
