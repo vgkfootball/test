@@ -44,7 +44,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.5s ease;
       position: relative;
       overflow: hidden;
     }
@@ -52,14 +52,14 @@
     .grid-item svg {
       width: auto;
       height: auto;
-      transition: transform 0.6s ease, fill 0.3s ease;
+      transition: none;
     }
 
     .frameboxsvg {
       position: absolute;
       z-index: 0;
       opacity: 0.6;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.5s ease;
     }
 
     .grid-item .basechainlogosvg {
@@ -222,7 +222,7 @@
               c13.9,0,25.2,11.3,25.2,25.2v0C950.1,878.5,938.9,889.8,925,889.8z"/>
             <circle id="sliderT-circle-p1" class="solid-white" cx="870.6" cy="864.6" r="20.8"/>
             <circle id="sliderT-circle-p2" class="hidden-content" cx="923.5" cy="864.6" r="20.8"/>
-            <rect id="area-t" class="clickable-area2" x="800" y="818" width="200" height="100" fill="red" opacity="0" />
+            <rect id="area-t" class="clickable-area2" x="775" y="818" width="180" height="100" fill="red" opacity="0" />
           </g>
           <g id="sliderG">
             <path id="sliderG-area" class="solid-gray" d="M390.4,889.8h-55.4c-13.9,0-25.2-11.3-25.2-25.2v0c0-13.9,11.3-25.2,25.2-25.2h55.4
@@ -538,6 +538,8 @@
 //function; Grid Size
 function gridsize(size, gridColors = []) {
 
+
+
 // پاک کردن شبکه قبلی
 while (gridContainer.firstChild) {
   gridContainer.removeChild(gridContainer.firstChild);
@@ -570,6 +572,21 @@ for (let i = 0; i < size * size; i++) {
 
   // انتخاب رنگ براساس شرط gridColors
   let fillColor;
+  function getClassFromColor(hexColor) {
+  switch (hexColor.toLowerCase()) {
+    case '#ff0000': return 'red';
+    case '#ffe600': return 'yellow';
+    case '#00e505': return 'green';
+    case '#0052ff': return 'blue';
+    case '#ff00e1': return 'purple';
+    case '#000000': return 'black';
+    case '#ffffff': return 'white';
+    default: return 'unknown';
+  }
+}
+
+
+
   if (gridColors.length === 0) {
     // انتخاب رنگ رندوم اگر آرایه gridColors تهی باشد
     const randomColor = randcolors[Math.floor(Math.random() * randcolors.length)];
@@ -578,13 +595,15 @@ for (let i = 0; i < size * size; i++) {
   } else {
     // استفاده از رنگ‌های آرایه gridColors
     fillColor = gridColors[i];
+    const colorClass = getClassFromColor(fillColor);
+    gridItem.classList.add(colorClass);
   }
 
   // کد svg مربوط به basechainlogo
   const basechainlogosvgSvg = `
     <svg class="basechainlogosvg" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M110.5,55.5c0,30.4-24.6,55-55,55C26.7,110.5,3,88.3,0.7,60.1h72.7v-9.2H0.7C3,22.7,26.7,0.5,55.5,0.5
-	C85.9,0.5,110.5,25.1,110.5,55.5z" fill="${fillColor}"/>
+	C85.9,0.5,110.5,25.1,110.5,55.5z" />
     </svg>`;
 
   gridItem.innerHTML += basechainlogosvgSvg;
@@ -592,7 +611,7 @@ for (let i = 0; i < size * size; i++) {
   const svgElement = gridItem.querySelector('.basechainlogosvg');
 
   // اعمال انیمیشن scaleUp
-  svgElement.style.animation = 'scaleUp 2s ease forwards';
+  svgElement.style.animation = 'scaleUp 2s ease';
   svgElement.style.transform = 'scale(0)';
   svgElement.style.opacity = '0';
 
