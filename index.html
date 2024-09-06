@@ -79,7 +79,7 @@
       to {transform: rotate(360deg);}
     }
 
-    .rotate {animation: rotate 6s linear infinite;}
+    .rotate {animation: rotate 4s linear infinite;}
 
        #options-button {
         fill: #7f7f7f;
@@ -530,28 +530,33 @@
     let frameboxsvgVisible = true;
     let DEV_TYPE = null;
     let capsLockActive = false;
-    gridsize(5);
-
+    let lastClicked = document.getElementById("rec55");
+    let gridColors = ['#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FF0000','#FF0000','#FF0000','#FF0000','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FF0000','#FF0000','#FF0000','#FF0000','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF'];
+    gridsize(5, gridColors);
 //--------------------------------------------------------
 //function; Grid Size
-function gridsize(size) {
+function gridsize(size, gridColors = []) {
 
+// پاک کردن شبکه قبلی
 while (gridContainer.firstChild) {
   gridContainer.removeChild(gridContainer.firstChild);
 }
 
+// تنظیم ابعاد شبکه
 if (gridContainer) { 
   gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
   gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 }
 
-const colors = ['red', 'yellow', 'green', 'blue', 'purple']; 
+// لیست رنگ‌های رندوم
+const randcolors = ['red', 'yellow', 'green', 'blue', 'purple']; 
 
-
+// ایجاد المان‌های شبکه
 for (let i = 0; i < size * size; i++) {
   const gridItem = document.createElement('div');
   gridItem.classList.add('grid-item');
-  
+
+  // کد svg مربوط به framebox
   gridItem.innerHTML = `
     <svg class="frameboxsvg" viewBox="0 0 105.22 105.22" xmlns="http://www.w3.org/2000/svg">
       <g>
@@ -562,22 +567,34 @@ for (let i = 0; i < size * size; i++) {
       </g>
     </svg>`;
 
-        const randomColor = colors[Math.floor(Math.random() * colors.length)];
-        gridItem.classList.add(randomColor);  
+  // انتخاب رنگ براساس شرط gridColors
+  let fillColor;
+  if (gridColors.length === 0) {
+    // انتخاب رنگ رندوم اگر آرایه gridColors تهی باشد
+    const randomColor = randcolors[Math.floor(Math.random() * randcolors.length)];
+    gridItem.classList.add(randomColor);
+    fillColor = getColorFromClass(randomColor);
+  } else {
+    // استفاده از رنگ‌های آرایه gridColors
+    fillColor = gridColors[i];
+  }
 
-        const basechainlogosvgSvg = `
-          <svg class="basechainlogosvg" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="${getColorFromClass(randomColor)}"/>
-          </svg>`;
+  // کد svg مربوط به basechainlogo
+  const basechainlogosvgSvg = `
+    <svg class="basechainlogosvg" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M54.921 110.034C85.359 110.034 110.034 85.402 110.034 55.017C110.034 24.6319 85.359 0 54.921 0C26.0432 0 2.35281 22.1714 0 50.3923H72.8467V59.6416H3.9565e-07C2.35281 87.8625 26.0432 110.034 54.921 110.034Z" fill="${fillColor}"/>
+    </svg>`;
 
   gridItem.innerHTML += basechainlogosvgSvg;
 
   const svgElement = gridItem.querySelector('.basechainlogosvg');
 
+  // اعمال انیمیشن scaleUp
   svgElement.style.animation = 'scaleUp 2s ease forwards';
   svgElement.style.transform = 'scale(0)';
   svgElement.style.opacity = '0';
 
+  // تعریف انیمیشن scaleUp
   const keyframes = `
     @keyframes scaleUp {
       0% {
@@ -591,6 +608,7 @@ for (let i = 0; i < size * size; i++) {
     }
   `;
 
+  // اضافه کردن انیمیشن به document
   const styleSheet = document.createElement("style");
   styleSheet.type = "text/css";
   styleSheet.innerText = keyframes;
@@ -598,7 +616,7 @@ for (let i = 0; i < size * size; i++) {
 
   gridContainer.appendChild(gridItem);
 
-  //Remove animation class  
+  // حذف کلاس انیمیشن بعد از اجرای انیمیشن
   setTimeout(() => {
     svgElement.style.animation = '';
     svgElement.style.transform = 'scale(1)';
@@ -606,6 +624,19 @@ for (let i = 0; i < size * size; i++) {
   }, 2000);
 }
 }
+
+// تابعی برای تبدیل نام کلاس رنگ به کد رنگی
+function getColorFromClass(className) {
+switch (className) {
+  case 'red': return '#FF0000';
+  case 'yellow': return '#FFE600';
+  case 'green': return '#00E505';
+  case 'blue': return '#0052FF';
+  case 'purple': return '#FF00E1';
+  default: return '#000000';
+}
+}
+
 //------------------------------------------------------------------
 //function; determineDeviceType
 function determineDeviceType() {
@@ -639,7 +670,6 @@ document.addEventListener('keydown', (e) => {
 //-----------------------------------------------------
 //function; update Grid Item Color
 function updateGridItemColor(gridItem, colorIndex) {
-  const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
   const currentColor = colors[colorIndex];
   gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
   gridItem.classList.add(currentColor);
@@ -869,8 +899,9 @@ document.addEventListener('keydown', (e) => {
 //--------------------------------------------------------------------------
 //Grid indicator Buttons
 //Default Grid indicator   
-    let lastClicked = document.getElementById("rec55");
+
     lastClicked.style.fill = "white";
+      const sqrtLength = Math.sqrt(gridColors.length);
 
     const zones = [
     { clickId: "click1", recId: "rec11", size: 1 },
@@ -905,12 +936,16 @@ document.addEventListener('keydown', (e) => {
 
             recElement.style.fill = "white";
             lastClicked = recElement;
-            gridsize(zone.size);
+
+                    if (zone.size === sqrtLength) {
+            gridsize(zone.size, gridColors);  // استفاده از gridColors
+        } else {
+            gridsize(zone.size, []);  // استفاده از رنگ‌های رندوم
+        }
         });
     });
 //-------------------------------------------------
 //Export Data 
-let gridColors = [];
 
 //Function; Convert to HEX code
 function getColorFromClass(colorClass) {
