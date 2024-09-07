@@ -66,14 +66,6 @@
       z-index: 1;
     }
 
-    .grid-item.red .basechainlogosvg path {fill: red;}
-    .grid-item.yellow .basechainlogosvg path {fill: #FFE600;}
-    .grid-item.green .basechainlogosvg path {fill: #00E505;}
-    .grid-item.purple .basechainlogosvg path {fill: #FF00E1;}
-    .grid-item.black .basechainlogosvg path {fill: black;}
-    .grid-item.blue .basechainlogosvg path {fill: #0052FF;}
-    .grid-item.white .basechainlogosvg path {fill: white;}
-
     @keyframes rotate {
       from {transform: rotate(0deg);}
       to {transform: rotate(360deg);}
@@ -116,7 +108,6 @@
    position: absolute;
    }
     .click-zone{fill:red;opacity: 0;}
-    .hidden-content{fill:none;}
     .solid-white{fill:#FFFFFF;}
     .solid-gray{fill:#7F7F7F;}
     .inv-white{fill:#FFFFFF;mix-blend-mode:difference;}
@@ -154,7 +145,6 @@
          viewBox="0 0 1080 1080" enable-background="new 0 0 1080 1080" xml:space="preserve">
       <rect id="backg" x="0" width="1080" height="1080"/>
       <g id="work-space"></g>
-      <rect id="work-space2" x="336.8" y="91.2" class="hidden-content" width="406.4" height="406.4"/>
       <g id="color-indicator">
         <path fill="#6B0DFF" d="m1004.91,26c27.11,0,49.09,21.98,49.09,49.09v929.82c0,27.11-21.98,49.09-49.09,49.09H75.09c-27.11,0-49.09-21.98-49.09-49.09V75.09c0-27.11,21.98-49.09,49.09-49.09h929.82m0-8H75.09c-31.48,0-57.09,25.61-57.09,57.09v929.82c0,31.48,25.61,57.09,57.09,57.09h929.82c31.48,0,57.09-25.61,57.09-57.09V75.09c0-31.48-25.61-57.09-57.09-57.09h0Z"/>
       </g>
@@ -221,14 +211,12 @@
             <path id="sliderT-area" class="solid-gray" d="M730.9,933.3h-61.4c-15.4,0-27.8-12.5-27.8-27.8v0c0-15.4,12.5-27.8,27.8-27.8h61.4
             c15.4,0,27.8,12.5,27.8,27.8v0C758.8,920.8,746.3,933.3,730.9,933.3z"/>
             <circle id="sliderT-circle-p1" class="solid-white" cx="670.7" cy="905.5" r="23.1"/>
-            <circle id="sliderT-circle-p2" class="hidden-content" cx="729.3" cy="905.5" r="23.1"/>
             <rect id="area-t" class="clickable-area2" x="604.6" y="869.9" width="187.1" height="70.4" fill="red" opacity="0" />
           </g>
           <g id="sliderG">
             <path id="sliderG-area" class="solid-gray" d="M730.9,848.3h-61.4c-15.4,0-27.8-12.5-27.8-27.8v0c0-15.4,12.5-27.8,27.8-27.8h61.4
             c15.4,0,27.8,12.5,27.8,27.8v0C758.7,835.8,746.3,848.3,730.9,848.3z"/>
             <circle id="sliderG-circle-p1" class="solid-white" cx="670.7" cy="820.5" r="23.1"/>
-            <circle id="sliderG-circle-p2" class="hidden-content" cx="731.5" cy="820.5" r="23.1"/>
             <rect id="area-g" class="clickable-area1" x="604.6" y="785.4" width="187.1" height="69.1" fill="red" opacity="0" />
           </g>
         </g>
@@ -558,28 +546,24 @@
   </div>
 
   <div class="circle-pointer"></div>
-
-  
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-
-
   <script>
+   const colors = ['#FF0000','#FFE600','#00E505','#FF00E1','#000000','#FFFFFF','#0052FF'];
+   //-------------['red'    ,'yellow' ,'green'  ,'purple' ,'black'  ,'white'  ,'blue'   ];
+    const randcolors = ['#FF0000', '#FFE600', '#00E505','#FF00E1', '#0052FF']; 
+   //------------------['red'    ,'yellow'  ,'green'   ,'purple' ,'blue'    ];
     const gridContainer = document.querySelector('.grid-container');
-    const colors = ['red', 'yellow', 'green', 'purple', 'black', 'white', 'blue'];
     let currentColorIndex = 0;
     let frameboxsvgVisible = true;
     let DEV_TYPE = null;
     let capsLockActive = false;
     let lastClicked = document.getElementById("rec55");
-    let gridColors = ['#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FF0000','#FF0000','#FF0000','#FF0000','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FF0000','#FF0000','#FF0000','#FF0000','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF','#FFFFFF'];
+    let gridColors = ['#FFE600','#FFE600','#FFE600','#FFE600','#FFE600','#FFE600','#FF00E1','#FF00E1','#FF00E1','#FFE600','#FFE600','#FF00E1','#FFE600','#FF00E1','#FFE600','#FFE600','#FF00E1','#FF00E1','#FF00E1','#FFE600','#FFE600','#FFE600','#FFE600','#FFE600','#FFE600'];
     gridsize(5, gridColors);
 //--------------------------------------------------------
 //function; Grid Size
 function gridsize(size, gridColors = []) {
-
-
 
 // پاک کردن شبکه قبلی
 while (gridContainer.firstChild) {
@@ -591,9 +575,6 @@ if (gridContainer) {
   gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
   gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 }
-
-// لیست رنگ‌های رندوم
-const randcolors = ['red', 'yellow', 'green', 'blue', 'purple']; 
 
 // ایجاد المان‌های شبکه
 for (let i = 0; i < size * size; i++) {
@@ -613,38 +594,21 @@ for (let i = 0; i < size * size; i++) {
 
   // انتخاب رنگ براساس شرط gridColors
   let fillColor;
-  function getClassFromColor(hexColor) {
-  switch (hexColor.toLowerCase()) {
-    case '#ff0000': return 'red';
-    case '#ffe600': return 'yellow';
-    case '#00e505': return 'green';
-    case '#0052ff': return 'blue';
-    case '#ff00e1': return 'purple';
-    case '#000000': return 'black';
-    case '#ffffff': return 'white';
-    default: return 'unknown';
-  }
-}
-
-
 
   if (gridColors.length === 0) {
     // انتخاب رنگ رندوم اگر آرایه gridColors تهی باشد
     const randomColor = randcolors[Math.floor(Math.random() * randcolors.length)];
-    gridItem.classList.add(randomColor);
-    fillColor = getColorFromClass(randomColor);
+    fillColor = randomColor;
   } else {
     // استفاده از رنگ‌های آرایه gridColors
     fillColor = gridColors[i];
-    const colorClass = getClassFromColor(fillColor);
-    gridItem.classList.add(colorClass);
   }
 
   // کد svg مربوط به basechainlogo
   const basechainlogosvgSvg = `
-    <svg class="basechainlogosvg" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg class="basechainlogosvg" viewBox="0 0 111 111" xmlns="http://www.w3.org/2000/svg">
       <path d="M110.5,55.5c0,30.4-24.6,55-55,55C26.7,110.5,3,88.3,0.7,60.1h72.7v-9.2H0.7C3,22.7,26.7,0.5,55.5,0.5
-	C85.9,0.5,110.5,25.1,110.5,55.5z" />
+	C85.9,0.5,110.5,25.1,110.5,55.5z" fill="${fillColor}" />
     </svg>`;
 
   gridItem.innerHTML += basechainlogosvgSvg;
@@ -670,7 +634,7 @@ for (let i = 0; i < size * size; i++) {
     }
   `;
 
-  // اضافه کردن انیمیشن به document
+  //scaleup animation to all basechainlogosvg
   const styleSheet = document.createElement("style");
   styleSheet.type = "text/css";
   styleSheet.innerText = keyframes;
@@ -684,18 +648,6 @@ for (let i = 0; i < size * size; i++) {
     svgElement.style.transform = 'scale(1)';
     svgElement.style.opacity = '1';
   }, 2000);
-}
-}
-
-// تابعی برای تبدیل نام کلاس رنگ به کد رنگی
-function getColorFromClass(className) {
-switch (className) {
-  case 'red': return '#FF0000';
-  case 'yellow': return '#FFE600';
-  case 'green': return '#00E505';
-  case 'blue': return '#0052FF';
-  case 'purple': return '#FF00E1';
-  default: return '#000000';
 }
 }
 
@@ -729,84 +681,68 @@ document.addEventListener('keydown', (e) => {
         console.log('CapsLock Active:', capsLockActive);
       }
     });
-//-----------------------------------------------------
-//function; update Grid Item Color
-function updateGridItemColor(gridItem, colorIndex) {
-  const currentColor = colors[colorIndex];
-  gridItem.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
-  gridItem.classList.add(currentColor);
-}
 //---------------------------------------------------------
 //function; Color Indicator
   function setColorIndicator(color) {
   const colorIndicator = document.querySelector('#color-indicator path');
-  const colorsMap = {
-    red: '#FF0000',
-    yellow: '#FFE600',
-    green: '#00E505',
-    purple: '#FF00E1',
-    black: '#000000',
-    blue: '#0052FF',
-    white: '#FFFFFF'
-  };
-  colorIndicator.setAttribute('fill', colorsMap[color] || '#FFFFFF');
+  colorIndicator.setAttribute('fill', color || '#FFFFFF');
 }
 //-----------------------------------------------------------------
 //algorithm; coloring and rotating
 
 //PC Mode1(default)
 
-gridContainer.addEventListener('mouseenter', (event) => {
+  gridContainer.addEventListener('mouseenter', (event) => {
     const gridItem = event.target.closest('.grid-item');
     if (gridItem && !capsLockActive) {
-      updateGridItemColor(gridItem, currentColorIndex);
+      //updateGridItemColor(gridItem, currentColorIndex);
 
       const svgElement = gridItem.querySelector('.basechainlogosvg');
+
+      svgElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
       svgElement.classList.add('rotate');
     }
   }, true);
 
 
-  gridContainer.addEventListener('click', (event) => {
-    const gridItem = event.target.closest('.grid-item');
-    if (gridItem) {
-      if (capsLockActive) {
-        const currentColor = colors[currentColorIndex];
-        if (gridItem.classList.contains(currentColor)) {
-          currentColorIndex = (currentColorIndex + 1) % colors.length;
-          setColorIndicator(colors[currentColorIndex]);
-        }
-      }
+  document.addEventListener('click', (event) => {
 
-      updateGridItemColor(gridItem, currentColorIndex);
-
-      const svgElement = gridItem.querySelector('.basechainlogosvg');
-      svgElement.classList.add('rotate');
-
-      setColorIndicator(colors[currentColorIndex]);
-    }
-  });
-
-  //----------------------------------------------------
-  //PC Mode2 (mobile Default)
-
-
-    document.addEventListener('click', (event) => {
+    
       if (!capsLockActive) {
         currentColorIndex = (currentColorIndex + 1) % colors.length;
 
         const hoveredElement = document.querySelector('.grid-item:hover');
         if (hoveredElement) {
-          hoveredElement.classList.remove('red', 'yellow', 'green', 'purple', 'black', 'blue', 'white');
-          hoveredElement.classList.add(colors[currentColorIndex]);
+          const svghovElement = hoveredElement.querySelector('.basechainlogosvg');
+          svghovElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
         }
 
         setColorIndicator(colors[currentColorIndex]);
       }
     });
 
+
+ //PC Mode2 (mobile Default)-CAPS TRIGGERD
+  gridContainer.addEventListener('click', (event) => {
+    const gridItem = event.target.closest('.grid-item');
+    const svgElement = gridItem.querySelector('.basechainlogosvg');
+    const currentFill = svgElement.querySelector('path').getAttribute('fill');
+    const currentColor = colors[currentColorIndex];
+    if (gridItem) {
+      if (capsLockActive) {
+        if (currentFill === currentColor) {
+          currentColorIndex = (currentColorIndex + 1) % colors.length;
+          setColorIndicator(colors[currentColorIndex]);
+        }
+      }
+      svgElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
+      svgElement.classList.add('rotate');
+      setColorIndicator(colors[currentColorIndex]);
+    }
+  });
+
 //--------------------------------------------
-//Mobile touch-drag (auto color)
+//Mobile touch-drag (auto color)                    check
 function handleTouchMove(event) {
   const touchX = event.touches[0].clientX;
   const touchY = event.touches[0].clientY;
@@ -814,12 +750,13 @@ function handleTouchMove(event) {
   elements.forEach((element) => {
     if (element.classList.contains('basechainlogosvg')) {
       const gridItem = element.closest('.grid-item');
+      const svgElement = gridItem.querySelector('.basechainlogosvg');
       if (gridItem) {
-        updateGridItemColor(gridItem, currentColorIndex);
-        const svgElement = element;
-        if (!svgElement.classList.contains('rotate')) {
-          svgElement.classList.add('rotate');
-          svgElement.style.animation = 'rotate 6s linear infinite';
+        svgElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
+        const checkrotation = element;
+        if (!checkrotation.classList.contains('rotate')) {
+          checkrotation.classList.add('rotate');
+          checkrotation.style.animation = 'rotate 6s linear infinite';
         }
       }
     }
@@ -1007,47 +944,20 @@ document.addEventListener('keydown', (e) => {
         });
     });
 //-------------------------------------------------
-//Export Data 
-
-//Function; Convert to HEX code
-function getColorFromClass(colorClass) {
-    switch (colorClass) {
-        case 'red':
-            return '#FF0000';
-        case 'yellow':
-            return '#FFE600';
-        case 'green':
-            return '#00E505';
-        case 'blue':
-            return '#0052FF';
-        case 'black':
-            return '#000000';
-        case 'white':
-            return '#FFFFFF';
-        case 'purple':
-            return '#FF00E1';
-        default:
-            return '#000000';
-    }
-}
-
 //function; Export Data
 function Exportdata() {
-
     gridColors = [];
 
     let gridItems = document.querySelectorAll('.grid-item');
 
     gridItems.forEach(item => {
-        let colorClass = Array.from(item.classList).find(c => 
-            c.startsWith('red') || c.startsWith('yellow') || 
-            c.startsWith('green') || c.startsWith('blue') || 
-            c.startsWith('black') || c.startsWith('white') || 
-            c.startsWith('purple'));
+        let svgElement = item.querySelector('.basechainlogosvg');
+
+        let fillsvg = svgElement.querySelector('path').getAttribute('fill');
         
-        let color = getColorFromClass(colorClass);
-        gridColors.push(color);
+        gridColors.push(fillsvg);
     });
+
 //Export as TXT file
     let text = "Grid-colors:\n['" + gridColors.join("','") + "']";
     let blob = new Blob([text], { type: "text/plain" });
@@ -1103,6 +1013,11 @@ document.addEventListener("keydown", function(event) {
         screenshot();
     }
 });
+//----------------------------------------------------------------------
+//function; shuffle colors
+
+
+
 //----------------------------------------------------
 //update color-indicator
     setColorIndicator(colors[currentColorIndex]);
