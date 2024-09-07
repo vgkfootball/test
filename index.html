@@ -59,7 +59,7 @@
       position: absolute;
       z-index: 0;
       opacity: 0.6;
-      transition: opacity 0.3s ease;
+      transition:none;
     }
 
     .grid-item .basechainlogosvg {
@@ -800,26 +800,22 @@ document.addEventListener('keydown', (e) => {
     });
 //-------------------------------------------------
 //New Mouse Pointer(circle)
-    document.addEventListener('mousemove', (event) => {
-            const cursor = document.querySelector('.circle-pointer');
-            const x = event.clientX;
-            const y = event.clientY;
-            cursor.style.left = `${x}px`;
-            cursor.style.top = `${y}px`;
-            
-            // Create a canvas to get the pixel color under the cursor
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 1;
-            canvas.height = 1;
-            ctx.drawImage(document.body, -x, -y, 1, 1);
-            const imageData = ctx.getImageData(0, 0, 1, 1);
-            const [r, g, b] = imageData.data;
+document.addEventListener('mousemove', (event) => {
+    const cursor = document.querySelector('.circle-pointer');
+    const x = event.clientX;
+    const y = event.clientY;
+    cursor.style.left = `${x}px`;
+    cursor.style.top = `${y}px`;
 
-            // Calculate the inverse color
-            const inverseColor = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
-            cursor.style.backgroundColor = inverseColor;
-        });
+    // Use computed style to get background color
+    const elementUnderCursor = document.elementFromPoint(x, y);
+    const bgColor = window.getComputedStyle(elementUnderCursor).backgroundColor;
+
+    // Calculate the inverse color
+    const [r, g, b] = bgColor.match(/\d+/g).map(Number);
+    const inverseColor = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
+    cursor.style.backgroundColor = inverseColor;
+});
 
         
         document.addEventListener('contextmenu', (event) => {
