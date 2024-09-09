@@ -1101,13 +1101,13 @@ const shufflebutton = document.getElementById('shuffle-button');
 
 // اضافه کردن event listener برای hover
 shuffleArea.addEventListener('mouseover', function() {
-  shufflebutton.classList.add('solid-white');
+  shufflebutton.classList.add('inv-white');
   shufflebutton.classList.remove('solid-gray');
 });
 
 // حذف کلاس solid-white و اضافه کردن click-zone در زمان خارج شدن از ناحیه
 shuffleArea.addEventListener('mouseout', function() {
-  shufflebutton.classList.remove('solid-white');
+  shufflebutton.classList.remove('inv-white');
   shufflebutton.classList.add('solid-gray');
 });
 
@@ -1129,12 +1129,12 @@ const refreshbutton = document.getElementById('refresh-button');
 
 // اضافه کردن event listener برای hover
 refresharea.addEventListener('mouseover', function() {
-  refreshbutton.classList.add('solid-white');
+  refreshbutton.classList.add('inv-white');
   refreshbutton.classList.remove('solid-gray');
 });
 
 refresharea.addEventListener('mouseout', function() {
-  refreshbutton.classList.remove('solid-white');
+  refreshbutton.classList.remove('inv-white');
   refreshbutton.classList.add('solid-gray');
 });
 
