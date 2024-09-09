@@ -558,8 +558,13 @@
     let frameboxsvgVisible = true;
     let DEV_TYPE = null;
     let capsLockActive = false;
+    t = -1 ;
     let lastClicked = document.getElementById("rec55");
-    let gridColors = ['#FFE600','#FFE600','#FFE600','#FFE600','#FFE600','#FFE600','#FF00E1','#FF00E1','#FF00E1','#FFE600','#FFE600','#FF00E1','#FFE600','#FF00E1','#FFE600','#FFE600','#FF00E1','#FF00E1','#FF00E1','#FFE600','#FFE600','#FFE600','#FFE600','#FFE600','#FFE600'];
+    let gridColors = ['#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FFE600','#FFE600','#FFE600','#FF0000','#FF0000','#FFE600','#0052FF','#0052FF','#FF0000','#FF0000','#FFE600','#0052FF','#0052FF','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000'];
+    let gridlength = gridColors.length;
+    let newGridColors = [...gridColors];
+    const resetgrid = [...gridColors];
+    const sqrtresetgrid= Math.sqrt(resetgrid.length);
     gridsize(5, gridColors);
 //--------------------------------------------------------
 //function; Grid Size
@@ -671,8 +676,6 @@ function determineDeviceType() {
 // Run the function to determine device type
 determineDeviceType();
 
-// For testing purposes (you can remove or comment out this line)
-console.log('DEV-TYPE:', DEV_TYPE);
 //---------------------------------------------------------
 //Capslock Listener
 document.addEventListener('keydown', (e) => {
@@ -873,7 +876,7 @@ document.addEventListener('mousemove', (event) => {
     });
 
 //---------------------------------------------------------------------
- //Option Button
+ //----------------------------Option Button-----------------------------
  
    document.getElementById('click-box').addEventListener('click', function() {
     const svgFrame = document.getElementById('svg-frame');
@@ -892,11 +895,11 @@ document.addEventListener('mousemove', (event) => {
      }
      });
 //--------------------------------------------------------------------------
-//Grid indicator Buttons
+//---------------------------Grid indicator------------------------
 //Default Grid indicator   
 
     lastClicked.style.fill = "white";
-      const sqrtLength = Math.sqrt(gridColors.length);
+      let sqrtLength = Math.sqrt(gridColors.length);
 
     const zones = [
     { clickId: "click1", recId: "rec11", size: 1 },
@@ -939,40 +942,8 @@ document.addEventListener('mousemove', (event) => {
         }
         });
     });
-//-------------------------------------------------
-//function; Export Data
-function Exportdata() {
-    gridColors = [];
-
-    let gridItems = document.querySelectorAll('.grid-item');
-
-    gridItems.forEach(item => {
-        let svgElement = item.querySelector('.basechainlogosvg');
-
-        let fillsvg = svgElement.querySelector('path').getAttribute('fill');
-        
-        gridColors.push(fillsvg);
-    });
-
-//Export as TXT file
-    let text = "Grid-colors:\n['" + gridColors.join("','") + "']";
-    let blob = new Blob([text], { type: "text/plain" });
-    let link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "color_data.txt";
-    link.click();
-
-    console.log("gridColors:", gridColors); 
-}
-
-//KEY E listner
-document.addEventListener("keydown", function(event) {
-    if (event.code === "KeyE") {
-        Exportdata();
-    }
-});
-//--------------------------------------------------
-//Function; Screenshot
+//-------------------------------------------------------
+//--------------------------------Screenshot---------------------
 function screenshot() {
 
     //Temporary Stop .rotate Style
@@ -1009,10 +980,177 @@ document.addEventListener("keydown", function(event) {
         screenshot();
     }
 });
-//----------------------------------------------------------------------
-//function; shuffle colors
+ 
+//-------------------------------------------------
+//--------------------- Export Data----------------
+function Exportdata() {
+    gridColors = [];
+
+    let gridItems = document.querySelectorAll('.grid-item');
+
+    gridItems.forEach(item => {
+        let svgElement = item.querySelector('.basechainlogosvg');
+
+        let fillsvg = svgElement.querySelector('path').getAttribute('fill');
+        
+        gridColors.push(fillsvg);
+    });
+
+    uniqueColors = [...new Set(gridColors)];
+    newGridColors = [...gridColors];
+    l = colors.length;
+    s = uniqueColors.length;
+    shufflecolor = generatePermutations(colors, s);
+    gridlength = gridColors.length;
+    numPermutations = factorial(l) / factorial(l - s);
 
 
+//Export as TXT file
+    let text = "Grid-colors:\n['" + gridColors.join("','") + "']";
+    let blob = new Blob([text], { type: "text/plain" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "color_data.txt";
+    link.click();
+}
+
+//KEY E listner
+document.addEventListener("keydown", function(event) {
+    if (event.code === "KeyE") {
+        Exportdata();
+    }
+});
+//------------------------------------------------------------------
+//------------------ Shuffle-------------------------
+
+let uniqueColors = [...new Set(gridColors)];
+let l = colors.length;
+let s = uniqueColors.length;
+let shufflecolor = generatePermutations(colors, s);
+
+ // function; Factorial
+        function factorial(n) {
+            if (n === 0 || n === 1) return 1;
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
+// calculate numbers of permutations
+        let numPermutations = factorial(l) / factorial(l - s);
+
+// function; Permutation
+function generatePermutations(arr, s) {
+            let result = [];
+
+            function permute(arr, perm = []) {
+                if (perm.length === s) {
+                    result.push(perm);
+                    return;
+                }
+                for (let i = 0; i < arr.length; i++) {
+                    let newPerm = perm.concat(arr[i]);
+                    let remaining = arr.slice(0, i).concat(arr.slice(i + 1));
+                    permute(remaining, newPerm);
+                }
+            }
+
+            permute(arr);
+            return result;
+}
+
+function getRow(matrix, rowIndex) {
+return matrix[rowIndex];
+}
+
+function permucolor(t) {
+let randt = Math.floor(Math.random() * numPermutations);
+let shufflerow = shufflecolor[randt];
+for (let i = 0; i < s; i++) {
+    let currentColor = uniqueColors[i]; 
+    let newColor = shufflerow[i]; 
+
+    for (let j = 0; j < gridlength ; j++) {
+        if ( gridColors[j] === currentColor) {
+            newGridColors[j] = newColor;
+        }
+    }
+}
+return newGridColors;
+}
+
+//KEY O Listener ; shuffle color
+document.addEventListener("keydown", function(event) {
+  if (event.code === "KeyO") {
+         t=t+1; ;
+
+        if (t === numPermutations) {
+            t = 0;
+        }
+        permucolor(t);
+        sqrtLength = Math.sqrt(gridColors.length);
+        gridsize(sqrtLength, newGridColors);
+    }
+});
+
+//shuffle button
+const shuffleArea = document.getElementById('shuffle-area');
+const shufflebutton = document.getElementById('shuffle-button');
+
+// اضافه کردن event listener برای hover
+shuffleArea.addEventListener('mouseover', function() {
+  shufflebutton.classList.add('solid-white');
+  shufflebutton.classList.remove('solid-gray');
+});
+
+// حذف کلاس solid-white و اضافه کردن click-zone در زمان خارج شدن از ناحیه
+shuffleArea.addEventListener('mouseout', function() {
+  shufflebutton.classList.remove('solid-white');
+  shufflebutton.classList.add('solid-gray');
+});
+
+shuffleArea.addEventListener('click', function() {
+  Exportdata();
+  t=t+1;
+  if (t === numPermutations) {
+     t = 0;
+  }
+permucolor(t);
+sqrtLength = Math.sqrt(gridColors.length);
+gridsize(sqrtLength, newGridColors);
+});
+//---------------------------------------------------------
+//---------------------------------reset button---------------------
+//reset button
+const refresharea = document.getElementById('refresh-area');
+const refreshbutton = document.getElementById('refresh-button');
+
+// اضافه کردن event listener برای hover
+refresharea.addEventListener('mouseover', function() {
+  refreshbutton.classList.add('solid-white');
+  refreshbutton.classList.remove('solid-gray');
+});
+
+refresharea.addEventListener('mouseout', function() {
+  refreshbutton.classList.remove('solid-white');
+  refreshbutton.classList.add('solid-gray');
+});
+
+refresharea.addEventListener('click', function() {
+  gridsize(sqrtresetgrid, resetgrid);
+  const targetZone = zones.find(zone => zone.size === sqrtresetgrid);
+
+if (targetZone) {
+  const recElement = document.getElementById(targetZone.recId);
+  if (recElement) {
+    recElement.style.fill = '#FFFFFF'; 
+    lastClicked.style.fill = "black"
+    lastClicked = recElement;
+  }
+}
+});
 
 //----------------------------------------------------
 //update color-indicator
