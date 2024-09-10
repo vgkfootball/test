@@ -74,7 +74,6 @@
     .rotate {animation: rotate 4s linear infinite;}
 
        #options-button {
-        fill: #7f7f7f;
         opacity: 1;
         transform-box: fill-box;
         transform-origin: center;
@@ -150,7 +149,7 @@
       </g>
       <g id="options-group">
 
-        <polygon id="options-button" class="option-class" points="506.33 1040.68 498.11 1032.45 540.62 989.94 581.89 1031.21 573.67 1039.43 540.62 1006.39 506.33 1040.68 506.33 1040.68"/>
+        <polygon id="options-button" class="solid-gray" points="506.33 1040.68 498.11 1032.45 540.62 989.94 581.89 1031.21 573.67 1039.43 540.62 1006.39 506.33 1040.68 506.33 1040.68"/>
         <rect id="click-box" class="clickable-area" x="440" y="975" width="200" height="98" fill="red" opacity="0" />
 
       </g>
@@ -555,20 +554,22 @@
    //------------------['red'    ,'yellow'  ,'green'   ,'purple' ,'blue'    ];
     const gridContainer = document.querySelector('.grid-container');
     let currentColorIndex = 0;
-    let frameboxsvgVisible = true;
+    window.frameboxsvgVisible = true;
+    window.themeiswhite = false;
     let DEV_TYPE = null;
     let capsLockActive = false;
     t = -1 ;
     let lastClicked = document.getElementById("rec55");
-    let gridColors = ['#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FFE600','#FFE600','#FFE600','#FF0000','#FF0000','#FFE600','#0052FF','#0052FF','#FF0000','#FF0000','#FFE600','#0052FF','#0052FF','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000'];
+    let gridColors = ['#00E505','#00E505','#00E505','#00E505','#FFFFFF','#00E505','#FFE600','#FFE600','#FFE600','#FFFFFF','#00E505','#FFE600','#FFE600','#FFE600','#FFFFFF','#00E505','#00E505','#00E505','#FFE600','#FFFFFF','#00E505','#00E505','#00E505','#00E505','#FFFFFF'];
     let gridlength = gridColors.length;
     let newGridColors = [...gridColors];
     const resetgrid = [...gridColors];
     const sqrtresetgrid= Math.sqrt(resetgrid.length);
-    gridsize(5, gridColors);
-//--------------------------------------------------------
+    gridsize(5, gridColors,'animated');
+//---------------------------------------------------------------------
+//-----------------------------Grid-generator--------------------------
 //function; Grid Size
-function gridsize(size, gridColors = []) {
+function gridsize(size, gridColors = [], Mode = '') {
 
 // پاک کردن شبکه قبلی
 while (gridContainer.firstChild) {
@@ -617,9 +618,10 @@ for (let i = 0; i < size * size; i++) {
     </svg>`;
 
   gridItem.innerHTML += basechainlogosvgSvg;
-
+  gridContainer.appendChild(gridItem);
   const svgElement = gridItem.querySelector('.basechainlogosvg');
 
+  if (Mode === 'animated') {
   // اعمال انیمیشن scaleUp
   svgElement.style.animation = 'scaleUp 2s ease forwards';
   svgElement.style.transform = 'scale(0)';
@@ -645,18 +647,27 @@ for (let i = 0; i < size * size; i++) {
   styleSheet.innerText = keyframes;
   document.head.appendChild(styleSheet);
 
-  gridContainer.appendChild(gridItem);
-
   // حذف کلاس انیمیشن بعد از اجرای انیمیشن
   setTimeout(() => {
     svgElement.style.animation = '';
     svgElement.style.transform = 'scale(1)';
     svgElement.style.opacity = '1';
   }, 2000);
-}
+
+ };
 }
 
-//------------------------------------------------------------------
+if ( !frameboxsvgVisible ) {
+    frameboxsvgElements = document.querySelectorAll('.frameboxsvg');
+    frameboxsvgElements.forEach(el => {
+    el.style.opacity = '0' ;
+   });
+};
+
+}
+
+//---------------------------------------------------------------------
+//-----------------------------Device checker--------------------------
 //function; determineDeviceType
 function determineDeviceType() {
    // Check device type using CSS Media Queries
@@ -690,8 +701,8 @@ document.addEventListener('keydown', (e) => {
   const colorIndicator = document.querySelector('#color-indicator path');
   colorIndicator.setAttribute('fill', color || '#FFFFFF');
 }
-//-----------------------------------------------------------------
-//algorithm; coloring and rotating
+//---------------------------------------------------------------------
+//-----------------------------coloring+Rotation-----------------------
 
 //PC Mode1(default)
 
@@ -744,8 +755,7 @@ document.addEventListener('keydown', (e) => {
     }
   });
 
-//--------------------------------------------
-//Mobile touch-drag (auto color)                    check
+//Mobile touch-drag (auto color)                    
 function handleTouchMove(event) {
   const touchX = event.touches[0].clientX;
   const touchY = event.touches[0].clientY;
@@ -770,39 +780,71 @@ if (DEV_TYPE === 1) {
   gridContainer.addEventListener('touchmove', handleTouchMove);
 }
 
-//------------------------------------------------
+//---------------------------------------------------------------------
+//-----------------------------guid----------------------------------
 //function; Toggle Guid
 function Toggleguid() {
   frameboxsvgVisible = !frameboxsvgVisible;
   const frameboxsvgElements = document.querySelectorAll('.frameboxsvg');
   frameboxsvgElements.forEach(el => {
-    el.style.opacity = frameboxsvgVisible ? '0.4' : '0'; 
+    el.style.opacity = frameboxsvgVisible ? '1' : '0'; 
+    if (frameboxsvgVisible) {
+            circle1.setAttribute("cx", 670.7);
+        } else {
+            circle1.setAttribute("cx", 731.5);
+        }
   });
 }
-//-----------------------------------------------------
+
 // KEY G (ToggleGuid) Listener
 document.addEventListener('keydown', (e) => {
   if (e.code === 'KeyG') {
     Toggleguid(); 
   }
 });
-//----------------------------------------------------------------------------
+
 //Toggle Guid Button
     const circle1 = document.getElementById("sliderG-circle-p1");
     const area1 = document.getElementById("area-g");
-    let isMovedc1 = false;     
+
     area1.addEventListener("click", function() {
-        if (isMovedc1) {
-            circle1.setAttribute("cx", 670.7);
             Toggleguid();
-        } else {
-            circle1.setAttribute("cx", 731.5);
-            Toggleguid();
-        }
-        isMovedc1 = !isMovedc1;
     });
-//-------------------------------------------------
-//New Mouse Pointer(circle)
+
+//---------------------------------------------------------------------
+//-----------------------------theme----------------------------------
+//function; Toggle Theme
+  function toggleColor() {
+    const backg = document.getElementById('backg');
+    const gridContainer = document.querySelector('.grid-container');
+
+    if (themeiswhite) {
+      backg.setAttribute('fill', 'black');
+      gridContainer.style.backgroundColor = 'black';
+      circle2.setAttribute("cx", 670.7);
+    } else {
+      backg.setAttribute('fill', 'white');
+      gridContainer.style.backgroundColor = 'white';
+      circle2.setAttribute("cx", 729.3);
+    }
+    themeiswhite = !themeiswhite;
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'KeyF') { 
+      toggleColor();
+    }
+  });
+
+  //Theme Button
+    const circle2 = document.getElementById("sliderT-circle-p1");
+    const area2 = document.getElementById("area-t");
+
+    area2.addEventListener("click", function() {
+            toggleColor();
+    });
+
+//---------------------------------------------------------------------
+//-----------------------------pointer----------------------------------
 document.addEventListener('mousemove', (event) => {
     const cursor = document.querySelector('.circle-pointer');
     const x = event.clientX;
@@ -835,54 +877,25 @@ document.addEventListener('mousemove', (event) => {
     });
 
 //---------------------------------------------------------------------
-//function; Toggle Theme
-
-  let isWhite = false;
-  function toggleColor() {
-    const backg = document.getElementById('backg');
-    const gridContainer = document.querySelector('.grid-container');
-
-    if (isWhite) {
-      backg.setAttribute('fill', 'black');
-      gridContainer.style.backgroundColor = 'black';
-    } else {
-      backg.setAttribute('fill', 'white');
-      gridContainer.style.backgroundColor = 'white';
-    }
-    isWhite = !isWhite;
-  }
-  document.addEventListener('keydown', (e) => {
-    if (e.code === 'KeyF') { 
-      toggleColor();
-    }
-  });
-  //---------------------------------------------------------------------------
-  //Theme Button
-
-  const circle2 = document.getElementById("sliderT-circle-p1");
-    const area2 = document.getElementById("area-t");
-    let isMovedc2 = false;
-
-
-    area2.addEventListener("click", function() {
-        if (isMovedc2) {
-            circle2.setAttribute("cx", 670.7);
-            toggleColor();
-        } else {
-            circle2.setAttribute("cx", 729.3);
-            toggleColor();
-        }
-        isMovedc2 = !isMovedc2;
-    });
-
-//---------------------------------------------------------------------
  //----------------------------Option Button-----------------------------
- 
+ //mouse in
+   document.getElementById('click-box').addEventListener('mouseover', function() {
+   const optionButton = document.getElementById('options-button');
+   optionButton.classList.remove('solid-gray');
+   optionButton.classList.add('inv-white');
+   });
+//mouse out
+   document.getElementById('click-box').addEventListener('mouseout', function() {
+   const optionButton = document.getElementById('options-button');
+   optionButton.classList.remove('inv-white');
+   optionButton.classList.add('solid-gray');
+   });
+
+//click
    document.getElementById('click-box').addEventListener('click', function() {
     const svgFrame = document.getElementById('svg-frame');
     const optionButton = document.getElementById('options-button');
   
-    
     if (!svgFrame.classList.contains('active')) {  
       optionButton.style.transition = "transform 0.3s ease";
       optionButton.style.transform = "rotate(180deg)";
@@ -917,7 +930,7 @@ document.addEventListener('mousemove', (event) => {
 //mouse in and out color change
         clickElement.addEventListener("mouseover", () => {
             if (lastClicked !== recElement) {
-                recElement.style.fill = "red";
+                recElement.style.fill = "#001FFF";
             }
         });
 
@@ -942,8 +955,8 @@ document.addEventListener('mousemove', (event) => {
         }
         });
     });
-//-------------------------------------------------------
-//--------------------------------Screenshot---------------------
+//---------------------------------------------------------------------
+//-----------------------------screenshot-----------------------------
 function screenshot() {
 
     //Temporary Stop .rotate Style
@@ -981,9 +994,9 @@ document.addEventListener("keydown", function(event) {
     }
 });
  
-//-------------------------------------------------
-//--------------------- Export Data----------------
-function Exportdata() {
+//---------------------------------------------------------------------
+//-----------------------------Export data-----------------------------
+function Exportdata(triggerSource) {
     gridColors = [];
 
     let gridItems = document.querySelectorAll('.grid-item');
@@ -1006,22 +1019,23 @@ function Exportdata() {
 
 
 //Export as TXT file
+if (triggerSource === 'keyboard') {
     let text = "Grid-colors:\n['" + gridColors.join("','") + "']";
     let blob = new Blob([text], { type: "text/plain" });
     let link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = "color_data.txt";
-    link.click();
+    link.click();}
 }
 
 //KEY E listner
 document.addEventListener("keydown", function(event) {
     if (event.code === "KeyE") {
-        Exportdata();
+        Exportdata('keyboard');
     }
 });
-//------------------------------------------------------------------
-//------------------ Shuffle-------------------------
+//---------------------------------------------------------------------
+//-----------------------------shuffle----------------------------------
 
 let uniqueColors = [...new Set(gridColors)];
 let l = colors.length;
@@ -1127,29 +1141,29 @@ gridsize(sqrtLength, newGridColors);
 const refresharea = document.getElementById('refresh-area');
 const refreshbutton = document.getElementById('refresh-button');
 
-// اضافه کردن event listener برای hover
+// mouse in
 refresharea.addEventListener('mouseover', function() {
   refreshbutton.classList.add('inv-white');
   refreshbutton.classList.remove('solid-gray');
 });
-
+//mouse put
 refresharea.addEventListener('mouseout', function() {
   refreshbutton.classList.remove('inv-white');
   refreshbutton.classList.add('solid-gray');
 });
-
+//click
 refresharea.addEventListener('click', function() {
   gridsize(sqrtresetgrid, resetgrid);
+  if (themeiswhite) {
+    toggleColor();
+  }
   const targetZone = zones.find(zone => zone.size === sqrtresetgrid);
-
-if (targetZone) {
   const recElement = document.getElementById(targetZone.recId);
-  if (recElement) {
+  if (recElement !== lastClicked) {
     recElement.style.fill = '#FFFFFF'; 
-    lastClicked.style.fill = "black"
+    lastClicked.style.fill = "black";
     lastClicked = recElement;
   }
-}
 });
 
 //----------------------------------------------------
