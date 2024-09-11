@@ -67,13 +67,13 @@
     }
 
     @keyframes rotate {
-  from { transform: rotate3d(0, 0, 1, 0deg) translateZ(0); }
-  to { transform: rotate3d(0, 0, 1, 360deg) translateZ(0); }
+  from { transform: rotate(0deg) translateZ(0); }
+  to { transform: rotate(360deg) translateZ(0); }
 }
 
 
     .rotate {
-      animation: rotate 3s linear;
+      animation: rotate 3s linear infinite;
     }
 
 
