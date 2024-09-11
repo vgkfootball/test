@@ -67,8 +67,8 @@
     }
 
     @keyframes rotate {
-      from {transform: rotate(0deg);}
-      to {transform: rotate(360deg);}
+      from {transform: rotate(0deg) translateZ(0);}
+      to {transform: rotate(360deg) translateZ(0);}
     }
 
     .rotate {animation: rotate 4s linear infinite;}
@@ -76,17 +76,18 @@
 
     @keyframes scaleUp {
   0% {
-    transform: scale(0);
-
+    transform: scale(0) translateZ(0);
+    opacity: 0;
   }
   100% {
-    transform: scale(1);
-
+    transform: scale(1) translateZ(0);
+    opacity: 1;
   }
 }
 
 .scale-up {
   animation: scaleUp 2s ease forwards;
+  will-change: transform, opacity;
 }
 
 
