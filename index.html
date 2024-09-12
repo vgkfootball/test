@@ -737,7 +737,7 @@ function gridsize(size, gridColors = [], Mode = '') {
   //(size)x(size) false matrix
   const merged = Array(size).fill().map(() => Array(size).fill(false)); 
   const gridData = [];
-  console.log('Initialized merged array:', merged); // بررسی ماتریس merged
+
 // پاک کردن شبکه قبلی
 while (gridContainer.firstChild) {
   gridContainer.removeChild(gridContainer.firstChild);
@@ -803,7 +803,7 @@ for (let i = 0; i < size * size; i++) {
       color: fillColor,
       element: gridItem
     };
-console.log(`Grid data for row ${row}, col ${col}:`, gridData[row][col]);
+
   
   if (Mode === 'animated') {
     const svgElement = gridItem.querySelector('.basechainlogosvg');
@@ -878,6 +878,7 @@ gridContainer.addEventListener('mouseenter', (event) => {
     if (baseContainer) {
       baseContainer.setAttribute('fill', colors[currentColorIndex]);  // Assuming it's a fillable element
       //baseContainer.classList.add('rotate');
+
     }
 
   }
@@ -909,26 +910,42 @@ document.addEventListener('click', (event) => {
 // PC Mode2 (mobile default) - CAPS TRIGGERED
 gridContainer.addEventListener('click', (event) => {
   const gridItem = event.target.closest('.grid-item');
-  const svgElement = gridItem.querySelector('.basechainlogosvg');
-  const baseContainer = gridItem.querySelector('.basecontainer');
-  const currentFill = svgElement.querySelector('path').getAttribute('fill');
-  const currentColor = colors[currentColorIndex];
-
   if (gridItem) {
-    if (capsLockActive) {
-      if (currentFill === currentColor) {
+    const svgElement = gridItem.querySelector('.basechainlogosvg');
+    const baseContainer = gridItem.querySelector('.basecontainer');
+
+    // رنگ فعلی و شاخص رنگ فعلی را از رنگ‌های موجود بگیرید
+    const currentColor = colors[currentColorIndex];
+
+    if (svgElement) {
+      const currentFillSvg = svgElement.querySelector('path').getAttribute('fill');
+
+      // شرط بررسی رنگ برای basechainlogosvg
+      if (capsLockActive && currentFillSvg === currentColor) {
         currentColorIndex = (currentColorIndex + 1) % colors.length;
         setColorIndicator(colors[currentColorIndex]);
       }
-    }
-    // Update basechainlogosvg color and rotation
-    svgElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
-    //svgElement.classList.add('rotate');
 
-    // Update basecontainer color and rotation
+      // بروز‌رسانی رنگ basechainlogosvg
+      svgElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
+      // Uncomment this line if you want to add rotation
+      // svgElement.classList.add('rotate');
+    }
+
     if (baseContainer) {
+      const currentFillBase = baseContainer.getAttribute('fill');  // رنگ فعلی basecontainer را بگیرید
+
+      // شرط بررسی رنگ برای basecontainer
+      if (capsLockActive && currentFillBase === currentColor) {
+        currentColorIndex = (currentColorIndex + 1) % colors.length;
+        setColorIndicator(colors[currentColorIndex]);
+      }
+
+      // بروز‌رسانی رنگ basecontainer
       baseContainer.setAttribute('fill', colors[currentColorIndex]);
-      //baseContainer.classList.add('rotate');
+      console.log(baseContainer); // برای دیباگ استفاده شده
+      // Uncomment this line if you want to add rotation
+      // baseContainer.classList.add('rotate');
     }
 
     setColorIndicator(colors[currentColorIndex]);
@@ -954,10 +971,11 @@ function handleTouchMove(event) {
       // Handle basecontainer as well
       const baseContainer = gridItem.querySelector('.basecontainer');
       if (baseContainer) {
+        console.log(baseContainer);  // بررسی کنید که عنصر به درستی انتخاب می‌شود.
         baseContainer.setAttribute('fill', colors[currentColorIndex]);
-        if (!baseContainer.classList.contains('rotate')) {
+        //if (!baseContainer.classList.contains('rotate')) {
           //baseContainer.classList.add('rotate');
-        }
+        //}
       }
     }
   });
