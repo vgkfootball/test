@@ -919,6 +919,8 @@ gridContainer.addEventListener('click', (event) => {
 
     if (svgElement) {
       const currentFillSvg = svgElement.querySelector('path').getAttribute('fill');
+      svgElement.classList.add('rotate');
+
 
       // شرط بررسی رنگ برای basechainlogosvg
       if (capsLockActive && currentFillSvg === currentColor) {
@@ -957,30 +959,31 @@ function handleTouchMove(event) {
   const touchX = event.touches[0].clientX;
   const touchY = event.touches[0].clientY;
   const elements = document.elementsFromPoint(touchX, touchY);
+
   elements.forEach((element) => {
+    // Handle basechainlogosvg
     if (element.classList.contains('basechainlogosvg')) {
       const gridItem = element.closest('.grid-item');
       const svgElement = gridItem.querySelector('.basechainlogosvg');
       if (svgElement) {
+        // Update the fill color of the path in basechainlogosvg
         svgElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
         if (!svgElement.classList.contains('rotate')) {
           svgElement.classList.add('rotate');
         }
       }
+    }
 
-      // Handle basecontainer as well
-      const baseContainer = gridItem.querySelector('.basecontainer');
-      if (baseContainer) {
-        console.log(baseContainer);  // بررسی کنید که عنصر به درستی انتخاب می‌شود.
-        baseContainer.setAttribute('fill', colors[currentColorIndex]);
-        //if (!baseContainer.classList.contains('rotate')) {
-          //baseContainer.classList.add('rotate');
-        //}
-      }
+    // Handle basecontainer
+    if (element.classList.contains('basecontainer')) {
+      const gridItem = element.closest('.grid-item');
+      const svgElement = gridItem.querySelector('.basecontainer'); // Since element is already basecontainer
+
+      // Directly set the fill attribute on basecontainer if it's a fillable element
+      svgElement.setAttribute('fill', colors[currentColorIndex]);
     }
   });
 }
-
 if (DEV_TYPE === 1) {
   gridContainer.addEventListener('touchmove', handleTouchMove);
 }
