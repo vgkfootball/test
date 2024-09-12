@@ -590,9 +590,154 @@
     gridsize(5, gridColors,'animated');
 //---------------------------------------------------------------------
 //-----------------------------Grid-generator--------------------------
+function mergeGrid(grid, merged) {
+  const size = grid.length;
+console.log('size:',size);
+
+  // تابع کمکی برای ایجاد و اضافه کردن mergedDiv
+  function createMergedDiv(colStart, colEnd, rowStart, rowEnd, svgContent) {
+    const mergedDiv = document.createElement('div');
+    mergedDiv.classList.add('grid-item', 'merged-grid');
+    mergedDiv.style.gridColumnStart = colStart + 1;
+    mergedDiv.style.gridColumnEnd = colEnd + 1;
+    mergedDiv.style.gridRowStart = rowStart + 1;
+    mergedDiv.style.gridRowEnd = rowEnd + 1;
+    mergedDiv.innerHTML = svgContent;
+    gridContainer.appendChild(mergedDiv);
+  }
+
+  // Hide Merged
+  function hideMergedSquares(positions) {
+    positions.forEach(([row, col]) => {
+      grid[row][col].element.style.display = 'none';
+    });
+  }
+
+  //Square merge-2x2 grid
+  for (let row = 0; row < size - 1; row++) {
+    for (let col = 0; col < size - 1; col++) {
+      if (!merged[row][col] && !merged[row][col + 1] && !merged[row + 1][col] && !merged[row + 1][col + 1]) {
+        const color = grid[row][col].color;
+        if (color === grid[row][col + 1].color && color === grid[row + 1][col].color && color === grid[row + 1][col + 1].color) {
+          const svgContent = `
+            <svg class="basechainlogosvg" viewBox="0 0 111 111" xmlns="http://www.w3.org/2000/svg" style="width: 200%; height: 200%;">
+              <path d="M110.5,55.5c0,30.4-24.6,55-55,55C26.7,110.5,3,88.3,0.7,60.1h72.7v-9.2H0.7C3,22.7,26.7,0.5,55.5,0.5
+              C85.9,0.5,110.5,25.1,110.5,55.5z" fill="${color}" />
+            </svg>`;
+          createMergedDiv(col, col + 2, row, row + 2, svgContent);
+          hideMergedSquares([[row, col], [row, col + 1], [row + 1, col], [row + 1, col + 1]]);
+          merged[row][col] = merged[row][col + 1] = merged[row + 1][col] = merged[row + 1][col + 1] = true;
+        }
+      }
+    }
+  }
+
+  // rectangle merge-3x1 grid-Horizontal
+  for (let row = 0; row < size; row++) {
+    for (let col = 0; col < size - 2; col++) {
+      if (!merged[row][col] && !merged[row][col + 1] && !merged[row][col + 2]) {
+        const color = grid[row][col].color;
+        if (color === grid[row][col + 1].color && color === grid[row][col + 2].color) {
+          const svgContent = `
+            <svg version="1.1" id="triple-logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+              viewBox="0 0 300 100" style="enable-background:new 0 0 300 100;" xml:space="preserve">
+              <path id="rect-frame" class="basecontainer" d="M2,50L2,50C2,23.5,23.5,2,50,2h200c26.5,0,48,21.5,48,48v0c0,26.5-21.5,48-48,48H50
+                C23.5,98,2,76.5,2,50z" fill="${color}"/> 
+              <path id="baselogo1" class="themebaselogo" d="M191.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9h-54.6
+                c1.8-21.1,19.5-37.8,41.2-37.8C172.7,8.8,191.2,27.2,191.2,50z" fill="#000000"/>
+              <path id="baselogo2" class="themebaselogo" d="M291.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9h-54.6
+                c1.8-21.1,19.5-37.8,41.2-37.8C272.7,8.8,291.2,27.2,291.2,50z" fill="#000000"/>
+              <path id="baselogo3" class="themebaselogo" d="M91.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9H8.8C10.5,25.4,28.3,8.8,49.9,8.8
+                C72.7,8.8,91.2,27.2,91.2,50z" fill="#000000"/>
+            </svg>
+          `;
+          createMergedDiv(col, col + 3, row, row + 1, svgContent);
+          hideMergedSquares([[row, col], [row, col + 1], [row, col + 2]]);
+          merged[row][col] = merged[row][col + 1] = merged[row][col + 2] = true;
+        }
+      }
+    }
+  }
+
+    // rectangle merge-1x3 grid-vertical
+  for (let col = 0; col < size; col++) {
+    for (let row = 0; row < size - 2; row++) {
+      if (!merged[row][col] && !merged[row + 1][col] && !merged[row + 2][col]) {
+        const color = grid[row][col].color;
+        if (color === grid[row + 1][col].color && color === grid[row + 2][col].color) {
+          const svgContent = `
+            <svg version="1.1" id="triple-logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+              viewBox="0 0 100 300" style="enable-background:new 0 0 100 300;" xml:space="preserve">
+              <path id="rect-frame" class="basecontainer" d="M50,2L50,2c26.5,0,48,21.5,48,48v200
+		c0,26.5-21.5,48-48,48h0c-26.5,0-48-21.5-48-48V50C2,23.5,23.5,2,50,2z" fill="${color}"/> 
+              <path id="baselogo1" class="themebaselogo" d="M50,191.2c-22.8,0-41.2-18.5-41.2-41.3
+		c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9v-54.6c21.1,1.8,37.8,19.5,37.8,41.2C91.2,172.7,72.8,191.2,50,191.2z" fill="#000000"/>
+              <path id="baselogo2" class="themebaselogo" d="M50,291.2c-22.8,0-41.2-18.5-41.2-41.3
+		c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9v-54.6c21.1,1.8,37.8,19.5,37.8,41.2C91.2,272.7,72.8,291.2,50,291.2z" fill="#000000"/>
+              <path id="baselogo3" class="themebaselogo" d="M50,91.2c-22.8,0-41.2-18.5-41.2-41.3
+		c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9V8.8c21.1,1.8,37.8,19.5,37.8,41.2C91.2,72.7,72.8,91.2,50,91.2z" fill="#000000"/>
+            </svg>
+          `;
+          createMergedDiv(col, col + 1, row, row + 3, svgContent);
+          hideMergedSquares([[row, col], [row + 1, col], [row + 2, col]]);
+          merged[row][col] = merged[row + 1][col] = merged[row + 2][col] = true;
+        }
+      }
+    }
+  }
+
+    // rectangle merge-2x1 grid-Horizontal
+  for (let row = 0; row < size; row++) {
+    for (let col = 0; col < size - 1; col++) {
+      if (!merged[row][col] && !merged[row][col + 1]) {
+        const color = grid[row][col].color;
+        if (color === grid[row][col + 1].color) {
+          const svgContent = `
+            <svg version="1.1" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+              <path id="rect-frame" class="basecontainer"  d="M2,50L2,50C2,23.5,23.5,2,50,2h100c26.5,0,48,21.5,48,48v0c0,26.5-21.5,48-48,48H50C23.5,98,2,76.5,2,50z" fill="${color}"/>
+              <path id="baselogo1" class="themebaselogo" d="M191.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9h-54.6c1.8-21.1,19.5-37.8,41.2-37.8
+              C172.7,8.8,191.2,27.2,191.2,50z" fill="#000000"/>
+              <path id="baselogo2" class="themebaselogo" d="M91.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9H8.8C10.5,25.4,28.3,8.8,49.9,8.8
+              C72.7,8.8,91.2,27.2,91.2,50z" fill="#000000"/>
+            </svg>`;
+          createMergedDiv(col, col + 2, row, row + 1, svgContent);
+          hideMergedSquares([[row, col], [row, col + 1]]);
+          merged[row][col] = merged[row][col + 1] = true;
+        }
+      }
+    }
+  }
+
+    // rectangle merge-1x2 grid-vertical
+  for (let col = 0; col < size; col++) {
+    for (let row = 0; row < size - 1; row++) {
+      if (!merged[row][col] && !merged[row + 1][col]) {
+        const color = grid[row][col].color;
+        if (color === grid[row + 1][col].color) {
+          const svgContent = `
+            <svg version="1.1" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+              <path  id="rect-frame" class="basecontainer"  d="M50,2L50,2c26.5,0,48,21.5,48,48v100c0,26.5-21.5,48-48,48h0c-26.5,0-48-21.5-48-48V50C2,23.5,23.5,2,50,2z" fill="${color}"/>
+              <path id="baselogo1" class="themebaselogo" d="M50,191.2c-22.8,0-41.2-18.5-41.2-41.3c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9v-54.6c21.1,1.8,37.8,19.5,37.8,41.2
+              C91.2,172.7,72.8,191.2,50,191.2z" fill="#000000"/>
+              <path id="baselogo2" class="themebaselogo" d="M50,91.2c-22.8,0-41.2-18.5-41.2-41.3c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9V8.8c21.1,1.8,37.8,19.5,37.8,41.2
+              C91.2,72.7,72.8,91.2,50,91.2z" fill="#000000"/>
+            </svg>`;
+          createMergedDiv(col, col + 1, row, row + 2, svgContent);
+          hideMergedSquares([[row, col], [row + 1, col]]);
+          merged[row][col] = merged[row + 1][col] = true;
+        }
+      }
+    }
+  }
+}
+//-------------------------------------------------------------------
 //function; Grid Size
 function gridsize(size, gridColors = [], Mode = '') {
 
+  //(size)x(size) false matrix
+  const merged = Array(size).fill().map(() => Array(size).fill(false)); 
+  const gridData = [];
+  console.log('Initialized merged array:', merged); // بررسی ماتریس merged
 // پاک کردن شبکه قبلی
 while (gridContainer.firstChild) {
   gridContainer.removeChild(gridContainer.firstChild);
@@ -603,6 +748,10 @@ if (gridContainer) {
   gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
   gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 }
+
+
+
+
 
 // ایجاد المان‌های شبکه
 for (let i = 0; i < size * size; i++) {
@@ -642,7 +791,20 @@ for (let i = 0; i < size * size; i++) {
   gridItem.innerHTML += basechainlogosvgSvg;
   gridContainer.appendChild(gridItem);
   
+    // ذخیره کردن داده‌های این خانه از شبکه (رنگ و المان)
+    const row = Math.floor(i / size);
+    const col = i % size;
 
+    if (!gridData[row]) {
+      gridData[row] = [];
+    }
+    
+    gridData[row][col] = {
+      color: fillColor,
+      element: gridItem
+    };
+console.log(`Grid data for row ${row}, col ${col}:`, gridData[row][col]);
+  
   if (Mode === 'animated') {
     const svgElement = gridItem.querySelector('.basechainlogosvg');
     svgElement.classList.add('scale-up');
@@ -651,6 +813,7 @@ for (let i = 0; i < size * size; i++) {
     });
  };
 }
+mergeGrid(gridData, merged);
 
 if ( !frameboxsvgVisible ) {
     frameboxsvgElements = document.querySelectorAll('.frameboxsvg');
@@ -658,7 +821,6 @@ if ( !frameboxsvgVisible ) {
     el.style.opacity = '0' ;
    });
 };
-
 }
 
 //---------------------------------------------------------------------
@@ -701,54 +863,77 @@ document.addEventListener('keydown', (e) => {
 
 //PC Mode1(default)
 
-  gridContainer.addEventListener('mouseenter', (event) => {
-    const gridItem = event.target.closest('.grid-item');
-    if (gridItem && !capsLockActive) {
-      //updateGridItemColor(gridItem, currentColorIndex);
-
-      const svgElement = gridItem.querySelector('.basechainlogosvg');
-
+gridContainer.addEventListener('mouseenter', (event) => {
+  const gridItem = event.target.closest('.grid-item');
+  if (gridItem && !capsLockActive) {
+    // Color for basechainlogosvg
+    const svgElement = gridItem.querySelector('.basechainlogosvg');
+    if (svgElement) {
       svgElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
       svgElement.classList.add('rotate');
     }
-  }, true);
-
-
-  document.addEventListener('click', (event) => {
-
     
-      if (!capsLockActive) {
+    // Color for basecontainer
+    const baseContainer = gridItem.querySelector('.basecontainer');
+    if (baseContainer) {
+      baseContainer.setAttribute('fill', colors[currentColorIndex]);  // Assuming it's a fillable element
+      //baseContainer.classList.add('rotate');
+    }
+
+  }
+}, true);
+
+
+// Click event for PC Mode1
+document.addEventListener('click', (event) => {
+  if (!capsLockActive) {
+    currentColorIndex = (currentColorIndex + 1) % colors.length;
+
+    // Handle hover change for basechainlogosvg
+    const hoveredElement = document.querySelector('.grid-item:hover .basechainlogosvg');
+    if (hoveredElement) {
+      hoveredElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
+    }
+
+    // Handle hover change for basecontainer
+    const hoveredContainer = document.querySelector('.grid-item:hover .basecontainer');
+    if (hoveredContainer) {
+      hoveredContainer.setAttribute('fill', colors[currentColorIndex]);
+    }
+
+    setColorIndicator(colors[currentColorIndex]);
+  }
+});
+
+
+// PC Mode2 (mobile default) - CAPS TRIGGERED
+gridContainer.addEventListener('click', (event) => {
+  const gridItem = event.target.closest('.grid-item');
+  const svgElement = gridItem.querySelector('.basechainlogosvg');
+  const baseContainer = gridItem.querySelector('.basecontainer');
+  const currentFill = svgElement.querySelector('path').getAttribute('fill');
+  const currentColor = colors[currentColorIndex];
+
+  if (gridItem) {
+    if (capsLockActive) {
+      if (currentFill === currentColor) {
         currentColorIndex = (currentColorIndex + 1) % colors.length;
-
-        const hoveredElement = document.querySelector('.grid-item:hover');
-        if (hoveredElement) {
-          const svghovElement = hoveredElement.querySelector('.basechainlogosvg');
-          svghovElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
-        }
-
         setColorIndicator(colors[currentColorIndex]);
       }
-    });
-
-
- //PC Mode2 (mobile Default)-CAPS TRIGGERD
-  gridContainer.addEventListener('click', (event) => {
-    const gridItem = event.target.closest('.grid-item');
-    const svgElement = gridItem.querySelector('.basechainlogosvg');
-    const currentFill = svgElement.querySelector('path').getAttribute('fill');
-    const currentColor = colors[currentColorIndex];
-    if (gridItem) {
-      if (capsLockActive) {
-        if (currentFill === currentColor) {
-          currentColorIndex = (currentColorIndex + 1) % colors.length;
-          setColorIndicator(colors[currentColorIndex]);
-        }
-      }
-      svgElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
-      svgElement.classList.add('rotate');
-      setColorIndicator(colors[currentColorIndex]);
     }
-  });
+    // Update basechainlogosvg color and rotation
+    svgElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
+    //svgElement.classList.add('rotate');
+
+    // Update basecontainer color and rotation
+    if (baseContainer) {
+      baseContainer.setAttribute('fill', colors[currentColorIndex]);
+      //baseContainer.classList.add('rotate');
+    }
+
+    setColorIndicator(colors[currentColorIndex]);
+  }
+});
 
 //Mobile touch-drag (auto color)                    
 function handleTouchMove(event) {
@@ -759,11 +944,19 @@ function handleTouchMove(event) {
     if (element.classList.contains('basechainlogosvg')) {
       const gridItem = element.closest('.grid-item');
       const svgElement = gridItem.querySelector('.basechainlogosvg');
-      if (gridItem) {
+      if (svgElement) {
         svgElement.querySelector('path').setAttribute('fill', colors[currentColorIndex]);
-        const checkrotation = element;
-        if (!checkrotation.classList.contains('rotate')) {
-          checkrotation.classList.add('rotate');
+        if (!svgElement.classList.contains('rotate')) {
+          svgElement.classList.add('rotate');
+        }
+      }
+
+      // Handle basecontainer as well
+      const baseContainer = gridItem.querySelector('.basecontainer');
+      if (baseContainer) {
+        baseContainer.setAttribute('fill', colors[currentColorIndex]);
+        if (!baseContainer.classList.contains('rotate')) {
+          //baseContainer.classList.add('rotate');
         }
       }
     }
