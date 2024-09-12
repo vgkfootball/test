@@ -1025,15 +1025,25 @@ document.addEventListener('keydown', (e) => {
   function toggleColor() {
     const backg = document.getElementById('backg');
     const gridContainer = document.querySelector('.grid-container');
+    const allthemebase = document.querySelectorAll('.themebaselogo');
 
     if (themeiswhite) {
       backg.setAttribute('fill', 'black');
       gridContainer.style.backgroundColor = 'black';
       circle2.setAttribute("cx", 670.7);
+      
+     allthemebase.forEach(themebase => {
+     themebase.setAttribute('fill', '#000000');
+     });
+      
     } else {
       backg.setAttribute('fill', 'white');
       gridContainer.style.backgroundColor = 'white';
       circle2.setAttribute("cx", 729.3);
+
+     allthemebase.forEach(themebase => {
+     themebase.setAttribute('fill', '#ffffff');
+     });
     }
     themeiswhite = !themeiswhite;
   }
