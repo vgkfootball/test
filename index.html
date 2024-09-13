@@ -237,7 +237,7 @@
           <g id="sliderG">
             <path id="sliderG-area" class="solid-gray" d="M730.9,848.3h-61.4c-15.4,0-27.8-12.5-27.8-27.8v0c0-15.4,12.5-27.8,27.8-27.8h61.4
             c15.4,0,27.8,12.5,27.8,27.8v0C758.7,835.8,746.3,848.3,730.9,848.3z"/>
-            <circle id="sliderG-circle-p1" class="solid-white" cx="670.7" cy="820.5" r="23.1"/>
+            <circle id="sliderG-circle-p1" class="solid-white" cx="731.5" cy="820.5" r="23.1"/>
             <rect id="area-g" class="clickable-area1" x="604.6" y="785.4" width="187.1" height="69.1" fill="red" opacity="0" />
           </g>
         </g>
@@ -592,7 +592,7 @@
 //-----------------------------Grid-generator--------------------------
 function mergeGrid(grid, merged) {
   const size = grid.length;
-console.log('size:',size);
+
 
   // تابع کمکی برای ایجاد و اضافه کردن mergedDiv
   function createMergedDiv(colStart, colEnd, rowStart, rowEnd, svgContent) {
@@ -603,7 +603,17 @@ console.log('size:',size);
     mergedDiv.style.gridRowStart = rowStart + 1;
     mergedDiv.style.gridRowEnd = rowEnd + 1;
     mergedDiv.innerHTML = svgContent;
+
+    for (let row = rowStart; row < rowEnd; row++) {
+      for (let col = colStart; col < colEnd; col++) {
+        const i = row * size + col;  // محاسبه شماره مش
+        mergedDiv.classList.add(`gridnum-${i}`);
+      }
+    }
+
     gridContainer.appendChild(mergedDiv);
+
+
   }
 
   // Hide Merged
@@ -639,7 +649,7 @@ console.log('size:',size);
         const color = grid[row][col].color;
         if (color === grid[row][col + 1].color && color === grid[row][col + 2].color) {
           const svgContent = `
-            <svg version="1.1" id="triple-logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+            <svg version="1.1" id="triple-logo" class="merged-class" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
               viewBox="0 0 300 100" style="enable-background:new 0 0 300 100;" xml:space="preserve">
               <path id="rect-frame" class="basecontainer" d="M2,50L2,50C2,23.5,23.5,2,50,2h200c26.5,0,48,21.5,48,48v0c0,26.5-21.5,48-48,48H50
                 C23.5,98,2,76.5,2,50z" fill="${color}"/> 
@@ -666,7 +676,7 @@ console.log('size:',size);
         const color = grid[row][col].color;
         if (color === grid[row + 1][col].color && color === grid[row + 2][col].color) {
           const svgContent = `
-            <svg version="1.1" id="triple-logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+            <svg version="1.1" id="triple-logo" class="merged-class" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
               viewBox="0 0 100 300" style="enable-background:new 0 0 100 300;" xml:space="preserve">
               <path id="rect-frame" class="basecontainer" d="M50,2L50,2c26.5,0,48,21.5,48,48v200
 		c0,26.5-21.5,48-48,48h0c-26.5,0-48-21.5-48-48V50C2,23.5,23.5,2,50,2z" fill="${color}"/> 
@@ -693,7 +703,7 @@ console.log('size:',size);
         const color = grid[row][col].color;
         if (color === grid[row][col + 1].color) {
           const svgContent = `
-            <svg version="1.1" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+            <svg version="1.1" class="merged-class" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
               <path id="rect-frame" class="basecontainer"  d="M2,50L2,50C2,23.5,23.5,2,50,2h100c26.5,0,48,21.5,48,48v0c0,26.5-21.5,48-48,48H50C23.5,98,2,76.5,2,50z" fill="${color}"/>
               <path id="baselogo1" class="themebaselogo" d="M191.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9h-54.6c1.8-21.1,19.5-37.8,41.2-37.8
               C172.7,8.8,191.2,27.2,191.2,50z" fill="#000000"/>
@@ -715,7 +725,7 @@ console.log('size:',size);
         const color = grid[row][col].color;
         if (color === grid[row + 1][col].color) {
           const svgContent = `
-            <svg version="1.1" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+            <svg version="1.1" class="merged-class" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
               <path  id="rect-frame" class="basecontainer"  d="M50,2L50,2c26.5,0,48,21.5,48,48v100c0,26.5-21.5,48-48,48h0c-26.5,0-48-21.5-48-48V50C2,23.5,23.5,2,50,2z" fill="${color}"/>
               <path id="baselogo1" class="themebaselogo" d="M50,191.2c-22.8,0-41.2-18.5-41.2-41.3c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9v-54.6c21.1,1.8,37.8,19.5,37.8,41.2
               C91.2,172.7,72.8,191.2,50,191.2z" fill="#000000"/>
@@ -757,6 +767,7 @@ if (gridContainer) {
 for (let i = 0; i < size * size; i++) {
   const gridItem = document.createElement('div');
   gridItem.classList.add('grid-item');
+  gridItem.classList.add(`gnum-${i}`);
 
   // کد svg مربوط به framebox
   gridItem.innerHTML = `
@@ -804,16 +815,29 @@ for (let i = 0; i < size * size; i++) {
       element: gridItem
     };
 
-  
-  if (Mode === 'animated') {
-    const svgElement = gridItem.querySelector('.basechainlogosvg');
-    svgElement.classList.add('scale-up');
-    svgElement.addEventListener('animationend', () => {
-    svgElement.classList.remove('scale-up');
-    });
- };
 }
 mergeGrid(gridData, merged);
+
+
+if (Mode === 'animated') {
+const basechainlogos = document.querySelectorAll('.basechainlogosvg');
+const mergedItems = document.querySelectorAll('.merged-class');
+
+basechainlogos.forEach(svgElement => {
+    svgElement.classList.add('scale-up');
+    svgElement.addEventListener('animationend', () => {
+        svgElement.classList.remove('scale-up');
+    });
+});
+
+mergedItems.forEach(svgElement => {
+    svgElement.classList.add('scale-up');
+    svgElement.addEventListener('animationend', () => {
+        svgElement.classList.remove('scale-up');
+    });
+});
+}
+
 
 if ( !frameboxsvgVisible ) {
     frameboxsvgElements = document.querySelectorAll('.frameboxsvg');
@@ -849,7 +873,7 @@ determineDeviceType();
 document.addEventListener('keydown', (e) => {
       if (e.code === 'CapsLock') {
         capsLockActive = !capsLockActive;
-        console.log('CapsLock Active:', capsLockActive);
+
       }
     });
 //---------------------------------------------------------
@@ -945,7 +969,6 @@ gridContainer.addEventListener('click', (event) => {
 
       // بروز‌رسانی رنگ basecontainer
       baseContainer.setAttribute('fill', colors[currentColorIndex]);
-      console.log(baseContainer); // برای دیباگ استفاده شده
       // Uncomment this line if you want to add rotation
       // baseContainer.classList.add('rotate');
     }
@@ -1215,17 +1238,46 @@ document.addEventListener("keydown", function(event) {
 //---------------------------------------------------------------------
 //-----------------------------Export data-----------------------------
 function Exportdata(triggerSource) {
-    gridColors = [];
+  gridColors = [];  // خالی کردن آرایه
 
-    let gridItems = document.querySelectorAll('.grid-item');
+// شمارش تعداد عناصری که شامل gnum هستند
+let size = document.querySelectorAll("[class*='gnum-']").length;  // پیدا کردن تعداد عناصری که کلاس آن‌ها شامل gnum است
 
-    gridItems.forEach(item => {
-        let svgElement = item.querySelector('.basechainlogosvg');
+for (let j = 0; j < size; j++) {
+    let gridItem = document.querySelector(`.gnum-${j}`);
+    let fillsvg;
 
-        let fillsvg = svgElement.querySelector('path').getAttribute('fill');
-        
-        gridColors.push(fillsvg);
-    });
+    if (gridItem) {
+        if (gridItem.style.display === 'none') {
+
+            let hiddenDiv = document.querySelector(`.gridnum-${j}`);
+            let svgElement = hiddenDiv.querySelector('.basecontainer');  
+
+            if (svgElement) {
+                fillsvg = svgElement.getAttribute('fill');
+                 
+             } else {
+
+              let svgElement = hiddenDiv.querySelector('.basechainlogosvg');
+              let pathElement = svgElement.querySelector('path');
+              fillsvg = pathElement.getAttribute('fill');
+             }
+
+        } else {
+
+            let svgElement = gridItem.querySelector('.basechainlogosvg');  
+            if (svgElement) {
+                let pathElement = svgElement.querySelector('path');
+                if (pathElement) {
+                    fillsvg = pathElement.getAttribute('fill');  
+                }
+            }
+        }
+    }
+    gridColors[j] = fillsvg; 
+}
+
+console.log('gridColors:', gridColors);  
 
     uniqueColors = [...new Set(gridColors)];
     newGridColors = [...gridColors];
