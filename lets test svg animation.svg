@@ -1,0 +1,26 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- یک گروه برای چرخاندن مستطیل -->
+  <g id="rotatingRect" transform="rotate(0 200 200)">
+    <!-- مستطیل آبی در مرکز صفحه -->
+    <rect x="170" y="150" width="60" height="100" fill="blue" id="rect"
+          onmouseover="evt.target.setAttribute('fill', 'red');"
+          onmouseout="evt.target.setAttribute('fill', 'blue');" />
+  </g>
+
+  <script>
+    // این تابع مستطیل را با سرعت ثابت می‌چرخاند
+    let angle = 0;
+    function rotateRect() {
+      angle = (angle + 1) % 360; // زاویه بین 0 تا 360 می‌ماند
+      document.getElementById("rotatingRect").setAttribute("transform", `rotate(${angle} 200 200)`);
+    }
+
+    // چرخش هر 16.67 میلی‌ثانیه (60 فریم در ثانیه) برای ایجاد چرخش صاف
+    setInterval(rotateRect, 1000 / 60);
+
+    // هر 1000 میلی‌ثانیه یک بار زاویه باید به اندازه 360 / 6 (60 درجه) تغییر کند
+    setInterval(() => {
+      angle = (angle + 60) % 360;
+    }, 1000);
+  </script>
+</svg>
