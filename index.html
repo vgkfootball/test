@@ -26,6 +26,7 @@
       animation: rotate-reverse 6s linear infinite;
       transform-box: fill-box;
       transform-origin: center;
+      transition: fill 0.3s;
     }
 
     @keyframes rotate-reverse {
@@ -36,6 +37,11 @@
         transform: rotate(-360deg);
       }
     }
+
+    .small-square:hover {
+      fill: white;
+    }
   </style>
+  
   <rect class="small-square" x="75" y="75" width="50" height="50" fill="black" />
 </svg>
