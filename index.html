@@ -72,13 +72,13 @@
     from {transform: rotate(var(--start-angle)) scale(1);}
     to {transform: rotate(calc(var(--start-angle) + 360deg)) scale(1);}}
 
-.rotate-infinite {animation: rotateInfinite 4s linear infinite;}
+.rotate-infinite {animation: rotateInfinite 2s linear infinite;}
 
 @keyframes rotateScaleUp {
 0% {transform: rotate(var(--start-angle)) scale(0);opacity: 0;}
-100% {transform: rotate(calc(var(--start-angle) + 360deg)) scale(1);opacity: 1;}}
+100% {transform: rotate(calc(var(--start-angle) + 1*360deg)) scale(1);opacity: 1;}}
 
-.scale-up {animation: rotateScaleUp 2s ease forwards; will-change: transform, opacity;}
+.scale-up {animation: rotateScaleUp 1.5s linear; will-change: transform, opacity;}
 
 @keyframes scaleUpOpacityMerged {
 0% {transform: scale(0);opacity: 0;}
@@ -87,6 +87,11 @@
 .scale-up-merged {animation: scaleUpOpacityMerged 1.5s ease forwards;will-change: transform, opacity;}
 
 .basechainlogosvg:hover {animation-play-state: paused;}
+
+.lowsize ,.bigsize ,.merged-class {--stroke-color: rgb(253, 249, 0); }
+.lowsize:hover {path {stroke: var(--stroke-color);stroke-width: 3 ;fill : none ;}}
+.bigsize:hover {path {stroke:  var(--stroke-color);stroke-width: 1.5 ;fill : none ;}}
+.merged-class:hover {path {stroke:  var(--stroke-color);stroke-width: 2.5;fill : none ;}}
 
 /*-----------------------------------------------------------------------------*/
 
@@ -123,7 +128,6 @@
    top: 26vmin;
    position: absolute;
    }
-
 /* -------------------<< Basic Fill Class >>-----------------------------*/
 .click-zone{fill:red;opacity: 0;}
 .solid-white{fill:#FFFFFF;}
@@ -647,7 +651,7 @@ function GridGenerator(size, GridData = [], Mode = '') {
 
             // اضافه کردن SVG برای شبکه مرج نشده
             const svgContent = `
-                <svg class="basechainlogosvg" viewBox="0 0 111 111" xmlns="http://www.w3.org/2000/svg">
+                <svg class="basechainlogosvg lowsize" viewBox="0 0 111 111" xmlns="http://www.w3.org/2000/svg">
                     <path d="M110.5,55.5c0,30.4-24.6,55-55,55C26.7,110.5,3,88.3,0.7,60.1h72.7v-9.2H0.7C3,22.7,26.7,0.5,55.5,0.5
                     C85.9,0.5,110.5,25.1,110.5,55.5z" fill="${color}" />
                 </svg>`;
@@ -667,59 +671,55 @@ function GridGenerator(size, GridData = [], Mode = '') {
             switch (type) {
                 case 'square2x2':
                 svgContent = `
-            <svg class="basechainlogosvg" viewBox="0 0 111 111" xmlns="http://www.w3.org/2000/svg">
-              <path d="M110.5,55.5c0,30.4-24.6,55-55,55C26.7,110.5,3,88.3,0.7,60.1h72.7v-9.2H0.7C3,22.7,26.7,0.5,55.5,0.5
-              C85.9,0.5,110.5,25.1,110.5,55.5z" fill="${color}" />
+            <svg class="basechainlogosvg bigsize" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <path d="M98.9,50c0,27.1-21.9,49-49,49C24.2,99,3.2,79.3,1.1,54.1h64.7v-8.2H1.1C3.2,20.7,24.2,1,49.9,1
+	            C77,1,98.9,22.9,98.9,50z" fill="${color}" />
             </svg>`;
                     break;
                 case '3x1-horizontal':
                     svgContent = `
                     <svg version="1.1" id="triple-logo" class="merged-class" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                     viewBox="0 0 300 100" style="enable-background:new 0 0 300 100;" xml:space="preserve">
-                        <path id="rect-frame" class="basecontainer" d="M2,50L2,50C2,23.5,23.5,2,50,2h200c26.5,0,48,21.5,48,48v0c0,26.5-21.5,48-48,48H50
-                        C23.5,98,2,76.5,2,50z" fill="${color}"/> 
-                        <path id="baselogo1" class="themebaselogo" d="M191.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9h-54.6
-                        c1.8-21.1,19.5-37.8,41.2-37.8C172.7,8.8,191.2,27.2,191.2,50z" fill="#000000"/>
-                        <path id="baselogo2" class="themebaselogo" d="M291.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9h-54.6
-                        c1.8-21.1,19.5-37.8,41.2-37.8C272.7,8.8,291.2,27.2,291.2,50z" fill="#000000"/>
-                        <path id="baselogo3" class="themebaselogo" d="M91.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9H8.8C10.5,25.4,28.3,8.8,49.9,8.8
-                        C72.7,8.8,91.2,27.2,91.2,50z" fill="#000000"/>
+                    <path id="rect-frame" class="basecontainer" fill="${color}" d="M4,50L4,50C4,24.6,24.6,4,50,4h200c25.4,0,46,20.6,46,46v0c0,25.4-20.6,46-46,46H50C24.6,96,4,75.4,4,50z"/>
+                    <path id="baselogo1" class="themebaselogo" fill="#000000" d="M189.2,50c0,21.7-17.6,39.2-39.3,39.2
+                    c-20.6,0-37.5-15.8-39.2-35.9h51.9v-6.6h-51.9c1.7-20.1,18.6-35.9,39.2-35.9C171.6,10.8,189.2,28.3,189.2,50z"/>
+                    <path id="baselogo2" class="themebaselogo" fill="#000000" d="M89.2,50c0,21.7-17.6,39.2-39.3,39.2
+                    c-20.6,0-37.5-15.8-39.2-35.9h51.9v-6.6H10.8c1.7-20.1,18.6-35.9,39.2-35.9C71.6,10.8,89.2,28.3,89.2,50z"/>
+                    <path id="baselogo3" class="themebaselogo" fill="#000000"  d="M289.2,50c0,21.7-17.6,39.2-39.3,39.2
+                    c-20.6,0-37.5-15.8-39.2-35.9h51.9v-6.6h-51.9c1.7-20.1,18.6-35.9,39.2-35.9C271.6,10.8,289.2,28.3,289.2,50z"/>
                     </svg>`;
                     break;
                 case '1x3-vertical':
                     svgContent = `
                     <svg version="1.1" id="triple-logo" class="merged-class" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                     viewBox="0 0 100 300" style="enable-background:new 0 0 100 300;" xml:space="preserve">
-                        <path id="rect-frame" class="basecontainer" d="M50,2L50,2c26.5,0,48,21.5,48,48v200
-                        c0,26.5-21.5,48-48,48h0c-26.5,0-48-21.5-48-48V50C2,23.5,23.5,2,50,2z" fill="${color}"/> 
-                        <path id="baselogo1" class="themebaselogo" d="M50,191.2c-22.8,0-41.2-18.5-41.2-41.3
-                        c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9v-54.6c21.1,1.8,37.8,19.5,37.8,41.2C91.2,172.7,72.8,191.2,50,191.2z" fill="#000000"/>
-                        <path id="baselogo2" class="themebaselogo" d="M50,291.2c-22.8,0-41.2-18.5-41.2-41.3
-                        c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9v-54.6c21.1,1.8,37.8,19.5,37.8,41.2C91.2,272.7,72.8,291.2,50,291.2z" fill="#000000"/>
-                        <path id="baselogo3" class="themebaselogo" d="M50,91.2c-22.8,0-41.2-18.5-41.2-41.3
-                        c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9V8.8c21.1,1.8,37.8,19.5,37.8,41.2C91.2,72.7,72.8,91.2,50,91.2z" fill="#000000"/>
+               <path id="rect-frame" class="basecontainer" d="M50,4L50,4c25.4,0,46,20.6,46,46v200c0,25.4-20.6,46-46,46h0c-25.4,0-46-20.6-46-46V50C4,24.6,24.6,4,50,4z" fill="${color}"/> 
+               <path id="baselogo1" class="themebaselogo" d="M50,189.2c-21.7,0-39.2-17.6-39.2-39.3
+		           c0-20.6,15.8-37.5,35.9-39.2v51.9h6.6v-51.9c20.1,1.7,35.9,18.6,35.9,39.2C89.2,171.6,71.7,189.2,50,189.2z" fill="#000000"/>
+               <path id="baselogo2" class="themebaselogo" d="M50,89.2c-21.7,0-39.2-17.6-39.2-39.3
+		           c0-20.6,15.8-37.5,35.9-39.2v51.9h6.6V10.8c20.1,1.7,35.9,18.6,35.9,39.2C89.2,71.6,71.7,89.2,50,89.2z" fill="#000000"/>
+               <path id="baselogo3" class="themebaselogo" d="M50,289.2c-21.7,0-39.2-17.6-39.2-39.3
+	             c0-20.6,15.8-37.5,35.9-39.2v51.9h6.6v-51.9c20.1,1.7,35.9,18.6,35.9,39.2C89.2,271.6,71.7,289.2,50,289.2z" fill="#000000"/>
                     </svg>`;
                     break;
                 case '2x1-horizontal':
                     svgContent = `
                     <svg version="1.1" class="merged-class" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-                        <path id="rect-frame" class="basecontainer" d="M2,50L2,50C2,23.5,23.5,2,50,2h100c26.5,0,48,21.5,48,48v0c0,26.5-21.5,48-48,48H50
-                        C23.5,98,2,76.5,2,50z" fill="${color}"/>
-                        <path id="baselogo1" class="themebaselogo" d="M191.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9h-54.6
-                        c1.8-21.1,19.5-37.8,41.2-37.8C172.7,8.8,191.2,27.2,191.2,50z" fill="#000000"/>
-                        <path id="baselogo2" class="themebaselogo" d="M91.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9H8.8
-                        C10.5,25.4,28.3,8.8,49.9,8.8C72.7,8.8,91.2,27.2,91.2,50z" fill="#000000"/>
+                        <path id="rect-frame" class="basecontainer" d="M4,50L4,50C4,24.6,24.6,4,50,4h100c25.4,0,46,20.6,46,46v0c0,25.4-20.6,46-46,46H50C24.6,96,4,75.4,4,50z" fill="${color}"/>
+                        <path id="baselogo1" class="themebaselogo" d="M187.2,50c0,21.7-17.6,39.2-39.3,39.2
+		                    c-20.6,0-37.5-15.8-39.2-35.9h51.9v-6.6h-51.9c1.7-20.1,18.6-35.9,39.2-35.9C169.6,10.8,187.2,28.3,187.2,50z" fill="#000000"/>
+                        <path id="baselogo2" class="themebaselogo" d="M91.2,50c0,21.7-17.6,39.2-39.3,39.2
+	                      c-20.6,0-37.5-15.8-39.2-35.9h51.9v-6.6H12.8c1.7-20.1,18.6-35.9,39.2-35.9C73.6,10.8,91.2,28.3,91.2,50z" fill="#000000"/>
                     </svg>`;
                     break;
                 case '1x2-vertical':
                     svgContent = `
                     <svg version="1.1" class="merged-class" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-                        <path id="rect-frame" class="basecontainer" d="M50,2L50,2c26.5,0,48,21.5,48,48v100c0,26.5-21.5,48-48,48h0
-                        c-26.5,0-48-21.5-48-48V50C2,23.5,23.5,2,50,2z" fill="${color}"/>
-                        <path id="baselogo1" class="themebaselogo" d="M50,191.2c-22.8,0-41.2-18.5-41.2-41.3c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9
-                        v-54.6c21.1,1.8,37.8,19.5,37.8,41.2C91.2,172.7,72.8,191.2,50,191.2z" fill="#000000"/>
-                        <path id="baselogo2" class="themebaselogo" d="M50,91.2c-22.8,0-41.2-18.5-41.2-41.3c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9
-                        V8.8c21.1,1.8,37.8,19.5,37.8,41.2C91.2,72.7,72.8,91.2,50,91.2z" fill="#000000"/>
+                        <path id="rect-frame" class="basecontainer" d="M50,4L50,4c25.4,0,46,20.6,46,46v100c0,25.4-20.6,46-46,46h0c-25.4,0-46-20.6-46-46V50C4,24.6,24.6,4,50,4z" fill="${color}"/>
+                        <path id="baselogo1" class="themebaselogo" d="M50,187.2c-21.7,0-39.2-17.6-39.2-39.3
+	                     	c0-20.6,15.8-37.5,35.9-39.2v51.9h6.6v-51.9c20.1,1.7,35.9,18.6,35.9,39.2C89.2,169.6,71.7,187.2,50,187.2z" fill="#000000"/>
+                        <path id="baselogo2" class="themebaselogo" d="M50,91.2c-21.7,0-39.2-17.6-39.2-39.3
+		                    c0-20.6,15.8-37.5,35.9-39.2v51.9h6.6V12.8c20.1,1.7,35.9,18.6,35.9,39.2C89.2,73.6,71.7,91.2,50,91.2z" fill="#000000"/>
                     </svg>`;
                     break;
             }
@@ -802,57 +802,62 @@ function GridGenerator(size, GridData = [], Mode = '') {
 
         case 'square2x2':
             svgContent = `
-            <svg class="basechainlogosvg" viewBox="0 0 111 111" xmlns="http://www.w3.org/2000/svg"  >
-              <path d="M110.5,55.5c0,30.4-24.6,55-55,55C26.7,110.5,3,88.3,0.7,60.1h72.7v-9.2H0.7C3,22.7,26.7,0.5,55.5,0.5
-              C85.9,0.5,110.5,25.1,110.5,55.5z" fill="${fillColor}" />
+            <svg class="basechainlogosvg bigsize" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"  >
+              <path d="M98.9,50c0,27.1-21.9,49-49,49C24.2,99,3.2,79.3,1.1,54.1h64.7v-8.2H1.1C3.2,20.7,24.2,1,49.9,1
+             	C77,1,98.9,22.9,98.9,50z" fill="${fillColor}" />
             </svg>`;
             break;
         case '3x1-horizontal':
             svgContent = `
             <svg version="1.1" id="triple-logo" class="merged-class" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
             viewBox="0 0 300 100" style="enable-background:new 0 0 300 100;" xml:space="preserve">
-            <path id="rect-frame" class="basecontainer" d="M2,50L2,50C2,23.5,23.5,2,50,2h200c26.5,0,48,21.5,48,48v0c0,26.5-21.5,48-48,48H50
-              C23.5,98,2,76.5,2,50z" fill="${fillColor}"/> 
-            <path id="baselogo1" class="themebaselogo" d="M191.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9h-54.6
-              c1.8-21.1,19.5-37.8,41.2-37.8C172.7,8.8,191.2,27.2,191.2,50z" fill="#000000"/>
-            <path id="baselogo2" class="themebaselogo" d="M291.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9h-54.6
-              c1.8-21.1,19.5-37.8,41.2-37.8C272.7,8.8,291.2,27.2,291.2,50z" fill="#000000"/>
-            <path id="baselogo3" class="themebaselogo" d="M91.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9H8.8C10.5,25.4,28.3,8.8,49.9,8.8
-              C72.7,8.8,91.2,27.2,91.2,50z" fill="#000000"/>
+
+                    <path id="rect-frame" class="basecontainer" fill="${fillColor}" d="M4,50L4,50C4,24.6,24.6,4,50,4h200c25.4,0,46,20.6,46,46v0c0,25.4-20.6,46-46,46H50C24.6,96,4,75.4,4,50z"/>
+                    <path id="baselogo1" class="themebaselogo" fill="#000000" d="M189.2,50c0,21.7-17.6,39.2-39.3,39.2
+                    c-20.6,0-37.5-15.8-39.2-35.9h51.9v-6.6h-51.9c1.7-20.1,18.6-35.9,39.2-35.9C171.6,10.8,189.2,28.3,189.2,50z"/>
+                    <path id="baselogo2" class="themebaselogo" fill="#000000" d="M89.2,50c0,21.7-17.6,39.2-39.3,39.2
+                    c-20.6,0-37.5-15.8-39.2-35.9h51.9v-6.6H10.8c1.7-20.1,18.6-35.9,39.2-35.9C71.6,10.8,89.2,28.3,89.2,50z"/>
+                    <path id="baselogo3" class="themebaselogo" fill="#000000"  d="M289.2,50c0,21.7-17.6,39.2-39.3,39.2
+                    c-20.6,0-37.5-15.8-39.2-35.9h51.9v-6.6h-51.9c1.7-20.1,18.6-35.9,39.2-35.9C271.6,10.8,289.2,28.3,289.2,50z"/>
+
+
+
                </svg>`;
             break;
         case '1x3-vertical':
+
             svgContent = `
                <svg version="1.1" id="triple-logo" class="merged-class" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                viewBox="0 0 100 300" style="enable-background:new 0 0 100 300;" xml:space="preserve">
-               <path id="rect-frame" class="basecontainer" d="M50,2L50,2c26.5,0,48,21.5,48,48v200
-               c0,26.5-21.5,48-48,48h0c-26.5,0-48-21.5-48-48V50C2,23.5,23.5,2,50,2z" fill="${fillColor}"/> 
-               <path id="baselogo1" class="themebaselogo" d="M50,191.2c-22.8,0-41.2-18.5-41.2-41.3
-               c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9v-54.6c21.1,1.8,37.8,19.5,37.8,41.2C91.2,172.7,72.8,191.2,50,191.2z" fill="#000000"/>
-               <path id="baselogo2" class="themebaselogo" d="M50,291.2c-22.8,0-41.2-18.5-41.2-41.3
-               c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9v-54.6c21.1,1.8,37.8,19.5,37.8,41.2C91.2,272.7,72.8,291.2,50,291.2z" fill="#000000"/>
-               <path id="baselogo3" class="themebaselogo" d="M50,91.2c-22.8,0-41.2-18.5-41.2-41.3
-               c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9V8.8c21.1,1.8,37.8,19.5,37.8,41.2C91.2,72.7,72.8,91.2,50,91.2z" fill="#000000"/>
+
+               <path id="rect-frame" class="basecontainer" d="M50,4L50,4c25.4,0,46,20.6,46,46v200c0,25.4-20.6,46-46,46h0c-25.4,0-46-20.6-46-46V50C4,24.6,24.6,4,50,4z" fill="${fillColor}"/> 
+               <path id="baselogo1" class="themebaselogo" d="M50,189.2c-21.7,0-39.2-17.6-39.2-39.3
+		           c0-20.6,15.8-37.5,35.9-39.2v51.9h6.6v-51.9c20.1,1.7,35.9,18.6,35.9,39.2C89.2,171.6,71.7,189.2,50,189.2z" fill="#000000"/>
+               <path id="baselogo2" class="themebaselogo" d="M50,89.2c-21.7,0-39.2-17.6-39.2-39.3
+		           c0-20.6,15.8-37.5,35.9-39.2v51.9h6.6V10.8c20.1,1.7,35.9,18.6,35.9,39.2C89.2,71.6,71.7,89.2,50,89.2z" fill="#000000"/>
+               <path id="baselogo3" class="themebaselogo" d="M50,289.2c-21.7,0-39.2-17.6-39.2-39.3
+	             c0-20.6,15.8-37.5,35.9-39.2v51.9h6.6v-51.9c20.1,1.7,35.9,18.6,35.9,39.2C89.2,271.6,71.7,289.2,50,289.2z" fill="#000000"/>
+
                </svg>`;
             break;
         case '2x1-horizontal':
             svgContent =`
                <svg version="1.1" class="merged-class" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-                 <path id="rect-frame" class="basecontainer"  d="M2,50L2,50C2,23.5,23.5,2,50,2h100c26.5,0,48,21.5,48,48v0c0,26.5-21.5,48-48,48H50C23.5,98,2,76.5,2,50z" fill="${fillColor}"/>
-                 <path id="baselogo1" class="themebaselogo" d="M191.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9h-54.6c1.8-21.1,19.5-37.8,41.2-37.8
-                 C172.7,8.8,191.2,27.2,191.2,50z" fill="#000000"/>
-                 <path id="baselogo2" class="themebaselogo" d="M91.2,50c0,22.8-18.5,41.2-41.3,41.2c-21.6,0-39.4-16.6-41.2-37.8h54.6v-6.9H8.8C10.5,25.4,28.3,8.8,49.9,8.8
-                 C72.7,8.8,91.2,27.2,91.2,50z" fill="#000000"/>
+                        <path id="rect-frame" class="basecontainer" d="M4,50L4,50C4,24.6,24.6,4,50,4h100c25.4,0,46,20.6,46,46v0c0,25.4-20.6,46-46,46H50C24.6,96,4,75.4,4,50z" fill="${fillColor}"/>
+                        <path id="baselogo1" class="themebaselogo" d="M187.2,50c0,21.7-17.6,39.2-39.3,39.2
+		                    c-20.6,0-37.5-15.8-39.2-35.9h51.9v-6.6h-51.9c1.7-20.1,18.6-35.9,39.2-35.9C169.6,10.8,187.2,28.3,187.2,50z" fill="#000000"/>
+                        <path id="baselogo2" class="themebaselogo" d="M91.2,50c0,21.7-17.6,39.2-39.3,39.2
+	                      c-20.6,0-37.5-15.8-39.2-35.9h51.9v-6.6H12.8c1.7-20.1,18.6-35.9,39.2-35.9C73.6,10.8,91.2,28.3,91.2,50z" fill="#000000"/>
                </svg>`;
             break;
         case '1x2-vertical':
             svgContent =`
                 <svg version="1.1" class="merged-class" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-                  <path  id="rect-frame" class="basecontainer"  d="M50,2L50,2c26.5,0,48,21.5,48,48v100c0,26.5-21.5,48-48,48h0c-26.5,0-48-21.5-48-48V50C2,23.5,23.5,2,50,2z" fill="${fillColor}"/>
-                  <path id="baselogo1" class="themebaselogo" d="M50,191.2c-22.8,0-41.2-18.5-41.2-41.3c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9v-54.6c21.1,1.8,37.8,19.5,37.8,41.2
-                  C91.2,172.7,72.8,191.2,50,191.2z" fill="#000000"/>
-                  <path id="baselogo2" class="themebaselogo" d="M50,91.2c-22.8,0-41.2-18.5-41.2-41.3c0-21.6,16.6-39.4,37.8-41.2v54.6h6.9V8.8c21.1,1.8,37.8,19.5,37.8,41.2
-                  C91.2,72.7,72.8,91.2,50,91.2z" fill="#000000"/>
+                        <path id="rect-frame" class="basecontainer" d="M50,4L50,4c25.4,0,46,20.6,46,46v100c0,25.4-20.6,46-46,46h0c-25.4,0-46-20.6-46-46V50C4,24.6,24.6,4,50,4z" fill="${fillColor}"/>
+                        <path id="baselogo1" class="themebaselogo" d="M50,187.2c-21.7,0-39.2-17.6-39.2-39.3
+	                     	c0-20.6,15.8-37.5,35.9-39.2v51.9h6.6v-51.9c20.1,1.7,35.9,18.6,35.9,39.2C89.2,169.6,71.7,187.2,50,187.2z" fill="#000000"/>
+                        <path id="baselogo2" class="themebaselogo" d="M50,91.2c-21.7,0-39.2-17.6-39.2-39.3
+		                    c0-20.6,15.8-37.5,35.9-39.2v51.9h6.6V12.8c20.1,1.7,35.9,18.6,35.9,39.2C89.2,73.6,71.7,91.2,50,91.2z" fill="#000000"/>
                 </svg>`;
             break;
     }
@@ -974,9 +979,9 @@ function GridGenerator(size, GridData = [], Mode = '') {
 
                 // اضافه کردن SVG به هر gridItem
                 const svgContent = `
-                    <svg class="basechainlogosvg" viewBox="0 0 111 111" xmlns="http://www.w3.org/2000/svg"  >
-                        <path d="M110.5,55.5c0,30.4-24.6,55-55,55C26.7,110.5,3,88.3,0.7,60.1h72.7v-9.2H0.7C3,22.7,26.7,0.5,55.5,0.5
-                        C85.9,0.5,110.5,25.1,110.5,55.5z" fill="${fillColor}" />
+                    <svg class="basechainlogosvg lowsize" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"  >
+                        <path d="M95.9,50c0,25.4-20.6,46-46,46C25.8,96,6.1,77.5,4.1,53.9h60.7v-7.7H4.1C6.1,22.5,25.8,4,49.9,4
+	                      C75.3,4,95.9,24.6,95.9,50z" fill="${fillColor}" />
                     </svg>`;
                 gridItem.innerHTML += svgContent;
             
@@ -991,13 +996,10 @@ function GridGenerator(size, GridData = [], Mode = '') {
 const svgs = document.querySelectorAll('.basechainlogosvg');
 
     svgs.forEach(svg => {
-        // تولید زاویه رندوم
+
         const randomAngle = Math.floor(Math.random() * 360);
-        // اعمال چرخش رندوم به SVG
         svg.style.transform = `rotate(${randomAngle}deg)`;
-        // ذخیره زاویه رندوم در یک خاصیت CSS
         svg.style.setProperty('--start-angle', `${randomAngle}deg`);
-        // اضافه کردن کلاس برای چرخش بینهایت
         svg.classList.add('rotate-infinite');
 
         if (Mode === 'animated') {
@@ -1024,18 +1026,12 @@ mergedItems.forEach(item => {
 
 }
 
-
-
-//----------------------------------------------------------------------
-
-
 }
 
 console.log('grid number:',gridData.length);
 console.log('GridData:',gridData);
 let resetgrid = gridData
 //---------------------------------------------------------------------
-
 //-----------------------------gridData color Updater------------------
 
 function UpdateGridDataColor(GridData) {
@@ -1081,7 +1077,13 @@ function UpdateGridDataColor(GridData) {
             item.color = newColor;
         }
     });
-
+}
+//-----------------------<< Dynamic Stroke color Function >>---------------
+function updateStrokeColor(newColor) {
+    // تغییر مقدار متغیر در کلاس های مختلف
+    document.querySelectorAll('.lowsize, .bigsize, .merged-class').forEach(el => {
+        el.style.setProperty('--stroke-color', newColor);
+    });
 }
 //-----------------------------Device checker--------------------------
 //function; determineDeviceType
@@ -1122,6 +1124,8 @@ document.addEventListener('keydown', (e) => {
 
 //PC Mode1(default)
 
+updateStrokeColor(colors[currentColorIndex]);
+
 gridContainer.addEventListener('mouseenter', (event) => {
   const gridItem = event.target.closest('.grid-item');
   if (gridItem && !capsLockActive) {
@@ -1134,19 +1138,18 @@ gridContainer.addEventListener('mouseenter', (event) => {
     // Color for basecontainer
     const baseContainer = gridItem.querySelector('.basecontainer');
     if (baseContainer) {
-      baseContainer.setAttribute('fill', colors[currentColorIndex]);  // Assuming it's a fillable element
-      //baseContainer.classList.add('rotate');
+      baseContainer.setAttribute('fill', colors[currentColorIndex]);  
 
     }
 
   }
 }, true);
 
-
 // Click event for PC Mode1
 document.addEventListener('click', (event) => {
   if (!capsLockActive) {
     currentColorIndex = (currentColorIndex + 1) % colors.length;
+    updateStrokeColor(colors[currentColorIndex]);
 
     // Handle hover change for basechainlogosvg
     const hoveredElement = document.querySelector('.grid-item:hover .basechainlogosvg');
@@ -1182,6 +1185,7 @@ gridContainer.addEventListener('click', (event) => {
       // شرط بررسی رنگ برای basechainlogosvg
       if (capsLockActive && currentFillSvg === currentColor) {
         currentColorIndex = (currentColorIndex + 1) % colors.length;
+        updateStrokeColor(colors[currentColorIndex]);
         setColorIndicator(colors[currentColorIndex]);
       }
 
@@ -1197,6 +1201,7 @@ gridContainer.addEventListener('click', (event) => {
       // شرط بررسی رنگ برای basecontainer
       if (capsLockActive && currentFillBase === currentColor) {
         currentColorIndex = (currentColorIndex + 1) % colors.length;
+        updateStrokeColor(colors[currentColorIndex]);
         setColorIndicator(colors[currentColorIndex]);
       }
 
@@ -1541,8 +1546,6 @@ refresharea.addEventListener('click', function() {
   GridGenerator(calculateSize(resetgrid),resetgrid,'');
 
 });
-
-
 
 //----------------------------------------------------
 //update color-indicator
