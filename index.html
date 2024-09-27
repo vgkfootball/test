@@ -19,49 +19,57 @@
 
 /* ----------------------color indicator----------------------------*/
    #backg {
-    position: relative;
-     display: flex;
      width: 100vmin;
      height: 100vmin;
-     justify-content: center; 
-     align-items: center;
-    }
-
-    #lowerbox {
      position: absolute;
-     display: flex; 
-     justify-content: center;
-     align-items: center;
-     overflow: hidden;
-     width : 97%;  
-     height: 97%; 
-     border-radius: 5%;
     }
 
-   #upperbox {
+   #forg {
      position: absolute;
      width: 95.3vmin;
      height: 95.3vmin;
      border-radius: 4.5%; 
     }
 
-   #backg , #upperbox , #lowerbox {background-color: var(--background-theme, #000000);}
+   #backg , #forg {background-color: var(--background-theme, #000000);}
 
    #color-indicator {
      position: absolute;
-     width : 145%;  
-     height: 145%; 
-     border-radius: 50%; 
-     background-image: conic-gradient(var(--dynamic-color, #00ff6e00) 10deg, #ff000000 120deg ,#ff000000 179deg,var(--dynamic-color, #00ff6e00) 180deg,#ff000000 320deg );
-     animation: rotateXX 3s linear infinite;
-     will-change: transform;
+     width: 97vmin;  
+     height: 97vmin; 
+     border-radius: 5%; 
+     overflow: hidden;
     }
    
-    @keyframes rotateXX {
+   #color-indicator::before , #color-indicator::after{
+     content: "";
+     position: absolute;
+     width: 200%; 
+     height: 200%; 
+     top: -50%; 
+     left: -50%; 
+     border-radius: 50%; 
+     background: conic-gradient(var(--dynamic-color, #00ff70) 20deg, #ffffff00 120deg);
+    }
+   
+   #color-indicator::before {
+     animation: rotate-gradient1 4s linear infinite;
+   }
+   
+   #color-indicator::after {
+     animation: rotate-gradient2 4s linear infinite;
+     transform: rotate(180deg);
+   }
+   
+   @keyframes rotate-gradient1 {
      0% {transform: rotate(0deg);}
      100% {transform: rotate(-1turn);}
    }
-
+   
+   @keyframes rotate-gradient2 {
+     0% {transform: rotate(180deg);}
+     100% {transform: rotate(-180deg);}
+   }
 /* --------------------------------------------------------------------*/
     #svg-frame {
       width: 100vmin;
@@ -208,13 +216,9 @@
   </style>
 </head>
 <body>
-  <div id="backg">
-    <div id="lowerbox">
-      <div id="color-indicator"></div>
-    </div>
-    <div id="upperbox"></div>
-    
-
+  <div id="backg"></div>
+  <div id="color-indicator"></div>
+  <div id="forg"></div>
 
   <div id="svg-frame">
 
