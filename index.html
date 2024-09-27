@@ -31,7 +31,7 @@
      border-radius: 4.5%; 
     }
 
-   #backg , #forg {background-color: var(--background-theme, #ff5100);}
+   #backg , #forg {background-color: var(--background-theme, #000000);}
 
    #color-indicator {
      position: absolute;
@@ -49,15 +49,16 @@
      top: -50%; 
      left: -50%; 
      border-radius: 50%; 
-     background: conic-gradient(var(--dynamic-color, #00ff70) 20deg, #ffffff00 120deg);
+     background: #00ff70;
+     /* background: conic-gradient(var(--dynamic-color, #00ff70) 20deg, #ffffff00 120deg); */
     }
    
    #color-indicator::before {
-     animation: rotate-gradient1 10s linear infinite;
+     animation: rotate-gradient1 4s linear infinite;
    }
    
    #color-indicator::after {
-     animation: rotate-gradient2 10s linear infinite;
+     animation: rotate-gradient2 4s linear infinite;
      transform: rotate(180deg);
    }
    
@@ -89,8 +90,6 @@
 
     .grid-container {
       display: grid;
-      width: 100%;
-      height: 100%;
       background-color: transparent ;
     }
 
@@ -125,7 +124,7 @@
     from {transform: rotate(var(--start-angle)) scale(1);}
     to {transform: rotate(calc(var(--start-angle) + 360deg)) scale(1);}}
 
-.rotate-infinite {animation: rotateInfinite 10s linear infinite;}
+.rotate-infinite {animation: rotateInfinite 2s linear infinite;}
 
 @keyframes rotateScaleUp {
 0% {transform: rotate(var(--start-angle)) scale(0);opacity: 0;}
