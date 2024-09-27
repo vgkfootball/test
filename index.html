@@ -22,18 +22,31 @@
      display: flex;
      width: 100vmin;
      height: 100vmin;
-     overflow: hidden;
+
      justify-content: center; 
      align-items: center;
     }
 
-    #forg {
+    #lowerbox {
      position: absolute;
-     width : 70%;  
-     height: 70%; 
+     display: flex;
+     overflow: hidden;
+     justify-content: center; 
+     align-items: center;
+     width : 97%;  
+     height: 97%; 
+     border-radius: 5%;
     }
 
-   #backg , #forg{background-color:#ffffff;}
+    #upperbox {
+     position: absolute;
+     width : 95.3%;  
+     height: 95.3%; 
+     border-radius: 4.5%;
+    }
+
+   #lowerbox{background-color:#0026ff00;}
+   #backg , #upperbox {background-color:#ffffff;}
 
    #color-indicator {
      position: absolute;
@@ -54,8 +67,11 @@
 </head>
 <body>
   <div id="backg">
-     <div id="color-indicator"></div>
-     <div id="forg"></div>
+     <div id="lowerbox">
+          <div id="color-indicator"></div>
+     </div>
+
+     <div id="upperbox"></div>
   </div>
   
   <script>
