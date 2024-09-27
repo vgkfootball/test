@@ -3,78 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Optimized Gradient Borders</title>
+  <title>Interactive NFT</title>
   <style>
     body {
       margin: 0;
       padding: 0;
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       background-color: #ffffff;
-      overflow: hidden;
+      cursor: none;/* Hide the default mouse cursor */
     }
 
-    /* استایل لایه‌ها برای ایجاد حاشیه گرادیانی */
-    #outer-border, #inner-border {
-      position: absolute;
-      border-radius: 5%; /* انحنای لایه خارجی */
-      width: 90vmin;
-      height: 90vmin;
+/* ----------------------color indicator----------------------------*/
+   #backg {
+     width: 100vmin;
+     height: 100vmin;
+     position: absolute;
     }
 
-    #inner-border {
-      width: 85vmin;
-      height: 85vmin;
-      border-radius: 4.5%; /* انحنای لایه داخلی */
-    }
+   #backg  {background-color:#000000;}
 
-    /* استایل گرادیان و انیمیشن چرخش */
-    #color-indicator {
-      position: absolute;
-      width: 95vmin;
-      height: 95vmin;
-      border-radius: 5%;
-      overflow: hidden;
+   #color-indicator {
+     position: absolute;
+     width: 97vmin;  
+     height: 97vmin; 
+     border-radius: 50%; 
+     overflow: hidden;
+     background: conic-gradient(#0044ff 90deg, #ffffff 360deg);
+     animation: rotateXX 2s linear infinite;
     }
+   
+   @keyframes rotateXX {
+     0% {transform: rotate(0deg);}
+     100% {transform: rotate(-1turn);}
+   }
 
-    #color-indicator::before, #color-indicator::after {
-      content: "";
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      top: -50%;
-      left: -50%;
-      border-radius: 50%;
-      background: conic-gradient(#ffd900 20deg, transparent 120deg);
-    }
-
-    /* انیمیشن لایه‌های گرادیانی */
-    #color-indicator::before {
-      animation: rotate-gradient1 4s linear infinite;
-    }
-
-    #color-indicator::after {
-      animation: rotate-gradient2 4s linear infinite;
-      transform: rotate(180deg);
-    }
-
-    @keyframes rotate-gradient1 {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes rotate-gradient2 {
-      0% { transform: rotate(180deg); }
-      100% { transform: rotate(540deg); }
-    }
 
   </style>
 </head>
 <body>
-  <div id="outer-border"></div> <!-- لایه بیرونی -->
-  <div id="color-indicator"></div> <!-- لایه گرادیانی -->
-  <div id="inner-border"></div> <!-- لایه داخلی -->
+  <div id="backg"></div>
+  <div id="color-indicator"></div>
+  <div id="forg"></div>
+  </div>
+  <script>
+
+  </script>
 </body>
 </html>
