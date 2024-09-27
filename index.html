@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Optimized Interactive Animation</title>
+  <title>Optimized Gradient Borders</title>
   <style>
     body {
       margin: 0;
@@ -14,49 +14,67 @@
       height: 100vh;
       background-color: #ffffff;
       overflow: hidden;
-      cursor: none; /* مخفی کردن نشانگر موس */
     }
 
-    /* پس‌زمینه و لایه جلویی */
-    .circle {
+    /* استایل لایه‌ها برای ایجاد حاشیه گرادیانی */
+    #outer-border, #inner-border {
       position: absolute;
-      border-radius: 50%;
-      background-color: var(--background-theme, #000000);
-    }
-
-    #backg {
+      border-radius: 5%; /* انحنای لایه خارجی */
       width: 90vmin;
       height: 90vmin;
     }
 
-    #forg {
+    #inner-border {
       width: 85vmin;
       height: 85vmin;
+      border-radius: 4.5%; /* انحنای لایه داخلی */
     }
 
-    /* انیمیشن گرادینت */
+    /* استایل گرادیان و انیمیشن چرخش */
     #color-indicator {
       position: absolute;
-      width: 92vmin;
-      height: 92vmin;
-      border-radius: 50%;
-      background: conic-gradient(#00ff00 25%, #ffffff00 120%);
-      animation: rotate-gradient 3s linear infinite;
+      width: 95vmin;
+      height: 95vmin;
+      border-radius: 5%;
+      overflow: hidden;
     }
 
-    @keyframes rotate-gradient {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
+    #color-indicator::before, #color-indicator::after {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      border-radius: 50%;
+      background: conic-gradient(#ffd900 20deg, transparent 120deg);
     }
+
+    /* انیمیشن لایه‌های گرادیانی */
+    #color-indicator::before {
+      animation: rotate-gradient1 4s linear infinite;
+    }
+
+    #color-indicator::after {
+      animation: rotate-gradient2 4s linear infinite;
+      transform: rotate(180deg);
+    }
+
+    @keyframes rotate-gradient1 {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes rotate-gradient2 {
+      0% { transform: rotate(180deg); }
+      100% { transform: rotate(540deg); }
+    }
+
   </style>
 </head>
 <body>
-  <div id="backg" class="circle"></div>
-  <div id="color-indicator"></div>
-  <div id="forg" class="circle"></div>
+  <div id="outer-border"></div> <!-- لایه بیرونی -->
+  <div id="color-indicator"></div> <!-- لایه گرادیانی -->
+  <div id="inner-border"></div> <!-- لایه داخلی -->
 </body>
 </html>
