@@ -13,7 +13,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #002e72;
+      background-color: #3c005f;
     }
 
 /* ----------------------color indicator----------------------------*/
@@ -27,14 +27,20 @@
      align-items: center;
     }
 
-   #backg  {background-color:#ffffff;}
+    #forg {
+     position: absolute;
+     width : 97%;  
+     height: 97%; 
+    }
+
+   #backg , #forg{background-color:#ffffff;}
 
    #color-indicator {
      position: absolute;
      width : 145%;  
      height: 145%; 
      border-radius: 50%; 
-     background-image: conic-gradient(#00ff6a 20deg, #ff000000 120deg);
+     background-image: conic-gradient(#ff0000 10deg, #ff000000 120deg ,#ff000000 179deg,#00ff37 180deg,#ff000000 320deg );
      animation: rotateXX 3s linear infinite;
     }
    
