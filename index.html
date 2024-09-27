@@ -13,7 +13,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #ffffff;
+      background-color: #002e72;
       cursor: none;/* Hide the default mouse cursor */
     }
 
@@ -22,24 +22,28 @@
      width: 100vmin;
      height: 100vmin;
      position: absolute;
+     border-radius: 5%;
+     overflow: hidden;
+     justify-content: center; /* تراز کردن افقی */
+     align-items: center;
+     display: flex;
     }
 
     #forg {
-     width: 94vmin;
-     height: 94vmin;
-     border-radius: 50%; 
+     width: 95vmin;
+     height: 95vmin;
      position: absolute;
+     border-radius: 5%;
     }
 
    #backg , #forg {background-color:#000000;}
 
    #color-indicator {
      position: absolute;
-     width: 97vmin;  
-     height: 97vmin; 
+     width: 150vmin;  
+     height: 150vmin; 
      border-radius: 50%; 
-     overflow: hidden;
-     background: conic-gradient(#ffd000 90deg, #222222 120deg);
+     background-image: conic-gradient(#00ff6a 20deg, #ff000000 120deg);
      animation: rotateXX 3s linear infinite;
     }
    
@@ -52,8 +56,10 @@
   </style>
 </head>
 <body>
-  <div id="backg"></div>
-  <div id="color-indicator"></div>
+  <div id="backg">
+     <div id="color-indicator"></div>
+  </div>
+  
   <div id="forg"></div>
   </div>
   <script>
