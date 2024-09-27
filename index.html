@@ -3,84 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive NFT</title>
+  <title>Optimized Interactive Animation</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       background-color: #ffffff;
-      cursor: none;/* Hide the default mouse cursor */
+      overflow: hidden;
+      cursor: none; /* مخفی کردن نشانگر موس */
     }
 
-/* ----------------------color indicator----------------------------*/
-   #backg {
-     width: 100vmin;
-     height: 100vmin;
-     position: absolute;
+    /* پس‌زمینه و لایه جلویی */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background-color: var(--background-theme, #000000);
     }
 
-   #forg {
-     position: absolute;
-     width: 95.3vmin;
-     height: 95.3vmin;
-     border-radius: 4.5%; 
+    #backg {
+      width: 90vmin;
+      height: 90vmin;
     }
 
-   #backg , #forg {background-color: var(--background-theme, #000000);}
-
-   #color-indicator {
-     position: absolute;
-     width: 97vmin;  
-     height: 97vmin; 
-     border-radius: 5%; 
-     overflow: hidden;
+    #forg {
+      width: 85vmin;
+      height: 85vmin;
     }
-   
-   #color-indicator::before , #color-indicator::after{
-     content: "";
-     position: absolute;
-     width: 200%; 
-     height: 200%; 
-     top: -50%; 
-     left: -50%; 
-     border-radius: 50%; 
-     background: conic-gradient(#ffd900 20deg, #ffffff00 120deg);
-     /* background: conic-gradient(var(--dynamic-color, #00ff70) 20deg, #ffffff00 120deg); */
-    }
-   
-   #color-indicator::before {
-     animation: rotate-gradient1 4s linear infinite;
-   }
-   
-   #color-indicator::after {
-     animation: rotate-gradient2 4s linear infinite;
-     transform: rotate(180deg);
-   }
-   
-   @keyframes rotate-gradient1 {
-     0% {transform: rotate(0deg);}
-     100% {transform: rotate(-1turn);}
-   }
-   
-   @keyframes rotate-gradient2 {
-     0% {transform: rotate(180deg);}
-     100% {transform: rotate(-180deg);}
-   }
 
+    /* انیمیشن گرادینت */
+    #color-indicator {
+      position: absolute;
+      width: 92vmin;
+      height: 92vmin;
+      border-radius: 50%;
+      background: conic-gradient(#ffd900 25%, #ffffff00 120%);
+      animation: rotate-gradient 6s linear infinite;
+    }
+
+    @keyframes rotate-gradient {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
 <body>
-  <div id="backg"></div>
+  <div id="backg" class="circle"></div>
   <div id="color-indicator"></div>
-  <div id="forg"></div>
-  </div>
-  <script>
-
-  </script>
+  <div id="forg" class="circle"></div>
 </body>
 </html>
