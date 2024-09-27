@@ -24,53 +24,11 @@
      position: absolute;
     }
 
-   #forg {
-     position: absolute;
-     width: 95.3vmin;
-     height: 95.3vmin;
-     border-radius: 4.5%; 
-    }
 
-   #backg , #forg {background-color: var(--background-theme, #000000);}
+   #backg {background-color: var(--background-theme, #000000);}
 
-   #color-indicator {
-     position: absolute;
-     width: 97vmin;  
-     height: 97vmin; 
-     border-radius: 5%; 
-     overflow: hidden;
-    }
-   
-   #color-indicator::before , #color-indicator::after{
-     content: "";
-     position: absolute;
-     width: 200%; 
-     height: 200%; 
-     top: -50%; 
-     left: -50%; 
-     border-radius: 50%; 
-     background: #00ff70;
-     /* background: conic-gradient(var(--dynamic-color, #00ff70) 20deg, #ffffff00 120deg); */
-    }
-   
-   #color-indicator::before {
-     animation: rotate-gradient1 4s linear infinite;
-   }
-   
-   #color-indicator::after {
-     animation: rotate-gradient2 4s linear infinite;
-     transform: rotate(180deg);
-   }
-   
-   @keyframes rotate-gradient1 {
-     0% {transform: rotate(0deg);}
-     100% {transform: rotate(-1turn);}
-   }
-   
-   @keyframes rotate-gradient2 {
-     0% {transform: rotate(180deg);}
-     100% {transform: rotate(-180deg);}
-   }
+
+
 /* --------------------------------------------------------------------*/
     #svg-frame {
       width: 100vmin;
