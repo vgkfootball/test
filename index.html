@@ -14,34 +14,25 @@
       align-items: center;
       height: 100vh;
       background-color: #002e72;
-      cursor: none;/* Hide the default mouse cursor */
     }
 
 /* ----------------------color indicator----------------------------*/
    #backg {
+     position: relative;
+     display: flex;
      width: 100vmin;
      height: 100vmin;
-     position: absolute;
-     border-radius: 5%;
      overflow: hidden;
-     justify-content: center; /* تراز کردن افقی */
+     justify-content: center; 
      align-items: center;
-     display: flex;
     }
 
-    #forg {
-     width: 95vmin;
-     height: 95vmin;
-     position: absolute;
-     border-radius: 5%;
-    }
-
-   #backg , #forg {background-color:#000000;}
+   #backg  {background-color:#ffffff;}
 
    #color-indicator {
      position: absolute;
-     width: 150vmin;  
-     height: 150vmin; 
+     width : 145%;  
+     height: 145%; 
      border-radius: 50%; 
      background-image: conic-gradient(#00ff6a 20deg, #ff000000 120deg);
      animation: rotateXX 3s linear infinite;
@@ -58,10 +49,9 @@
 <body>
   <div id="backg">
      <div id="color-indicator"></div>
+     <div id="forg"></div>
   </div>
   
-  <div id="forg"></div>
-  </div>
   <script>
 
   </script>
